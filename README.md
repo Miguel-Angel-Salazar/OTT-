@@ -1,2 +1,1 @@
-# OTT-
-Creación de un MVP 
+Introduccion
