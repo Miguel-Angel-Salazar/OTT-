@@ -14,3 +14,9 @@ venv/
 # Editor / OS files
 .vscode/
 .DS_Store
+
+# Flask
+instance/
+
+# Archivos de logs
+*.log
