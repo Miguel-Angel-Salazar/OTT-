@@ -14,7 +14,7 @@ def login():
 
     # url
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("auth/login.html")
 
     email = request.form["email"]
     password = request.form["password"]
@@ -27,7 +27,7 @@ def login():
 
     # erro
     return render_template(
-        "login.html",
+        "auth/login.html",
         mensaje=usuario
     )
 #mostrar el registro
@@ -35,7 +35,7 @@ def login():
 def register():
 # Si entra desde la URL
     if request.method == "GET":
-        return render_template("register.html")
+        return render_template("auth/register.html")
 
     nombre = request.form["nombre"]
     email = request.form["email"]
@@ -50,6 +50,6 @@ def register():
 )
 
     return render_template(
-    "register.html",
+    "auth/register.html",
     mensaje=mensaje
 )
