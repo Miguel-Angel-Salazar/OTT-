@@ -1,0 +1,42 @@
+{# ==========================================================================
+   Componente: Navbar
+   Uso: {% include "components/_navbar.html" %} dentro de base.html
+   Variables Jinja2 esperadas (opcionales, con fallback seguro):
+     - current_user: dict/objeto con al menos `nombre` (lo pasará el Controller
+       cuando exista sesión, ej. auth/home controller). Si no se define o es
+       None, se asume visitante sin sesión.
+     - active_page: string ("home", "profile", etc.) para resaltar el link activo.
+   ========================================================================== #}
+
+<header class="navbar">
+    <div class="navbar__inner container">
+
+        <a class="navbar__logo" href="{{ url_for('home.inicio') }}">OTT</a>
+
+        <nav class="navbar__links">
+            <a class="navbar__link {{ 'is-active' if active_page == 'home' else '' }}"
+               href="{{ url_for('home.inicio') }}">
+                Inicio
+            </a>
+            {# TODO: reemplazar "#" por url_for('movie.catalogo') cuando exista el Blueprint de películas #}
+            <a class="navbar__link {{ 'is-active' if active_page == 'catalog' else '' }}" href="#">
+                Catálogo
+            </a>
+        </nav>
+
+        <div class="navbar__actions">
+            {% if current_user is defined and current_user %}
+                {# TODO: reemplazar "#" por url_for('profile.ver_perfil') cuando exista el Blueprint de perfil #}
+                <a class="navbar__link {{ 'is-active' if active_page == 'profile' else '' }}" href="#">
+                    {{ current_user.nombre }}
+                </a>
+                {# TODO: reemplazar "#" por url_for('auth.logout') cuando exista la ruta de cierre de sesión #}
+                <a class="btn btn-secondary navbar__cta" href="#">Cerrar sesión</a>
+            {% else %}
+                <a class="navbar__link" href="{{ url_for('auth.login') }}">Iniciar sesión</a>
+                <a class="btn btn-primary navbar__cta" href="{{ url_for('auth.register') }}">Crear cuenta</a>
+            {% endif %}
+        </div>
+
+    </div>
+</header>

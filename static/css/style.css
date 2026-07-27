@@ -1,0 +1,254 @@
+/* ==========================================================================
+   OTT — Estilos globales (variables, reset, tipografía base, utilidades)
+   ========================================================================== */
+
+:root {
+  --bg-base: #000000;
+  --bg-card: #141414;
+  --text-main: #ffffff;
+  --text-muted: #9b9b9b;
+  --accent-color: #0048e0;
+  --border-color: #222222;
+  --font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --transition-fast: 150ms ease;
+}
+
+/* --- Reset --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+}
+
+img,
+picture,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* --- Base --- */
+body {
+  background-color: var(--bg-base);
+  color: var(--text-main);
+  font-family: var(--font-family);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+::selection {
+  background-color: var(--accent-color);
+  color: var(--text-main);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: var(--radius-sm);
+}
+
+/* --- Tipografía --- */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: 2.25rem;
+}
+h2 {
+  font-size: 1.5rem;
+}
+h3 {
+  font-size: 1.125rem;
+}
+
+p {
+  color: var(--text-muted);
+}
+
+a {
+  color: var(--text-main);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--text-muted);
+}
+
+/* --- Layout --- */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--space-md);
+}
+
+/* --- Botones --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity var(--transition-fast), background-color var(--transition-fast);
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn-primary {
+  background-color: var(--text-main);
+  color: var(--bg-base);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-main);
+  border-color: var(--border-color);
+}
+
+.btn-link {
+  background: none;
+  color: var(--text-muted);
+  padding: 0;
+  text-decoration: underline;
+}
+
+/* --- Formularios --- */
+.form-group {
+  margin-bottom: var(--space-sm);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--text-main);
+}
+
+/* --- Mensajes de estado (login/registro) --- */
+.form-message {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: var(--space-sm);
+}
+
+/* --- Navbar --- */
+.navbar {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-base);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  height: 64px;
+}
+
+.navbar__logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.navbar__logo:hover {
+  color: var(--text-main);
+  opacity: 0.85;
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex: 1;
+}
+
+.navbar__link {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.navbar__link:hover {
+  color: var(--text-main);
+}
+
+.navbar__link.is-active {
+  color: var(--text-main);
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.navbar__cta {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.85rem;
+}
