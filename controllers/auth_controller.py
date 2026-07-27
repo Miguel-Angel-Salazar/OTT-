@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request
-
+from services.auth_service import register_user
 # creamos el Blueprint de autenticacion
 auth_bp = Blueprint(
     "auth",
@@ -39,15 +39,15 @@ def register():
     password = request.form["password"]
     region = request.form["region"]
 
-    # Por ahora solo imprimimos los datos
-    print("===== NUEVO REGISTRO =====")
-    print(f"Nombre: {nombre}")
-    print(f"Correo: {email}")
-    print(f"Contraseña: {password}")
-    print(f"Región: {region}")
-    print("==========================")
+    
+    mensaje = register_user(
+    nombre,
+    email,
+    password,
+    region
+)
 
     return render_template(
-        "register.html",
-        mensaje="Formulario recibido correctamente."
-    )
+    "register.html",
+    mensaje=mensaje
+)
