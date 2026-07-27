@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from flask import Flask, redirect, url_for
 
 from controllers.auth_controller import auth_bp
+from controllers.home_controller import home_bp
 
 load_dotenv()
 
@@ -12,7 +13,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 
 app.register_blueprint(auth_bp)
-
+app.register_blueprint(home_bp)
 
 @app.route("/")
 def inicio():

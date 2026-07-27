@@ -1,22 +1,28 @@
 from config.supabase_config import supabase
 
 
+# register
+
 def register_user(nombre, email, password, region):
+
     try:
 
-        # Crear usuario en Supabase Auth
+        # crear usuario en Supabase Auth
         response = supabase.auth.sign_up(
             {
                 "email": email,
-                "password": password
+                "password": password,
+                "options": {
+                    "email_redirect_to": "http://127.0.0.1:5000/auth/login"
+                }
             }
         )
 
-        # Si no se creó el usuario
+        # verificar que el usuario se creo
         if response.user is None:
             return "No se pudo crear la cuenta."
 
-        # Guardar información adicional en nuestra tabla profiles
+        # guarda informacion adicional
         supabase.table("profiles").insert(
             {
                 "id": response.user.id,
@@ -28,8 +34,13 @@ def register_user(nombre, email, password, region):
         return "Cuenta creada correctamente. Revisa tu correo para verificarla."
 
     except Exception as e:
+
+        print("ERROR REGISTER:", e)
         return f"Error: {str(e)}"
 
+
+
+# login
 def login_user(email, password):
 
     try:
@@ -46,6 +57,7 @@ def login_user(email, password):
 
         return response.user
 
-    except Exception:
+    except Exception as e:
 
-        return None
+        print("ERROR LOGIN:", e)
+        return str(e)

@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect,url_for
 from services.auth_service import register_user, login_user
+
 # creamos el Blueprint de autenticacion
 auth_bp = Blueprint(
     "auth",
@@ -11,26 +12,24 @@ auth_bp = Blueprint(
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
 
+    # url
     if request.method == "GET":
         return render_template("login.html")
 
     email = request.form["email"]
     password = request.form["password"]
 
-    usuario = login_user(
-        email,
-        password
-    )
+    usuario = login_user(email, password)
 
-    if usuario:
+    # devolvió un usuario
+    if not isinstance(usuario, str) and usuario is not None:
+        return redirect(url_for("home.inicio"))
 
-        return render_template("home.html")
-
+    # erro
     return render_template(
         "login.html",
-        mensaje="Correo o contraseña incorrectos."
+        mensaje=usuario
     )
-
 #mostrar el registro
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
@@ -38,13 +37,11 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
 
-    # Si presiona el botón "Crear cuenta"
     nombre = request.form["nombre"]
     email = request.form["email"]
     password = request.form["password"]
     region = request.form["region"]
 
-    
     mensaje = register_user(
     nombre,
     email,
