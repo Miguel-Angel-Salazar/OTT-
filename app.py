@@ -1,7 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-from flask import Flask, redirect
+from flask import Flask, redirect, url_for
 
 from controllers.auth_controller import auth_bp
 
@@ -16,8 +16,8 @@ app.register_blueprint(auth_bp)
 
 @app.route("/")
 def inicio():
-    return redirect("/auth/login")
-
+    """Redirige al módulo de autenticación."""
+    return redirect(url_for("auth.login"))
 
 if __name__ == "__main__":
     app.run(debug=True)
