@@ -44,7 +44,7 @@ def register():
     nombre,
     email,
     password,
-    region
+    region,
 )
 
     return render_template(
