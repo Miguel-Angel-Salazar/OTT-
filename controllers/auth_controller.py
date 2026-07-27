@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request
-from services.auth_service import register_user
+from services.auth_service import register_user, login_user
 # creamos el Blueprint de autenticacion
 auth_bp = Blueprint(
     "auth",
@@ -10,20 +10,25 @@ auth_bp = Blueprint(
 #mostrar el login
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
+
     if request.method == "GET":
         return render_template("login.html")
 
-    email = request.form.get("email", "")
-    password = request.form.get("password", "")
+    email = request.form["email"]
+    password = request.form["password"]
 
-    print("===== INICIO DE SESIÓN =====")
-    print(f"Correo: {email}")
-    print(f"Contraseña: {password}")
-    print("==========================")
+    usuario = login_user(
+        email,
+        password
+    )
+
+    if usuario:
+
+        return render_template("home.html")
 
     return render_template(
         "login.html",
-        mensaje="Formulario de inicio de sesión recibido."
+        mensaje="Correo o contraseña incorrectos."
     )
 
 #mostrar el registro

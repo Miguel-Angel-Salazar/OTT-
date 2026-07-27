@@ -29,3 +29,23 @@ def register_user(nombre, email, password, region):
 
     except Exception as e:
         return f"Error: {str(e)}"
+
+def login_user(email, password):
+
+    try:
+
+        response = supabase.auth.sign_in_with_password(
+            {
+                "email": email,
+                "password": password
+            }
+        )
+
+        if response.user is None:
+            return None
+
+        return response.user
+
+    except Exception:
+
+        return None
