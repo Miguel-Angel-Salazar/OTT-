@@ -21,7 +21,7 @@ def login():
 
     usuario = login_user(email, password)
 
-    # devolvió un usuario
+    # devolvio un usuario
     if not isinstance(usuario, str) and usuario is not None:
         return redirect(url_for("home.inicio"))
 
@@ -33,7 +33,7 @@ def login():
 #mostrar el registro
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
-# Si entra desde la URL
+# si entra desde la URL
     if request.method == "GET":
         return render_template("register.html")
 
