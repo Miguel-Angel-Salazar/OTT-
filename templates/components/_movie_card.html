@@ -10,11 +10,9 @@
        columnas no existen en nuestro esquema actual — usamos `categoria`
        como segunda línea (el campo más parecido que sí tenemos).
 
-   TODO: reemplazar "#" por url_for('movie.detalle', movie_id=movie.id)
-   cuando exista el Blueprint de películas.
    ========================================================================== #}
 
-<a class="movie-card" href="#" aria-label="{{ movie.titulo }}">
+<a class="movie-card" href="{{ url_for('movie.detalle', movie_id=movie.id) }}" aria-label="{{ movie.titulo }}">
     <div class="movie-card__poster">
         <img src="{{ movie.imagen_url }}" alt="{{ movie.titulo }}" loading="lazy">
 

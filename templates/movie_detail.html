@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}{{ movie.titulo }} — CINÉFILO{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/slider.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/player.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="player" id="movie-player" data-movie-id="{{ movie.id }}">
+    <video class="player__video" id="player-video" poster="{{ movie.imagen_url }}" preload="metadata">
+        <source src="{{ movie.video_url }}" type="video/mp4">
+        Tu navegador no soporta la reproducción de video.
+    </video>
+
+    <div class="player__gradient-top"></div>
+    <div class="player__gradient-bottom"></div>
+
+    <button type="button" class="player__center-btn" id="player-toggle" aria-label="Reproducir">
+        <svg class="player__icon-play" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+        <svg class="player__icon-pause" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+    </button>
+
+    <div class="player__controls">
+        <p class="player__movie-label">{{ movie.titulo }}</p>
+
+        <div class="player__progress" id="player-progress">
+            <div class="player__progress-fill" id="player-progress-fill"></div>
+            <div class="player__progress-handle" id="player-progress-handle"></div>
+        </div>
+
+        <div class="player__controls-row">
+            <div class="player__controls-left">
+                <button type="button" class="player__btn" id="player-play-btn" aria-label="Reproducir">
+                    <svg class="player__icon-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+                    <svg class="player__icon-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="3.5" height="16"></rect><rect x="14.5" y="4" width="3.5" height="16"></rect></svg>
+                </button>
+
+                <button type="button" class="player__btn player__btn--muted" id="player-back-10" aria-label="Retroceder 10 segundos">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <polygon points="11 19 2 12 11 5 11 19"></polygon>
+                        <polygon points="22 19 13 12 22 5 22 19"></polygon>
+                    </svg>
+                </button>
+
+                <button type="button" class="player__btn player__btn--muted" id="player-fwd-10" aria-label="Adelantar 10 segundos">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <polygon points="13 19 22 12 13 5 13 19"></polygon>
+                        <polygon points="2 19 11 12 2 5 2 19"></polygon>
+                    </svg>
+                </button>
+
+                <div class="player__volume">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+                    </svg>
+                    <div class="player__volume-track" id="player-volume-track">
+                        <div class="player__volume-fill" id="player-volume-fill"></div>
+                    </div>
+                </div>
+
+                <span class="player__time" id="player-time">0:00 / 0:00</span>
+            </div>
+
+            <div class="player__controls-right">
+                <button type="button" class="player__btn player__btn--text">SUB</button>
+                <button type="button" class="player__btn player__btn--muted" id="player-fullscreen" aria-label="Pantalla completa">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="movie-info">
+    <div class="movie-info__main">
+        <h1 class="movie-info__title">{{ movie.titulo }}</h1>
+
+        <div class="movie-info__meta">
+            <span>{{ movie.region }}</span>
+            <span class="movie-info__dot">·</span>
+            <span>{{ movie.categoria }}</span>
+        </div>
+
+        <p class="movie-info__synopsis">{{ movie.descripcion }}</p>
+
+        <div class="movie-info__credits">
+            <div>
+                <p class="movie-info__credit-label">Categoría</p>
+                <p class="movie-info__credit-value">{{ movie.categoria }}</p>
+            </div>
+            <div>
+                <p class="movie-info__credit-label">Región</p>
+                <p class="movie-info__credit-value">{{ movie.region }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="movie-info__actions">
+        {# TODO: conectar con favorite_service.py cuando exista (favorites) #}
+        <button type="button" class="movie-info__action-btn" id="movie-fav-btn">
+            <span class="movie-info__action-circle">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+                </svg>
+            </span>
+            <span id="movie-fav-label">Mi Lista</span>
+        </button>
+
+        {# TODO: compartir real (Web Share API / copiar link), fuera de alcance por ahora #}
+        <button type="button" class="movie-info__action-btn">
+            <span class="movie-info__action-circle">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line>
+                    <line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line>
+                </svg>
+            </span>
+            <span>Compartir</span>
+        </button>
+    </div>
+</section>
+
+<section class="carousel-section">
+    <div class="carousel-section__header">
+        <h2 class="carousel-section__title">También te puede gustar</h2>
+        <div class="carousel-section__nav">
+            <button type="button" class="carousel-nav-btn" data-carousel-prev aria-label="Anterior">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="carousel-nav-btn" data-carousel-next aria-label="Siguiente">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+        </div>
+    </div>
+    <div class="carousel-section__rule"></div>
+    <div class="carousel-section__track" data-carousel data-carousel-track>
+        {% for movie in recomendaciones %}
+            {% include "components/_movie_card.html" %}
+        {% endfor %}
+    </div>
+</section>
+
+<footer class="site-footer">
+    <div class="site-footer__row">
+        <span class="site-footer__logo">CINÉFILO</span>
+        <div class="site-footer__links">
+            <a href="#">Ayuda</a>
+            <a href="#">Privacidad</a>
+            <a href="#">Términos</a>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ url_for('static', filename='js/player.js') }}" defer></script>
+{% endblock %}

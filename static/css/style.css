@@ -414,6 +414,35 @@ button.navbar__avatar {
   border-bottom: 1px solid var(--border-color);
 }
 
+/* Variante "detail": siempre sólido con blur (sin efecto de scroll),
+   botón "Volver" a la izquierda en vez del logo + links. */
+.navbar--detail {
+  position: fixed;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(16px);
+}
+
+.navbar__back {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-light);
+  letter-spacing: 0.02em;
+}
+
+.navbar__back:hover {
+  color: var(--text-main);
+}
+
+.navbar__logo--center {
+  flex: 1;
+  text-align: center;
+}
+
 /* --- Onboarding (RF-04: selección de géneros) --- */
 .onboarding {
   position: relative;

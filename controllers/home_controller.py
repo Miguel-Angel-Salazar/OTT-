@@ -12,6 +12,11 @@ home_bp = Blueprint(
 # poder maquetar/ver el catálogo mientras el backend de películas no existe.
 # `hero_url` no es una columna real de `movies` (el esquema solo tiene
 # `imagen_url`) — se agrega aquí únicamente para el banner grande del home.
+# `video_url` sí es columna real, pero como no tenemos videos propios subidos
+# todavía, las 6 apuntan al mismo video de muestra de dominio público
+# (Big Buck Bunny) solo para poder probar el reproductor.
+_VIDEO_MUESTRA = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+
 PELICULAS_MOCK = [
     {
         "id": 1,
@@ -21,6 +26,7 @@ PELICULAS_MOCK = [
         "region": "LATAM",
         "imagen_url": "https://images.unsplash.com/photo-1675726205553-4e348f24da2c?w=400&h=600&fit=crop&auto=format",
         "hero_url": "https://images.unsplash.com/photo-1661124280301-ca0e33ceb438?w=1920&h=900&fit=crop&auto=format",
+        "video_url": _VIDEO_MUESTRA,
     },
     {
         "id": 2,
@@ -30,6 +36,7 @@ PELICULAS_MOCK = [
         "region": "LATAM",
         "imagen_url": "https://images.unsplash.com/photo-1453396450673-3fe83d2db2c4?w=400&h=600&fit=crop&auto=format",
         "hero_url": "https://images.unsplash.com/photo-1514900389014-caae55f63513?w=1920&h=900&fit=crop&auto=format",
+        "video_url": _VIDEO_MUESTRA,
     },
     {
         "id": 3,
@@ -39,6 +46,7 @@ PELICULAS_MOCK = [
         "region": "LATAM",
         "imagen_url": "https://images.unsplash.com/photo-1629278357549-b413116d211c?w=400&h=600&fit=crop&auto=format",
         "hero_url": "https://images.unsplash.com/photo-1661124280301-ca0e33ceb438?w=1920&h=900&fit=crop&auto=format",
+        "video_url": _VIDEO_MUESTRA,
     },
     {
         "id": 4,
@@ -48,6 +56,7 @@ PELICULAS_MOCK = [
         "region": "USA",
         "imagen_url": "https://images.unsplash.com/photo-1637059880830-59a90102de77?w=400&h=600&fit=crop&auto=format",
         "hero_url": "https://images.unsplash.com/photo-1514900389014-caae55f63513?w=1920&h=900&fit=crop&auto=format",
+        "video_url": _VIDEO_MUESTRA,
     },
     {
         "id": 5,
@@ -57,6 +66,7 @@ PELICULAS_MOCK = [
         "region": "EUROPA",
         "imagen_url": "https://images.unsplash.com/photo-1759354192456-71975b190c51?w=400&h=600&fit=crop&auto=format",
         "hero_url": "https://images.unsplash.com/photo-1661124280301-ca0e33ceb438?w=1920&h=900&fit=crop&auto=format",
+        "video_url": _VIDEO_MUESTRA,
     },
     {
         "id": 6,
@@ -66,6 +76,7 @@ PELICULAS_MOCK = [
         "region": "LATAM",
         "imagen_url": "https://images.unsplash.com/photo-1774016591258-f86e81cb1474?w=400&h=600&fit=crop&auto=format",
         "hero_url": "https://images.unsplash.com/photo-1514900389014-caae55f63513?w=1920&h=900&fit=crop&auto=format",
+        "video_url": _VIDEO_MUESTRA,
     },
 ]
 

@@ -33,8 +33,7 @@
         <p class="hero__synopsis">{{ destacada.descripcion | truncate(128) }}</p>
 
         <div class="hero__actions">
-            {# TODO: reemplazar "#" por url_for('movie.detalle', movie_id=destacada.id) cuando exista el Blueprint de películas #}
-            <a href="#" class="btn btn-primary hero__play">
+            <a href="{{ url_for('movie.detalle', movie_id=destacada.id) }}" class="btn btn-primary hero__play">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
                 Reproducir
             </a>

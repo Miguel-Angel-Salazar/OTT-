@@ -7,29 +7,44 @@
        None, se asume visitante sin sesión.
      - active_page: string ("home", "profile", etc.) para resaltar el link activo.
      - navbar_variant: "overlay" para el navbar transparente-sobre-hero de
-       home.html (se vuelve sólido al hacer scroll, vía main.js). Si se omite,
-       el navbar es sólido y sticky desde el inicio (login/register).
+       home.html (se vuelve sólido al hacer scroll, vía main.js). "detail"
+       para el navbar de movie_detail.html (botón "Volver" en vez de links,
+       siempre sólido con blur, sin efecto de scroll). Si se omite, el
+       navbar es sólido y sticky desde el inicio (login/register).
+     - back_url: URL del botón "Volver" cuando navbar_variant == "detail".
+       Si se omite, cae a home.inicio.
    ========================================================================== #}
 
-<header class="navbar {{ 'navbar--overlay' if navbar_variant == 'overlay' else '' }}">
+<header class="navbar {{ 'navbar--overlay' if navbar_variant == 'overlay' else '' }} {{ 'navbar--detail' if navbar_variant == 'detail' else '' }}">
     <div class="navbar__inner">
 
-        <a class="navbar__logo" href="{{ url_for('home.inicio') }}">CINÉFILO</a>
+        {% if navbar_variant == "detail" %}
+            <a class="navbar__back" href="{{ back_url or url_for('home.inicio') }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Volver
+            </a>
+            <span class="navbar__logo navbar__logo--center">CINÉFILO</span>
+        {% else %}
+            <a class="navbar__logo" href="{{ url_for('home.inicio') }}">CINÉFILO</a>
 
-        <nav class="navbar__links">
-            <a class="navbar__link {{ 'is-active' if active_page == 'home' else '' }}"
-               href="{{ url_for('home.inicio') }}">
-                Inicio
-            </a>
-            {# TODO: reemplazar "#" por url_for('profile.mi_lista') cuando exista el Blueprint de perfil/favoritos #}
-            <a class="navbar__link {{ 'is-active' if active_page == 'my_list' else '' }}" href="#">
-                Mi Lista
-            </a>
-            {# TODO: reemplazar "#" por url_for('movie.cine_colombiano') cuando exista el Blueprint de películas #}
-            <a class="navbar__link {{ 'is-active' if active_page == 'catalog' else '' }}" href="#">
-                Cine Colombiano
-            </a>
-        </nav>
+            <nav class="navbar__links">
+                <a class="navbar__link {{ 'is-active' if active_page == 'home' else '' }}"
+                   href="{{ url_for('home.inicio') }}">
+                    Inicio
+                </a>
+                {# TODO: reemplazar "#" por url_for('profile.mi_lista') cuando exista el Blueprint de perfil/favoritos #}
+                <a class="navbar__link {{ 'is-active' if active_page == 'my_list' else '' }}" href="#">
+                    Mi Lista
+                </a>
+                {# TODO: reemplazar "#" por url_for('movie.cine_colombiano') cuando exista el Blueprint de películas #}
+                <a class="navbar__link {{ 'is-active' if active_page == 'catalog' else '' }}" href="#">
+                    Cine Colombiano
+                </a>
+            </nav>
+        {% endif %}
 
         <div class="navbar__actions">
             {% if current_user is defined and current_user %}

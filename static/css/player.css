@@ -1,0 +1,292 @@
+/* ==========================================================================
+   Estilos: Reproductor de video (movie_detail.html) + info de la película
+   ========================================================================== */
+
+/* --- Player --- */
+.player {
+  position: relative;
+  width: 100%;
+  height: calc(70vh - 64px);
+  margin-top: 64px;
+  background: #050505;
+  overflow: hidden;
+}
+
+.player__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+}
+
+.player__gradient-top {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 18%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 0%, transparent 100%);
+}
+
+.player__gradient-bottom {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, transparent 100%);
+}
+
+.player__center-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.125rem;
+  height: 4.125rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.11);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.player__center-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.player__center-btn .player__icon-play {
+  margin-left: 3px;
+}
+
+.player__controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 var(--space-md) 1.25rem;
+  opacity: 0.9;
+  transition: opacity var(--transition-fast);
+}
+
+.player__movie-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-light);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.player__progress {
+  position: relative;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+}
+
+.player__progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--text-main);
+  border-radius: 2px;
+}
+
+.player__progress-handle {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  width: 0.6875rem;
+  height: 0.6875rem;
+  border-radius: 50%;
+  background: var(--text-main);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+.player__controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.player__controls-left,
+.player__controls-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.player__btn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.88);
+  cursor: pointer;
+  padding: 0;
+}
+
+.player__btn--muted {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.player__btn--muted:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.player__btn--text {
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-normal);
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.player__btn--text:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.player__volume {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.player__volume-track {
+  width: 3.625rem;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.player__volume-fill {
+  height: 100%;
+  width: 78%;
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 2px;
+}
+
+.player__time {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-light);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* --- Movie Info --- */
+.movie-info {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  padding: var(--space-md) var(--space-xl);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.movie-info__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.movie-info__title {
+  color: var(--text-main);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: var(--font-weight-light);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.875rem;
+}
+
+.movie-info__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-light);
+  margin-bottom: 1.375rem;
+}
+
+.movie-info__dot {
+  color: rgba(163, 163, 163, 0.35);
+  font-size: 0.625rem;
+}
+
+.movie-info__synopsis {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-light);
+  line-height: 1.78;
+  max-width: 38rem;
+  margin-bottom: 1.75rem;
+}
+
+.movie-info__credits {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.movie-info__credit-label {
+  color: rgba(163, 163, 163, 0.45);
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-normal);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 0.3125rem;
+}
+
+.movie-info__credit-value {
+  color: var(--text-main);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-light);
+}
+
+.movie-info__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  flex-shrink: 0;
+  padding-top: 0.125rem;
+}
+
+.movie-info__action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-light);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.movie-info__action-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: var(--text-main);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.movie-info__action-btn:hover .movie-info__action-circle {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.movie-info__action-btn.is-active .movie-info__action-circle {
+  border-color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.08);
+}
