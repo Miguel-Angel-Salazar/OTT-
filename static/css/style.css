@@ -275,6 +275,142 @@ a:hover {
   font-size: 0.85rem;
 }
 
+.navbar__icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.navbar__icon-btn:hover {
+  color: var(--text-main);
+}
+
+.navbar__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-main);
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-medium);
+  transition: border-color var(--transition-fast);
+}
+
+.navbar__avatar:hover {
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.38);
+}
+
+button.navbar__avatar {
+  cursor: pointer;
+}
+
+/* --- Dropdown de perfil (Cuenta / Suscripción / Cerrar sesión) --- */
+.navbar__profile {
+  position: relative;
+}
+
+.navbar__dropdown {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  right: 0;
+  width: 15rem;
+  padding: 0.5rem 0;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
+  z-index: 200;
+}
+
+.navbar__dropdown.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.navbar__dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem 0.75rem;
+}
+
+.navbar__avatar--lg {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.8125rem;
+  flex-shrink: 0;
+}
+
+.navbar__dropdown-name {
+  color: var(--text-main);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navbar__dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0.375rem 0;
+}
+
+.navbar__dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.625rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-light);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.navbar__dropdown-item svg {
+  flex-shrink: 0;
+}
+
+.navbar__dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
+.navbar__dropdown-item--danger:hover {
+  color: #ff6b6b;
+}
+
+/* Variante "overlay": transparente sobre el hero de home.html, se vuelve
+   sólida (fondo + blur) cuando main.js le agrega .is-scrolled tras ~55px. */
+.navbar--overlay {
+  position: fixed;
+  border-bottom: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.78) 0%, transparent 100%);
+  transition: background-color var(--transition-fast), backdrop-filter var(--transition-fast), border-color var(--transition-fast);
+}
+
+.navbar--overlay.is-scrolled {
+  background: rgba(0, 0, 0, 0.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-color);
+}
+
 /* --- Onboarding (RF-04: selección de géneros) --- */
 .onboarding {
   position: relative;
@@ -463,4 +599,182 @@ a:hover {
   right: 0;
   height: 1px;
   background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.06), transparent);
+}
+
+/* --- Hero (home.html) --- */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 92vh;
+  min-height: 580px;
+}
+
+.hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__gradient-bottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #000000 0%, rgba(0, 0, 0, 0.62) 38%, rgba(0, 0, 0, 0.18) 62%, rgba(0, 0, 0, 0.08) 100%);
+}
+
+.hero__gradient-side {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.22) 48%, transparent 100%);
+}
+
+.hero__badge {
+  position: absolute;
+  right: var(--space-xl);
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 0.5625rem;
+  font-weight: var(--font-weight-normal);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.hero__content {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  max-width: 34rem;
+  padding: 0 var(--space-xl) 4rem;
+}
+
+.hero__eyebrow {
+  color: var(--text-muted);
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-normal);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 1.125rem;
+}
+
+.hero__title {
+  color: var(--text-main);
+  font-size: clamp(2.4rem, 4.8vw, 3.9rem);
+  font-weight: var(--font-weight-light);
+  line-height: 1.03;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.875rem;
+}
+
+.hero__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-bottom: 1.25rem;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-light);
+}
+
+.hero__dot {
+  color: rgba(163, 163, 163, 0.35);
+  font-size: 0.625rem;
+}
+
+.hero__synopsis {
+  color: rgba(163, 163, 163, 0.82);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-light);
+  line-height: 1.75;
+  max-width: 26rem;
+  margin-bottom: 1.75rem;
+}
+
+.hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero__play {
+  gap: 0.625rem;
+}
+
+.hero__fav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.hero__fav:hover {
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.hero__counter {
+  position: absolute;
+  right: var(--space-xl);
+  bottom: 4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(163, 163, 163, 0.35);
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-light);
+}
+
+.hero__counter-line {
+  width: 1.25rem;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Footer (site-wide) --- */
+.site-footer {
+  padding: 3rem var(--space-xl);
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.site-footer__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-footer__logo {
+  color: rgba(255, 255, 255, 0.16);
+  letter-spacing: 0.32em;
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-light);
+}
+
+.site-footer__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.site-footer__links a {
+  color: rgba(255, 255, 255, 0.18);
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-light);
+}
+
+.site-footer__links a:hover {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.site-footer__copy {
+  color: rgba(255, 255, 255, 0.08);
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-light);
+  margin-top: 1.5rem;
 }

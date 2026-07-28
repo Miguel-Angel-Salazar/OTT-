@@ -1,21 +1,130 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Inicio</title>
-</head>
+{% block title %}Inicio — CINÉFILO{% endblock %}
 
-<body>
+{% block navbar %}
+    {% set navbar_variant = "overlay" %}
+    {% include "components/_navbar.html" %}
+{% endblock %}
 
-    <h1>Bienvenido a OTT</h1>
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/slider.css') }}">
+{% endblock %}
 
-    <p>Inicio de sesión correcto.</p>
+{% block content %}
 
-    <a href="{{ url_for('auth.login') }}">
-        Cerrar sesión
-    </a>
+<section class="hero">
+    <img src="{{ destacada.hero_url }}" alt="{{ destacada.titulo }}" class="hero__image">
+    <div class="hero__gradient-bottom"></div>
+    <div class="hero__gradient-side"></div>
 
-</body>
+    <span class="hero__badge">Destacada · {{ destacada.region }}</span>
 
-</html>
+    <div class="hero__content">
+        <p class="hero__eyebrow">Película del día</p>
+        <h1 class="hero__title">{{ destacada.titulo }}</h1>
+
+        <div class="hero__meta">
+            <span>{{ destacada.region }}</span>
+            <span class="hero__dot">·</span>
+            <span>{{ destacada.categoria }}</span>
+        </div>
+
+        <p class="hero__synopsis">{{ destacada.descripcion | truncate(128) }}</p>
+
+        <div class="hero__actions">
+            {# TODO: reemplazar "#" por url_for('movie.detalle', movie_id=destacada.id) cuando exista el Blueprint de películas #}
+            <a href="#" class="btn btn-primary hero__play">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+                Reproducir
+            </a>
+            {# TODO: conectar con favorite_service.py cuando exista (agregar/quitar de favoritos) #}
+            <button type="button" class="hero__fav" aria-label="Agregar a mi lista">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="hero__counter">
+        <span>01</span>
+        <span class="hero__counter-line"></span>
+        <span>{{ "%02d" | format(recomendadas | length) }}</span>
+    </div>
+</section>
+
+<section class="carousel-section">
+    <div class="carousel-section__header">
+        <h2 class="carousel-section__title">Recomendados para ti</h2>
+        <div class="carousel-section__nav">
+            <button type="button" class="carousel-nav-btn" data-carousel-prev aria-label="Anterior">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="carousel-nav-btn" data-carousel-next aria-label="Siguiente">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+        </div>
+    </div>
+    <div class="carousel-section__rule"></div>
+    <div class="carousel-section__track" data-carousel data-carousel-track>
+        {% for movie in recomendadas %}
+            {% include "components/_movie_card.html" %}
+        {% endfor %}
+    </div>
+</section>
+
+<section class="carousel-section">
+    <div class="carousel-section__header">
+        <h2 class="carousel-section__title">Mi Lista</h2>
+        <div class="carousel-section__nav">
+            <button type="button" class="carousel-nav-btn" data-carousel-prev aria-label="Anterior">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="carousel-nav-btn" data-carousel-next aria-label="Siguiente">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+        </div>
+    </div>
+    <div class="carousel-section__rule"></div>
+    <div class="carousel-section__track" data-carousel data-carousel-track>
+        {% for movie in mi_lista %}
+            {% include "components/_movie_card.html" %}
+        {% endfor %}
+    </div>
+</section>
+
+<section class="carousel-section">
+    <div class="carousel-section__header">
+        <h2 class="carousel-section__title">Cine Colombiano</h2>
+        <div class="carousel-section__nav">
+            <button type="button" class="carousel-nav-btn" data-carousel-prev aria-label="Anterior">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="carousel-nav-btn" data-carousel-next aria-label="Siguiente">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+        </div>
+    </div>
+    <div class="carousel-section__rule"></div>
+    <div class="carousel-section__track" data-carousel data-carousel-track>
+        {% for movie in cine_colombiano %}
+            {% include "components/_movie_card.html" %}
+        {% endfor %}
+    </div>
+</section>
+
+<footer class="site-footer">
+    <div class="site-footer__row">
+        <span class="site-footer__logo">CINÉFILO</span>
+        <div class="site-footer__links">
+            <a href="#">Ayuda</a>
+            <a href="#">Privacidad</a>
+            <a href="#">Términos</a>
+            <a href="#">Idioma</a>
+        </div>
+    </div>
+    <p class="site-footer__copy">© 2026 Cinéfilo. Todos los derechos reservados.</p>
+</footer>
+
+{% endblock %}
