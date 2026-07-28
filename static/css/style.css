@@ -227,6 +227,7 @@ a:hover {
   align-items: center;
   gap: var(--space-lg);
   height: 64px;
+  padding-inline: var(--space-xl);
 }
 
 .navbar__logo {
@@ -400,6 +401,8 @@ button.navbar__avatar {
    sólida (fondo + blur) cuando main.js le agrega .is-scrolled tras ~55px. */
 .navbar--overlay {
   position: fixed;
+  left: 0;
+  right: 0;
   border-bottom: none;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.78) 0%, transparent 100%);
   transition: background-color var(--transition-fast), backdrop-filter var(--transition-fast), border-color var(--transition-fast);
