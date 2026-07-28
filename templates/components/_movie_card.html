@@ -1,0 +1,28 @@
+{# ==========================================================================
+   Componente: Movie Card (póster con hover reveal)
+   Uso: {% include "components/_movie_card.html" %} dentro de un {% for %}
+   que defina la variable `movie` en el contexto.
+
+   Variable Jinja2 esperada:
+     - movie: objeto/dict con los campos de la tabla `movies`
+       (database/schema.sql): id, titulo, categoria, imagen_url.
+       NOTA: el Figma muestra "año · director" en el hover, pero esas
+       columnas no existen en nuestro esquema actual — usamos `categoria`
+       como segunda línea (el campo más parecido que sí tenemos).
+
+   TODO: reemplazar "#" por url_for('movie.detalle', movie_id=movie.id)
+   cuando exista el Blueprint de películas.
+   ========================================================================== #}
+
+<a class="movie-card" href="#" aria-label="{{ movie.titulo }}">
+    <div class="movie-card__poster">
+        <img src="{{ movie.imagen_url }}" alt="{{ movie.titulo }}" loading="lazy">
+
+        <div class="movie-card__overlay">
+            <p class="movie-card__title">{{ movie.titulo }}</p>
+            {% if movie.categoria %}
+                <p class="movie-card__meta">{{ movie.categoria }}</p>
+            {% endif %}
+        </div>
+    </div>
+</a>

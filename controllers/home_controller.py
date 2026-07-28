@@ -12,3 +12,9 @@ home_bp = Blueprint(
 def inicio():
 
     return render_template("home.html")
+
+
+@home_bp.route("/onboarding")
+def onboarding():
+
+    return render_template("onboarding.html")
