@@ -56,13 +56,42 @@
     timeLabel.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
   });
 
-  function seekFromEvent(event) {
-    const rect = progress.getBoundingClientRect();
-    const pct = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
-    if (video.duration) video.currentTime = pct * video.duration;
+  // Convierte un track (barra de progreso o de volumen) en un control
+  // arrastrable: funciona con un solo click Y con drag (mousedown + mover
+  // el mouse sin soltar), como cualquier reproductor real.
+  function makeScrubber(trackEl, onScrub) {
+    if (!trackEl) return;
+
+    function pctFromEvent(event) {
+      const rect = trackEl.getBoundingClientRect();
+      return Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+    }
+
+    function onMouseMove(event) {
+      onScrub(pctFromEvent(event));
+    }
+
+    function onMouseUp() {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    }
+
+    trackEl.addEventListener("mousedown", (event) => {
+      event.preventDefault();
+      onScrub(pctFromEvent(event));
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+    });
   }
 
-  progress.addEventListener("click", seekFromEvent);
+  makeScrubber(progress, (pct) => {
+    if (video.duration) video.currentTime = pct * video.duration;
+  });
+
+  makeScrubber(volumeTrack, (pct) => {
+    video.volume = pct;
+    if (volumeFill) volumeFill.style.width = `${pct * 100}%`;
+  });
 
   backBtn?.addEventListener("click", () => {
     video.currentTime = Math.max(0, video.currentTime - 10);
@@ -72,14 +101,6 @@
     video.currentTime = Math.min(video.duration || 0, video.currentTime + 10);
   });
 
-  function setVolumeFromEvent(event) {
-    const rect = volumeTrack.getBoundingClientRect();
-    const pct = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
-    video.volume = pct;
-    volumeFill.style.width = `${pct * 100}%`;
-  }
-
-  volumeTrack?.addEventListener("click", setVolumeFromEvent);
   if (volumeFill) volumeFill.style.width = `${video.volume * 100}%`;
 
   fullscreenBtn?.addEventListener("click", () => {

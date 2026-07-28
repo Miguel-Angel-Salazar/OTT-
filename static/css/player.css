@@ -78,17 +78,33 @@
   margin-bottom: 0.75rem;
 }
 
+/* El hitbox real es de 14px (fácil de acertar con el mouse); la línea
+   visible sigue siendo de 3px, centrada verticalmente con ::before. */
 .player__progress {
   position: relative;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
+  height: 14px;
   margin-bottom: 0.75rem;
   cursor: pointer;
 }
 
+.player__progress::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
 .player__progress-fill {
-  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3px;
   width: 0%;
   background: var(--text-main);
   border-radius: 2px;
@@ -157,15 +173,30 @@
 }
 
 .player__volume-track {
+  position: relative;
   width: 3.625rem;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: 2px;
+  height: 14px;
   cursor: pointer;
 }
 
+.player__volume-track::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 2px;
+}
+
 .player__volume-fill {
-  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3px;
   width: 78%;
   background: rgba(255, 255, 255, 0.65);
   border-radius: 2px;
