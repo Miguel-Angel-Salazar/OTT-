@@ -61,3 +61,25 @@ def login_user(email, password):
 
         print("ERROR LOGIN:", e)
         return str(e)
+
+
+# perfil (nombre, region, suscripcion) — la tabla `profiles`, no viene en el
+# objeto de Supabase Auth
+def obtener_perfil(usuario_id):
+
+    try:
+
+        response = (
+            supabase.table("profiles")
+            .select("nombre, region, suscripcion")
+            .eq("id", usuario_id)
+            .single()
+            .execute()
+        )
+
+        return response.data
+
+    except Exception as e:
+
+        print("ERROR PERFIL:", e)
+        return None

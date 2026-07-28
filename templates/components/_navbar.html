@@ -1,0 +1,123 @@
+{# ==========================================================================
+   Componente: Navbar
+   Uso: {% include "components/_navbar.html" %} dentro de base.html
+   Variables Jinja2 esperadas (opcionales, con fallback seguro):
+     - current_user: dict/objeto con al menos `nombre` (lo pasará el Controller
+       cuando exista sesión, ej. auth/home controller). Si no se define o es
+       None, se asume visitante sin sesión.
+     - active_page: string ("home", "profile", etc.) para resaltar el link activo.
+     - navbar_variant: "overlay" para el navbar transparente-sobre-hero de
+       home.html (se vuelve sólido al hacer scroll, vía main.js). "detail"
+       para el navbar de movie_detail.html (botón "Volver" en vez de links,
+       siempre sólido con blur, sin efecto de scroll). Si se omite, el
+       navbar es sólido y sticky desde el inicio (login/register).
+     - back_url: URL del botón "Volver" cuando navbar_variant == "detail".
+       Si se omite, cae a home.inicio.
+   ========================================================================== #}
+
+<header class="navbar {{ 'navbar--overlay' if navbar_variant == 'overlay' else '' }} {{ 'navbar--detail' if navbar_variant == 'detail' else '' }}">
+    <div class="navbar__inner">
+
+        {% if navbar_variant == "detail" %}
+            <a class="navbar__back" href="{{ back_url or url_for('home.inicio') }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Volver
+            </a>
+            <span class="navbar__logo navbar__logo--center">CINÉFILO</span>
+        {% else %}
+            <a class="navbar__logo" href="{{ url_for('home.inicio') }}">CINÉFILO</a>
+
+            <nav class="navbar__links">
+                <a class="navbar__link {{ 'is-active' if active_page == 'home' else '' }}"
+                   href="{{ url_for('home.inicio') }}">
+                    Inicio
+                </a>
+                {# TODO: reemplazar "#" por url_for('profile.mi_lista') cuando exista el Blueprint de perfil/favoritos #}
+                <a class="navbar__link {{ 'is-active' if active_page == 'my_list' else '' }}" href="#">
+                    Mi Lista
+                </a>
+                {# TODO: reemplazar "#" por url_for('movie.cine_colombiano') cuando exista el Blueprint de películas #}
+                <a class="navbar__link {{ 'is-active' if active_page == 'catalog' else '' }}" href="#">
+                    Cine Colombiano
+                </a>
+            </nav>
+        {% endif %}
+
+        <div class="navbar__actions">
+            {% if current_user is defined and current_user %}
+                {# TODO: reemplazar "#" por un buscador funcional (fuera del alcance de las Fases 1-5 actuales) #}
+                <button type="button" class="navbar__icon-btn" title="Buscar" aria-label="Buscar">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+                <div class="navbar__profile" data-profile-menu>
+                    <button type="button"
+                            class="navbar__avatar"
+                            data-profile-trigger
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            title="{{ current_user.nombre }}">
+                        {{ current_user.nombre[0] | upper }}
+                    </button>
+
+                    <div class="navbar__dropdown" data-profile-dropdown>
+                        <div class="navbar__dropdown-header">
+                            <span class="navbar__avatar navbar__avatar--lg">{{ current_user.nombre[0] | upper }}</span>
+                            <span class="navbar__dropdown-name">{{ current_user.nombre }}</span>
+                        </div>
+
+                        <div class="navbar__dropdown-divider"></div>
+
+                        {# TODO: reemplazar "#" por url_for('profile.ver_perfil') cuando exista el Blueprint de perfil #}
+                        <a class="navbar__dropdown-item" href="#">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="8" r="4"></circle>
+                                <path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"></path>
+                            </svg>
+                            Cuenta
+                        </a>
+
+                        {# TODO: reemplazar "#" por url_for('profile.suscripcion') cuando exista subscription.html conectada #}
+                        <a class="navbar__dropdown-item" href="#">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            Suscripción · {{ current_user.suscripcion }}
+                        </a>
+
+                        {# TODO: sin ruta de ayuda real todavía #}
+                        <a class="navbar__dropdown-item" href="#">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.2 1.8-2.5 3.4"></path>
+                                <line x1="12" y1="16.5" x2="12" y2="16.6"></line>
+                            </svg>
+                            Centro de ayuda
+                        </a>
+
+                        <div class="navbar__dropdown-divider"></div>
+
+                        <a class="navbar__dropdown-item navbar__dropdown-item--danger" href="{{ url_for('auth.logout') }}">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M9 4h-3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"></path>
+                                <polyline points="15 16 20 12 15 8"></polyline>
+                                <line x1="20" y1="12" x2="8" y2="12"></line>
+                            </svg>
+                            Cerrar sesión
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <a class="navbar__link" href="{{ url_for('auth.login') }}">Iniciar sesión</a>
+                <a class="btn btn-primary navbar__cta" href="{{ url_for('auth.register') }}">Crear cuenta</a>
+            {% endif %}
+        </div>
+
+    </div>
+</header>

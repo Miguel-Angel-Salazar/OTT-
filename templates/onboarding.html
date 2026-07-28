@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Configuración inicial — CINÉFILO{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div class="onboarding" id="onboarding-root" data-home-url="{{ url_for('home.inicio') }}">
+
+    <span class="onboarding__logo">CINÉFILO</span>
+
+    <div class="onboarding__steps" aria-hidden="true">
+        <span class="onboarding__step is-active"></span>
+        <span class="onboarding__step"></span>
+        <span class="onboarding__step"></span>
+    </div>
+
+    <div class="onboarding__body">
+        <div class="onboarding__panel">
+
+            <p class="onboarding__eyebrow">Configuración inicial</p>
+
+            <h1 class="onboarding__title">
+                ¿Qué tipo de cine<br>
+                <span class="onboarding__title-strong">prefieres?</span>
+            </h1>
+
+            <p class="onboarding__subtitle">
+                Selecciona los géneros que más disfrutas. Siempre puedes
+                ajustarlos más adelante desde tu perfil.
+            </p>
+
+            <div class="onboarding__grid" id="genre-grid">
+                {% for genero in ["Drama", "Cine Independiente", "Acción", "Clásicos", "Documental", "Suspenso", "Romance", "Ciencia Ficción", "Animación", "Terror", "Comedia", "Cine Colombiano"] %}
+                <button type="button" class="genre-btn" data-genre="{{ genero }}">
+                    <span>{{ genero }}</span>
+                    <svg class="genre-btn__check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </button>
+                {% endfor %}
+            </div>
+
+            <div class="onboarding__footer">
+                <p class="onboarding__counter" id="genre-counter">
+                    Selecciona al menos un género
+                </p>
+
+                <button type="button" class="onboarding__submit" id="onboarding-submit" disabled>
+                    Comenzar a ver
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="onboarding__baseline"></div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ url_for('static', filename='js/onboarding.js') }}" defer></script>
+{% endblock %}
