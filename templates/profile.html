@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Mi Perfil{% endblock %}
+
+{% block navbar %}
+    {% include "components/_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+
+<h1>Información del perfil</h1>
+
+<p><strong>Nombre:</strong> {{ current_user.nombre }}</p>
+
+<p><strong>Correo:</strong> {{ current_user.email }}</p>
+
+<hr>
+
+<h2>Suscripción</h2>
+
+<p>Plan actual:</p>
+
+<strong>{{ current_user.suscripcion }}</strong>
+
+<br><br>
+
+<form action="{{ url_for('profile.profile') }}" method="POST">
+
+    <button
+        type="submit"
+        name="plan"
+        value="Basica">
+        Básica
+    </button>
+
+    <button
+        type="submit"
+        name="plan"
+        value="Premium">
+        Premium
+    </button>
+
+</form>
+
+<p><strong>Región:</strong> {{ current_user.region }}</p>
+
+{% endblock %}

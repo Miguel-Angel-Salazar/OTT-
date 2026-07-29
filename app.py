@@ -6,6 +6,8 @@ from flask import Flask, redirect, url_for
 from controllers.auth_controller import auth_bp
 from controllers.home_controller import home_bp
 from controllers.movie_controller import movie_bp
+from controllers.profile_controller import profile_bp
+
 
 load_dotenv()
 
@@ -16,6 +18,7 @@ app.secret_key = os.getenv("SECRET_KEY")
 app.register_blueprint(auth_bp)
 app.register_blueprint(home_bp)
 app.register_blueprint(movie_bp)
+app.register_blueprint(profile_bp)
 
 @app.route("/")
 def inicio():
@@ -24,3 +27,4 @@ def inicio():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    

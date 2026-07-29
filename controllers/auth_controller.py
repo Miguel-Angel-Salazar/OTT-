@@ -28,10 +28,11 @@ def login():
 
         # guardamos lo minimo necesario en la sesion de Flask
         session["usuario"] = {
-            "id": usuario.id,
-            "email": usuario.email,
-            "nombre": perfil["nombre"] if perfil else usuario.email,
-            "suscripcion": perfil["suscripcion"] if perfil else "Sin plan",
+        "id": usuario.id,
+        "email": usuario.email,
+        "nombre": perfil["nombre"] if perfil else usuario.email,
+        "region": perfil["region"] if perfil else "",
+        "suscripcion": perfil["suscripcion"] if perfil else "Sin plan",
         }
 
         return redirect(url_for("home.inicio"))

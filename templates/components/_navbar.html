@@ -73,8 +73,7 @@
 
                         <div class="navbar__dropdown-divider"></div>
 
-                        {# TODO: reemplazar "#" por url_for('profile.ver_perfil') cuando exista el Blueprint de perfil #}
-                        <a class="navbar__dropdown-item" href="#">
+                        <a class="navbar__dropdown-item" href="{{ url_for('profile.profile') }}">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <circle cx="12" cy="8" r="4"></circle>
                                 <path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"></path>
