@@ -14,7 +14,14 @@
 {% block content %}
 
 <section class="hero">
-    <img src="{{ destacada.hero_url }}" alt="{{ destacada.titulo }}" class="hero__image">
+        {% if destacada and destacada.hero_url and destacada.hero_url.startswith('/static/') %}
+               {% set _hf = destacada.hero_url.lstrip('/') %}
+               <img src="{{ url_for('static', filename=_hf) }}" alt="{{ destacada.titulo }}" class="hero__image"
+                   onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder.svg') }}';">
+        {% else %}
+               <img src="{{ destacada.hero_url }}" alt="{{ destacada.titulo }}" class="hero__image"
+                   onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder.svg') }}';">
+        {% endif %}
     <div class="hero__gradient-bottom"></div>
     <div class="hero__gradient-side"></div>
 

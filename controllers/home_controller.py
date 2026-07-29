@@ -1,65 +1,6 @@
 from flask import Blueprint, render_template, session
 from services.favorite_service import obtener_favoritos
-from models.movie import Movie
-
-# Lista de películas construida a partir de archivos estáticos usando la clase `Movie`.
-PELICULAS = [
-    Movie(
-        id=1,
-        titulo="Narcos - Demo",
-        descripcion="Episodio demo para pruebas de reproductor.",
-        categoria="Colombiano",
-        region="Colombia",
-        imagen_url="/static/images/posters/narcos.jpg",
-        video_url="/static/videos/narcos.mp4",
-        hero_url="/static/images/posters/narcos.jpg",
-    ),
-    Movie(
-        id=2,
-        titulo="Breaking Bad - Demo",
-        descripcion="Video de muestra para pruebas.",
-        categoria="Drama",
-        region="USA",
-        imagen_url="/static/images/posters/breaking_bad.jpg",
-        video_url="/static/videos/narcos.mp4",
-    ),
-    Movie(
-        id=3,
-        titulo="Dark - Demo",
-        descripcion="Video de ejemplo.",
-        categoria="Suspenso",
-        region="Alemania",
-        imagen_url="/static/images/posters/dark.jpg",
-        video_url="/static/videos/narcos.mp4",
-    ),
-    Movie(
-        id=4,
-        titulo="La Casa de Papel - Demo",
-        descripcion="Prueba de reproductor con subtítulos.",
-        categoria="Acción",
-        region="España",
-        imagen_url="/static/images/posters/la_casa_de_papel.jpg",
-        video_url="/static/videos/narcos.mp4",
-    ),
-    Movie(
-        id=5,
-        titulo="Peaky Blinders - Demo",
-        descripcion="Video de prueba.",
-        categoria="Drama",
-        region="Reino Unido",
-        imagen_url="/static/images/posters/peaky_blinders.jpg",
-        video_url="/static/videos/narcos.mp4",
-    ),
-    Movie(
-        id=6,
-        titulo="Avatar - Demo",
-        descripcion="Entrada de ejemplo.",
-        categoria="Aventura",
-        region="Internacional",
-        imagen_url="/static/images/posters/avatar.jpg",
-        video_url="/static/videos/narcos.mp4",
-    ),
-]
+from services.movie_service import listar_peliculas
 
 # Blueprint del home
 home_bp = Blueprint(
@@ -81,8 +22,9 @@ home_bp = Blueprint(
 @home_bp.route("/")
 def inicio():
 
-    destacada = PELICULAS[0]
-    colombianas = [m for m in PELICULAS if "Colombiano" in m.categoria]
+    peliculas = listar_peliculas()
+    destacada = peliculas[0] if peliculas else None
+    colombianas = [m for m in peliculas if "Colombiano" in (m.categoria or "")]
 
     usuario = session.get("usuario")
 
@@ -91,7 +33,7 @@ def inicio():
     if usuario:
         mi_lista = obtener_favoritos(
             usuario["id"],
-            PELICULAS
+            peliculas
         )
     print("Favoritos:", mi_lista)
     
@@ -100,7 +42,7 @@ def inicio():
         active_page="home",
         current_user=usuario,
         destacada=destacada,
-        recomendadas=PELICULAS,
+        recomendadas=peliculas,
         mi_lista=mi_lista,
         cine_colombiano=colombianas,
     )
