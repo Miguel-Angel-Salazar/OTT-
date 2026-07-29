@@ -35,8 +35,11 @@ class Movie:
                 return url
             if url.startswith('static/') or url.startswith('/static/'):
                 normalized = '/' + url.lstrip('/')
-                # Some records may still use the old pictures/ directory name.
-                return normalized.replace('/static/pictures/', '/static/images/', 1)
+                # Some records may still use older directory names - map them
+                # to the current `static/images/` location used in the repo.
+                normalized = normalized.replace('/static/pictures/', '/static/images/')
+                normalized = normalized.replace('/static/picture/', '/static/images/')
+                return normalized
             if SUPABASE_URL:
                 return f"{SUPABASE_URL.rstrip('/')}/storage/v1/object/public/movies/{url.lstrip('/')}"
             return url
