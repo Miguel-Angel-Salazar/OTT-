@@ -9,14 +9,7 @@ home_bp = Blueprint(
     url_prefix="/home"
 )
 
-# TODO: reemplazar por movie_service.listar_peliculas() (tabla `movies` de
-# Supabase) cuando ese servicio exista. Estos son datos de muestra solo para
-# poder maquetar/ver el catálogo mientras el backend de películas no existe.
-# `hero_url` no es una columna real de `movies` (el esquema solo tiene
-# `imagen_url`) — se agrega aquí únicamente para el banner grande del home.
-# `video_url` sí es columna real, pero como no tenemos videos propios subidos
-# todavía, las 6 apuntan al mismo video de muestra de dominio público
-# (Big Buck Bunny) solo para poder probar el reproductor.
+
 
 
 @home_bp.route("/")
