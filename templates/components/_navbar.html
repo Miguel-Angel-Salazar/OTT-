@@ -36,7 +36,8 @@
                     Inicio
                 </a>
                 {# TODO: reemplazar "#" por url_for('profile.mi_lista') cuando exista el Blueprint de perfil/favoritos #}
-                <a class="navbar__link {{ 'is-active' if active_page == 'my_list' else '' }}" href="#">
+                <a class="navbar__link {{ 'is-active' if active_page == 'my_list' else '' }}"
+                    href="{{ url_for('home.inicio') }}#mi-lista">
                     Mi Lista
                 </a>
                 {# TODO: reemplazar "#" por url_for('movie.cine_colombiano') cuando exista el Blueprint de películas #}

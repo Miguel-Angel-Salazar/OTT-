@@ -33,8 +33,10 @@ def inicio():
         mi_lista = obtener_favoritos(
         usuario["id"],
         PELICULAS_MOCK
+        
     )
-
+    print("Favoritos:", mi_lista)
+    
     return render_template(
         "home.html",
         active_page="home",

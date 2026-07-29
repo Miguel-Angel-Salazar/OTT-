@@ -810,3 +810,7 @@ button.navbar__avatar {
   font-weight: var(--font-weight-light);
   margin-top: 1.5rem;
 }
+
+html {
+    scroll-behavior: smooth;
+}
