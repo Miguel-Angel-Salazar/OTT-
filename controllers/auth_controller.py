@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
-from services.auth_service import register_user, login_user, obtener_perfil
+from services.auth_service import register_user, login_user, obtener_perfil, enviar_correo_recuperacion, actualizar_password
 
 # creamos el Blueprint de autenticacion
 auth_bp = Blueprint(
@@ -66,6 +66,59 @@ def register():
     mensaje=mensaje,
     current_user=session.get("usuario"),
 )
+
+
+# recuperar contraseña
+
+@auth_bp.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+
+    if request.method == "GET":
+        return render_template(
+            "auth/forgot_password.html",
+            current_user=session.get("usuario")
+        )
+
+    email = request.form["email"]
+
+    mensaje = enviar_correo_recuperacion(email)
+
+    return render_template(
+        "auth/forgot_password.html",
+        mensaje=mensaje,
+        current_user=session.get("usuario")
+    )
+
+
+# restablecer contraseña
+
+@auth_bp.route("/reset-password", methods=["GET", "POST"])
+def reset_password():
+
+    if request.method == "GET":
+        return render_template(
+            "auth/reset_password.html",
+            current_user=session.get("usuario")
+        )
+
+    password = request.form["password"]
+    confirm_password = request.form["confirm_password"]
+
+    if password != confirm_password:
+
+        return render_template(
+            "auth/reset_password.html",
+            mensaje="Las contraseñas no coinciden.",
+            current_user=session.get("usuario")
+        )
+
+    mensaje = actualizar_password(password)
+
+    return render_template(
+        "auth/reset_password.html",
+        mensaje=mensaje,
+        current_user=session.get("usuario")
+    )
 
 
 #cerrar la sesion

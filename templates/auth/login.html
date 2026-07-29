@@ -28,6 +28,12 @@
             </button>
         </form>
 
+        <p>
+            <a href="{{ url_for('auth.forgot_password') }}">
+                ¿Olvidaste tu contraseña?
+            </a>
+        </p>
+
         {% if mensaje %}
             <p class="form-message">{{ mensaje }}</p>
         {% endif %}
