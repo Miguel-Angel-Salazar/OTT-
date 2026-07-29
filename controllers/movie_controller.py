@@ -63,6 +63,32 @@ def detalle(movie_id):
     )
 
 
+@movie_bp.route("/search")
+def search():
+    query = request.args.get("q", "").strip()
+    peliculas = listar_peliculas()
+
+    if query:
+        lowercase_query = query.lower()
+        resultados = [
+            m for m in peliculas
+            if lowercase_query in (m.titulo or "").lower()
+            or lowercase_query in (m.categoria or "").lower()
+            or lowercase_query in (m.descripcion or "").lower()
+            or lowercase_query in (m.region or "").lower()
+        ]
+    else:
+        resultados = []
+
+    return render_template(
+        "movie_search.html",
+        current_user=session.get("usuario"),
+        query=query,
+        resultados=resultados,
+        active_page="catalog"
+    )
+
+
 @movie_bp.route("/<int:movie_id>/like")
 def like(movie_id):
 

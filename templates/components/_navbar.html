@@ -49,13 +49,15 @@
 
         <div class="navbar__actions">
             {% if current_user is defined and current_user %}
-                {# TODO: reemplazar "#" por un buscador funcional (fuera del alcance de las Fases 1-5 actuales) #}
-                <button type="button" class="navbar__icon-btn" title="Buscar" aria-label="Buscar">
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                </button>
+                <form class="navbar__search" action="{{ url_for('movie.search') }}" method="GET">
+                    <input type="search" name="q" value="{{ request.args.get('q', '') }}" placeholder="Buscar..." aria-label="Buscar películas">
+                    <button type="submit" class="navbar__icon-btn" title="Buscar" aria-label="Buscar">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </form>
                 <div class="navbar__profile" data-profile-menu>
                     <button type="button"
                             class="navbar__avatar"
