@@ -60,3 +60,19 @@ CREATE TABLE watch_history (
     minuto INTEGER DEFAULT 0
 
 );
+
+-- tabla de ratings
+
+create table ratings (
+
+    id bigint generated always as identity primary key,
+
+    usuario_id uuid references profiles(id) on delete cascade,
+
+    pelicula_id bigint references movies(id) on delete cascade,
+
+    valor integer not null,
+
+    unique(usuario_id, pelicula_id)
+
+);

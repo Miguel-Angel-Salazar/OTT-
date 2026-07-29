@@ -1,10 +1,15 @@
-from flask import Blueprint, render_template, session, url_for, abort
-from services.favorite_service import es_favorito
+from flask import Blueprint, render_template, session, url_for, abort, redirect
 
 # TODO: reemplazar por movie_service.py (consultando la tabla `movies` de
 # Supabase) cuando ese servicio exista. Por ahora reusamos los mismos datos
 # de muestra que ya usa home.html para no duplicar la lista.
 from controllers.home_controller import PELICULAS_MOCK
+
+from services.rating_service import (
+    calificar_pelicula,
+    obtener_likes,
+    obtener_dislikes
+)
 
 # Blueprint de peliculas
 movie_bp = Blueprint(
@@ -24,16 +29,9 @@ def detalle(movie_id):
 
     recomendaciones = [m for m in PELICULAS_MOCK if m["id"] != movie_id]
 
-    favorito = False
+    likes = obtener_likes(movie_id)
 
-    if session.get("usuario"):
-
-        favorito = es_favorito(
-            session["usuario"]["id"],
-            movie_id
-        )
-
-    print("Favorito:", favorito)
+    dislikes = obtener_dislikes(movie_id)
 
     return render_template(
         "movie_detail.html",
@@ -42,5 +40,52 @@ def detalle(movie_id):
         back_url=url_for("home.inicio"),
         movie=pelicula,
         recomendaciones=recomendaciones,
-        favorito=favorito
+        likes=likes,
+        dislikes=dislikes,
+    )
+
+
+@movie_bp.route("/<int:movie_id>/like")
+def like(movie_id):
+
+    usuario = session.get("usuario")
+
+    if usuario is None:
+
+        return redirect(url_for("auth.login"))
+
+    calificar_pelicula(
+        usuario["id"],
+        movie_id,
+        1
+    )
+
+    return redirect(
+        url_for(
+            "movie.detalle",
+            movie_id=movie_id
+        )
+    )
+
+
+@movie_bp.route("/<int:movie_id>/dislike")
+def dislike(movie_id):
+
+    usuario = session.get("usuario")
+
+    if usuario is None:
+
+        return redirect(url_for("auth.login"))
+
+    calificar_pelicula(
+        usuario["id"],
+        movie_id,
+        -1
+    )
+
+    return redirect(
+        url_for(
+            "movie.detalle",
+            movie_id=movie_id
+        )
     )

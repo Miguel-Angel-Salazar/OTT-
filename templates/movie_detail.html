@@ -102,46 +102,46 @@
     </div>
 
     <div class="movie-info__actions">
-        {# TODO: conectar con favorite_service.py cuando exista (favorites) #}
-        <form action="{{ url_for('favorite.toggle', pelicula_id=movie.id) }}"
-              method="POST">
-            <button
-                type="submit"
-                class="movie-info__action-btn {% if favorito %}movie-info__action-btn--active{% endif %}">
-                <span class="movie-info__action-circle">
-                    <svg width="17"
-                         height="17"
-                         viewBox="0 0 24 24"
-                         fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.5">
-                        <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
-                    </svg>
-                </span>
-                <span>
-                    {% if favorito %}
-                        Quitar de Mi Lista
-                    {% else %}
-                        Mi Lista
-                    {% endif %}
-                </span>
-            </button>
-        </form>
 
-        {# TODO: compartir real (Web Share API / copiar link), fuera de alcance por ahora #}
-        <button type="button" class="movie-info__action-btn">
-            <span class="movie-info__action-circle">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <circle cx="18" cy="5" r="3"></circle>
-                    <circle cx="6" cy="12" r="3"></circle>
-                    <circle cx="18" cy="19" r="3"></circle>
-                    <line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line>
-                    <line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line>
-                </svg>
-            </span>
-            <span>Compartir</span>
-        </button>
+    {# TODO: conectar con favorite_service.py cuando exista (favorites) #}
+    <button type="button" class="movie-info__action-btn" id="movie-fav-btn">
+        <span class="movie-info__action-circle">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+            </svg>
+        </span>
+        <span id="movie-fav-label">Mi Lista</span>
+    </button>
+
+    {# TODO: compartir real (Web Share API / copiar link), fuera de alcance por ahora #}
+    <button type="button" class="movie-info__action-btn">
+        <span class="movie-info__action-circle">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line>
+                <line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line>
+            </svg>
+        </span>
+        <span>Compartir</span>
+    </button>
+
+    <div class="movie-info__action-btn">
+
+        <a href="{{ url_for('movie.like', movie_id=movie.id) }}">
+            👍 Me gusta ({{ likes }})
+        </a>
+
+        <br><br>
+
+        <a href="{{ url_for('movie.dislike', movie_id=movie.id) }}">
+            👎 No me gusta ({{ dislikes }})
+        </a>
+
     </div>
+
+</div>
 </section>
 
 <section class="carousel-section">
