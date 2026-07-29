@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, url_for, abort, redirect
+from flask import Blueprint, render_template, session, url_for, abort, redirect, request, jsonify
 
 # TODO: reemplazar por movie_service.py (consultando la tabla `movies` de
 # Supabase) cuando ese servicio exista. Por ahora reusamos los mismos datos
@@ -9,6 +9,11 @@ from services.rating_service import (
     calificar_pelicula,
     obtener_likes,
     obtener_dislikes
+)
+
+from services.watch_history_service import (
+    guardar_historial,
+    obtener_historial
 )
 
 # Blueprint de peliculas
@@ -33,6 +38,17 @@ def detalle(movie_id):
 
     dislikes = obtener_dislikes(movie_id)
 
+    minuto = 0
+
+    usuario = session.get("usuario")
+
+    if usuario is not None:
+
+        minuto = obtener_historial(
+            usuario["id"],
+            movie_id
+        )
+
     return render_template(
         "movie_detail.html",
         current_user=session.get("usuario"),
@@ -42,6 +58,7 @@ def detalle(movie_id):
         recomendaciones=recomendaciones,
         likes=likes,
         dislikes=dislikes,
+        minuto=minuto
     )
 
 
@@ -88,4 +105,36 @@ def dislike(movie_id):
             "movie.detalle",
             movie_id=movie_id
         )
+    )
+
+
+# guardar historial
+
+@movie_bp.route("/<int:movie_id>/progreso", methods=["POST"])
+def progreso(movie_id):
+
+    usuario = session.get("usuario")
+
+    if usuario is None:
+
+        return jsonify(
+            {
+                "ok": False
+            }
+        ), 401
+
+    datos = request.get_json()
+
+    minuto = datos["minuto"]
+
+    guardar_historial(
+        usuario["id"],
+        movie_id,
+        minuto
+    )
+
+    return jsonify(
+        {
+            "ok": True
+        }
     )

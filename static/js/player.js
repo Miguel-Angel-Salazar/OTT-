@@ -3,6 +3,15 @@
   if (!root) return;
 
   const video = document.getElementById("player-video");
+  if (!video) return;
+
+  video.addEventListener("loadedmetadata", () => {
+    const minuto = parseInt(video.dataset.minuto, 10);
+    if (!isNaN(minuto) && minuto > 0) {
+      video.currentTime = minuto * 60;
+    }
+  });
+
   const toggleBtns = [
     document.getElementById("player-toggle"),
     document.getElementById("player-play-btn"),
@@ -51,14 +60,13 @@
 
   video.addEventListener("timeupdate", () => {
     const pct = video.duration ? (video.currentTime / video.duration) * 100 : 0;
-    progressFill.style.width = `${pct}%`;
-    progressHandle.style.left = `${pct}%`;
-    timeLabel.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+    if (progressFill) progressFill.style.width = `${pct}%`;
+    if (progressHandle) progressHandle.style.left = `${pct}%`;
+    if (timeLabel) {
+      timeLabel.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+    }
   });
 
-  // Convierte un track (barra de progreso o de volumen) en un control
-  // arrastrable: funciona con un solo click Y con drag (mousedown + mover
-  // el mouse sin soltar), como cualquier reproductor real.
   function makeScrubber(trackEl, onScrub) {
     if (!trackEl) return;
 
@@ -111,19 +119,23 @@
     }
   });
 
-  // Favorito (Mi Lista): solo visual por ahora — favorite_service.py no existe.
-  // TODO: reemplazar por un fetch a /movie/<id>/favorito cuando exista la
-  // tabla `favorites` conectada.
   favBtn?.addEventListener("click", () => {
     const isActive = favBtn.classList.toggle("is-active");
-    favLabel.textContent = isActive ? "En mi lista" : "Mi Lista";
+    if (favLabel) favLabel.textContent = isActive ? "En mi lista" : "Mi Lista";
   });
 
-  // Tracking de tiempo (RF-10, tabla `watch_history.minuto`): por ahora solo
-  // deja el hook listo. TODO: cuando exista el endpoint, enviar aquí
-  // Math.floor(video.currentTime / 60) periódicamente para persistirlo.
   setInterval(() => {
     if (video.paused || !video.duration) return;
-    // fetch(`/movie/${root.dataset.movieId}/progreso`, { method: "POST", ... })
+    if (!root.dataset.movieId) return;
+
+    fetch(`/movie/${root.dataset.movieId}/progreso`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        minuto: Math.floor(video.currentTime),
+      }),
+    });
   }, 15000);
 })();

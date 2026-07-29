@@ -10,7 +10,12 @@
 {% block content %}
 
 <div class="player" id="movie-player" data-movie-id="{{ movie.id }}">
-    <video class="player__video" id="player-video" poster="{{ movie.imagen_url }}" preload="metadata">
+    <video
+    class="player__video"
+    id="player-video"
+    data-minuto="{{ minuto }}"
+    poster="{{ movie.imagen_url }}"
+    preload="metadata">
         <source src="{{ movie.video_url }}" type="video/mp4">
         Tu navegador no soporta la reproducción de video.
     </video>
