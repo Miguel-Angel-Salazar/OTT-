@@ -58,8 +58,13 @@ def obtener_favoritos(usuario_id, peliculas):
 
     ids = [fila["pelicula_id"] for fila in response.data]
 
+    def _get_id(pelicula):
+        if isinstance(pelicula, dict):
+            return pelicula.get("id")
+        return getattr(pelicula, "id", None)
+
     return [
         pelicula
         for pelicula in peliculas
-        if pelicula["id"] in ids
+        if _get_id(pelicula) in ids
     ]

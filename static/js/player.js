@@ -47,6 +47,14 @@
 
   function togglePlay() {
     if (video.paused) {
+      // Unmute on user-initiated play to allow audio in browsers that
+      // block autoplay with sound. Respect existing volume if set.
+      try {
+        if (video.muted) video.muted = false;
+        if (video.volume === 0) video.volume = 1;
+      } catch (e) {
+        // ignore
+      }
       video.play();
     } else {
       video.pause();
@@ -101,6 +109,16 @@
     if (volumeFill) volumeFill.style.width = `${pct * 100}%`;
   });
 
+  // persist volume between sessions
+  try {
+    const savedVolume = localStorage.getItem("player_volume");
+    if (savedVolume !== null) {
+      const v = parseFloat(savedVolume);
+      video.volume = isFinite(v) ? v : video.volume;
+      if (volumeFill) volumeFill.style.width = `${video.volume * 100}%`;
+    }
+  } catch (e) {}
+
   backBtn?.addEventListener("click", () => {
     video.currentTime = Math.max(0, video.currentTime - 10);
   });
@@ -124,18 +142,28 @@
     if (favLabel) favLabel.textContent = isActive ? "En mi lista" : "Mi Lista";
   });
 
+  // save volume when changed by scrubber
+  const saveVolume = () => {
+    try {
+      localStorage.setItem("player_volume", String(video.volume));
+    } catch (e) {}
+  };
+
+  video.addEventListener("volumechange", saveVolume);
+
   setInterval(() => {
     if (video.paused || !video.duration) return;
     if (!root.dataset.movieId) return;
 
     fetch(`/movie/${root.dataset.movieId}/progreso`, {
       method: "POST",
+      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         minuto: Math.floor(video.currentTime),
       }),
-    });
+    }).catch(() => {});
   }, 15000);
 })();
