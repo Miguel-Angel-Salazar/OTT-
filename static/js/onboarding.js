@@ -1,3 +1,5 @@
+// encuesta de generos del onboarding: guarda la seleccion en memoria y
+// habilita el boton de continuar cuando hay al menos un genero marcado
 (function () {
   const root = document.getElementById("onboarding-root");
   if (!root) return;
@@ -7,6 +9,7 @@
   const submit = document.getElementById("onboarding-submit");
   const selected = new Set();
 
+  // actualiza el texto del contador y si el boton de submit esta habilitado
   function updateFooter() {
     const count = selected.size;
 
@@ -22,6 +25,7 @@
     submit.classList.toggle("is-enabled", count > 0);
   }
 
+  // toggle de cada boton de genero (agregar/quitar del set)
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const genre = btn.dataset.genre;
@@ -38,12 +42,12 @@
     });
   });
 
+  // boton final: por ahora solo redirige al home, todavia no guarda nada
   submit.addEventListener("click", () => {
     if (selected.size === 0) return;
 
-    // TODO: enviar los géneros elegidos (Array.from(selected)) al backend
-    // cuando exista profile_service.py, para guardarlos como preferencias
-    // del usuario en la tabla `profiles`.
+    // pendiente: mandar los generos elegidos (Array.from(selected)) al
+    // backend para guardarlos como preferencia del usuario en profiles
     window.location.href = root.dataset.homeUrl;
   });
 })();

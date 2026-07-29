@@ -317,7 +317,8 @@
   border-color: rgba(255, 255, 255, 0.5);
 }
 
-.movie-info__action-btn.is-active .movie-info__action-circle {
+.movie-info__action-btn.is-active .movie-info__action-circle,
+.movie-info__action-btn--active .movie-info__action-circle {
   border-color: rgba(255, 255, 255, 0.65);
   background: rgba(255, 255, 255, 0.08);
 }

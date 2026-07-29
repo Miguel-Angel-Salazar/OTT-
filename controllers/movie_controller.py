@@ -1,8 +1,6 @@
 from flask import Blueprint, render_template, session, url_for, abort, redirect, request, jsonify
 
-# TODO: reemplazar por movie_service.py (consultando la tabla `movies` de
-# Supabase) cuando ese servicio exista. Por ahora reusamos los mismos datos
-# de muestra que ya usa home.html para no duplicar la lista.
+
 from services.movie_service import listar_peliculas
 
 from services.rating_service import (
@@ -16,7 +14,9 @@ from services.watch_history_service import (
     obtener_historial
 )
 
-# Blueprint de peliculas
+from services.favorite_service import es_favorito
+
+# blueprint de peliculas (detalle, busqueda, likes, historial)
 movie_bp = Blueprint(
     "movie",
     __name__,
@@ -24,12 +24,14 @@ movie_bp = Blueprint(
 )
 
 
+# pagina de detalle de una pelicula con el reproductor
 @movie_bp.route("/<int:movie_id>")
 def detalle(movie_id):
 
     peliculas = listar_peliculas()
     pelicula = next((m for m in peliculas if m.id == movie_id), None)
 
+    # si el id no existe en el catalogo, 404
     if pelicula is None:
         abort(404)
 
@@ -40,12 +42,19 @@ def detalle(movie_id):
     dislikes = obtener_dislikes(movie_id)
 
     minuto = 0
+    favorito = False
 
     usuario = session.get("usuario")
 
+    # el minuto guardado y el estado de favorito solo aplican si hay sesion
     if usuario is not None:
 
         minuto = obtener_historial(
+            usuario["id"],
+            movie_id
+        )
+
+        favorito = es_favorito(
             usuario["id"],
             movie_id
         )
@@ -59,15 +68,18 @@ def detalle(movie_id):
         recomendaciones=recomendaciones,
         likes=likes,
         dislikes=dislikes,
-        minuto=minuto
+        minuto=minuto,
+        favorito=favorito
     )
 
 
+# busca peliculas por titulo, categoria, descripcion o region
 @movie_bp.route("/search")
 def search():
     query = request.args.get("q", "").strip()
     peliculas = listar_peliculas()
 
+    # si no hay texto buscado no mostramos resultados
     if query:
         lowercase_query = query.lower()
         resultados = [
@@ -89,11 +101,13 @@ def search():
     )
 
 
+# marca like a una pelicula y regresa al detalle
 @movie_bp.route("/<int:movie_id>/like")
 def like(movie_id):
 
     usuario = session.get("usuario")
 
+    # sin sesion no se puede calificar
     if usuario is None:
 
         return redirect(url_for("auth.login"))
@@ -112,6 +126,7 @@ def like(movie_id):
     )
 
 
+# marca dislike a una pelicula y regresa al detalle
 @movie_bp.route("/<int:movie_id>/dislike")
 def dislike(movie_id):
 
@@ -135,13 +150,13 @@ def dislike(movie_id):
     )
 
 
-# guardar historial
-
+# guarda el minuto del video (lo llama el reproductor cada rato via fetch)
 @movie_bp.route("/<int:movie_id>/progreso", methods=["POST"])
 def progreso(movie_id):
 
     usuario = session.get("usuario")
 
+    # sin sesion no guardamos progreso, 401 para que el js no reintente mal
     if usuario is None:
 
         return jsonify(

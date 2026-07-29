@@ -1,5 +1,6 @@
-// Interacciones globales del DOM (navbar, utilidades compartidas).
+// interacciones globales del dom (navbar, utilidades compartidas)
 
+// navbar overlay del home: cuando el scroll pasa el umbral, se pone solido
 (function () {
   const overlayNavbar = document.querySelector(".navbar--overlay");
   if (!overlayNavbar) return;
@@ -14,8 +15,8 @@
   updateNavbarState();
 })();
 
-// Carruseles horizontales (home.html, movie_detail.html): flechas prev/next
-// que desplazan el track un "slide" (ancho de una card + gap).
+// carruseles horizontales (home.html, movie_detail.html): flechas prev/next
+// que mueven el track un "slide" (ancho de una card mas el gap)
 (function () {
   document.querySelectorAll("[data-carousel]").forEach((carousel) => {
     const track = carousel.querySelector("[data-carousel-track]");
@@ -33,8 +34,8 @@
   });
 })();
 
-// Dropdown de perfil (navbar): abre/cierra al click en el avatar, se cierra
-// al hacer click afuera o al presionar Escape.
+// dropdown de perfil (navbar): abre/cierra con el avatar, se cierra al
+// hacer click afuera o al apretar escape
 (function () {
   document.querySelectorAll("[data-profile-menu]").forEach((menu) => {
     const trigger = menu.querySelector("[data-profile-trigger]");
@@ -54,10 +55,12 @@
 
     trigger.addEventListener("click", toggle);
 
+    // click fuera del menu lo cierra
     document.addEventListener("click", (event) => {
       if (!menu.contains(event.target)) close();
     });
 
+    // escape tambien lo cierra
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") close();
     });

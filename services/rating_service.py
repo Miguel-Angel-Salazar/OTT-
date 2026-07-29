@@ -1,12 +1,14 @@
 from config.supabase_config import supabase
 
 
-# like o dislike
+# guarda o actualiza el like/dislike del usuario para esa pelicula
+# valor 1 = like, valor -1 = dislike
 
 def calificar_pelicula(usuario_id, pelicula_id, valor):
 
     try:
 
+        # revisa si el usuario ya habia calificado esta pelicula
         existente = (
             supabase.table("ratings")
             .select("id")
@@ -17,6 +19,7 @@ def calificar_pelicula(usuario_id, pelicula_id, valor):
 
         if existente.data:
 
+            # ya existe, solo actualizamos el valor
             supabase.table("ratings").update(
                 {
                     "valor": valor
@@ -31,6 +34,7 @@ def calificar_pelicula(usuario_id, pelicula_id, valor):
 
         else:
 
+            # primera vez que califica, insertamos
             supabase.table("ratings").insert(
                 {
                     "usuario_id": usuario_id,
@@ -48,7 +52,7 @@ def calificar_pelicula(usuario_id, pelicula_id, valor):
         return False
 
 
-# obtener cantidad de likes
+# cuenta cuantos likes tiene la pelicula
 
 def obtener_likes(pelicula_id):
 
@@ -69,7 +73,7 @@ def obtener_likes(pelicula_id):
         return 0
 
 
-# obtener cantidad de dislikes
+# cuenta cuantos dislikes tiene la pelicula
 
 def obtener_dislikes(pelicula_id):
 

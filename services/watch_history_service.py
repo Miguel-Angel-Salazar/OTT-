@@ -3,10 +3,11 @@ import json
 from pathlib import Path
 
 
-# Local fallback storage for development/testing
+# archivo local de respaldo por si supabase falla (para desarrollo/pruebas)
 LOCAL_DB_PATH = Path("database") / "watch_history_local.json"
 
 
+# lee el json local del historial
 def _load_local_history():
     try:
         if not LOCAL_DB_PATH.exists():
@@ -17,6 +18,7 @@ def _load_local_history():
         return []
 
 
+# guarda el json local del historial
 def _save_local_history(data):
     try:
         LOCAL_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -27,10 +29,11 @@ def _save_local_history(data):
         return False
 
 
-# guardar historial
+# guarda en que minuto/segundo se quedo el usuario viendo la pelicula
 def guardar_historial(usuario_id, pelicula_id, minuto):
 
     try:
+        # revisa si ya hay un registro de este usuario con esta pelicula
         existe = (
             supabase.table("watch_history")
             .select("id")
@@ -55,10 +58,10 @@ def guardar_historial(usuario_id, pelicula_id, minuto):
         return True
 
     except Exception as e:
-        # Supabase failed — fall back to local JSON storage for development
+        # si supabase fallo, guardamos en el json local para no perder el progreso
         try:
             data = _load_local_history()
-            # find existing entry
+            # buscamos si ya habia un registro
             found = False
             for item in data:
                 if item.get("usuario_id") == usuario_id and item.get("pelicula_id") == pelicula_id:
@@ -74,7 +77,7 @@ def guardar_historial(usuario_id, pelicula_id, minuto):
             return False
 
 
-# obtener historial
+# trae el minuto en el que se quedo el usuario en esa pelicula
 def obtener_historial(usuario_id, pelicula_id):
 
     try:
@@ -93,7 +96,7 @@ def obtener_historial(usuario_id, pelicula_id):
         return 0
 
     except Exception:
-        # fallback to local file
+        # si supabase fallo, revisamos el respaldo local
         try:
             data = _load_local_history()
             for item in data:

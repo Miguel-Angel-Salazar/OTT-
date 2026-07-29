@@ -44,12 +44,15 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
                 Reproducir
             </a>
-            {# TODO: conectar con favorite_service.py cuando exista (agregar/quitar de favoritos) #}
-            <button type="button" class="hero__fav" aria-label="Agregar a mi lista">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
-                </svg>
-            </button>
+            {# favorito de la destacada, mismo endpoint que usa el detalle #}
+            <form action="{{ url_for('favorite.toggle', pelicula_id=destacada.id) }}" method="POST">
+                <button type="submit" class="hero__fav {{ 'hero__fav--active' if destacada_favorito else '' }}"
+                        aria-label="{{ 'quitar de mi lista' if destacada_favorito else 'agregar a mi lista' }}">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="{{ 'currentColor' if destacada_favorito else 'none' }}" stroke="currentColor" stroke-width="1.5">
+                        <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+                    </svg>
+                </button>
+            </form>
         </div>
     </div>
 
@@ -100,7 +103,7 @@
     </div>
 </section>
 
-<section class="carousel-section"  id="mi-lista">
+<section class="carousel-section" id="cine-colombiano">
     <div class="carousel-section__header">
         <h2 class="carousel-section__title">Cine Colombiano</h2>
         <div class="carousel-section__nav">

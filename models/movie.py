@@ -1,6 +1,7 @@
 from config.supabase_config import SUPABASE_URL
 
 
+# representa una fila de la tabla movies como objeto, en vez de un dict crudo
 class Movie:
 
     def __init__(
@@ -23,11 +24,14 @@ class Movie:
         self.region = region
         self.imagen_url = imagen_url
         self.video_url = video_url
+        # si no viene hero_url usamos la misma imagen del poster
         self.hero_url = hero_url or imagen_url
         self.tipo = tipo
 
+    # arma un Movie a partir de la fila que devuelve supabase
     @classmethod
     def from_dict(cls, data):
+        # arregla la ruta de imagenes locales para que sirvan con url_for
         def normalize_static_path(url):
             if not url:
                 return url
@@ -35,8 +39,8 @@ class Movie:
                 return url
             if url.startswith('static/') or url.startswith('/static/'):
                 normalized = '/' + url.lstrip('/')
-                # Some records may still use older directory names - map them
-                # to the current `static/images/` location used in the repo.
+                # algunos registros viejos usan otro nombre de carpeta, los mapeamos
+                # a la carpeta actual static/images/ que si existe en el repo
                 normalized = normalized.replace('/static/pictures/', '/static/images/')
                 normalized = normalized.replace('/static/picture/', '/static/images/')
                 return normalized

@@ -1,13 +1,13 @@
 from config.supabase_config import supabase
 
 
-# register
+# crea la cuenta en supabase auth y guarda el registro en profiles
 
 def register_user(nombre, email, password, region):
 
     try:
 
-        # crear usuario en Supabase Auth
+        # crear usuario en supabase auth
         response = supabase.auth.sign_up(
             {
                 "email": email,
@@ -22,7 +22,7 @@ def register_user(nombre, email, password, region):
         if response.user is None:
             return "No se pudo crear la cuenta."
 
-        # guarda informacion adicional
+        # guarda informacion adicional (nombre, region) en la tabla profiles
         supabase.table("profiles").insert(
             {
                 "id": response.user.id,
@@ -31,7 +31,9 @@ def register_user(nombre, email, password, region):
             }
         ).execute()
 
-        return "Cuenta creada correctamente. Revisa tu correo para verificarla."
+        # devolvemos el usuario (no un mensaje) para que el controller sepa
+        # que si funciono, igual que hace login_user
+        return response.user
 
     except Exception as e:
 
@@ -40,7 +42,8 @@ def register_user(nombre, email, password, region):
 
 
 
-# login
+# valida el email y clave contra supabase auth
+
 def login_user(email, password):
 
     try:
@@ -52,6 +55,7 @@ def login_user(email, password):
             }
         )
 
+        # credenciales invalidas
         if response.user is None:
             return None
 
@@ -63,8 +67,8 @@ def login_user(email, password):
         return str(e)
 
 
-# perfil (nombre, region, suscripcion) — la tabla `profiles`, no viene en el
-# objeto de Supabase Auth
+# perfil (nombre, region, suscripcion) - la tabla profiles, no viene en el
+# objeto de supabase auth
 def obtener_perfil(usuario_id):
 
     try:
@@ -84,7 +88,7 @@ def obtener_perfil(usuario_id):
         print("ERROR PERFIL:", e)
         return None
 
-# recuperacion de contraseña
+# manda el correo de recuperacion de clave (lo maneja supabase auth)
 
 def enviar_correo_recuperacion(email):
 
@@ -97,6 +101,7 @@ def enviar_correo_recuperacion(email):
             }
         )
 
+        # siempre devolvemos el mismo mensaje, asi no se sabe si el correo existe o no
         return "Si el correo está registrado, recibirás un enlace para recuperar tu contraseña."
 
     except Exception as e:
@@ -106,7 +111,7 @@ def enviar_correo_recuperacion(email):
 
 
 
-# cambiar la contraseña
+# cambia la clave del usuario que ya viene autenticado por el link del correo
 
 def actualizar_password(password):
 

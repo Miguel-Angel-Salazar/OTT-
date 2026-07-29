@@ -40,8 +40,8 @@
                     href="{{ url_for('home.inicio') }}#mi-lista">
                     Mi Lista
                 </a>
-                {# TODO: reemplazar "#" por url_for('movie.cine_colombiano') cuando exista el Blueprint de películas #}
-                <a class="navbar__link {{ 'is-active' if active_page == 'catalog' else '' }}" href="#">
+                <a class="navbar__link {{ 'is-active' if active_page == 'catalog' else '' }}"
+                    href="{{ url_for('home.inicio') }}#cine-colombiano">
                     Cine Colombiano
                 </a>
             </nav>
@@ -84,8 +84,7 @@
                             Cuenta
                         </a>
 
-                        {# TODO: reemplazar "#" por url_for('profile.suscripcion') cuando exista subscription.html conectada #}
-                        <a class="navbar__dropdown-item" href="#">
+                        <a class="navbar__dropdown-item" href="{{ url_for('profile.profile') }}">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <rect x="3" y="5" width="18" height="14" rx="2"></rect>
                                 <line x1="3" y1="10" x2="21" y2="10"></line>
@@ -93,8 +92,7 @@
                             Suscripción · {{ current_user.suscripcion }}
                         </a>
 
-                        {# TODO: sin ruta de ayuda real todavía #}
-                        <a class="navbar__dropdown-item" href="#">
+                        <a class="navbar__dropdown-item" href="{{ url_for('home.ayuda') }}">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <circle cx="12" cy="12" r="9"></circle>
                                 <path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.2 1.8-2.5 3.4"></path>

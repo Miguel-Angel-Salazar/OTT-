@@ -6,6 +6,10 @@
     {% include "components/_navbar.html" %}
 {% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/slider.css') }}">
+{% endblock %}
+
 {% block content %}
 <section class="search-results">
     <div class="search-results__header">

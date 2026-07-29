@@ -3,5 +3,10 @@
     "usuario_id": "848eadbd-192b-432a-bd92-33415e808e66",
     "pelicula_id": 4,
     "minuto": 20
+  },
+  {
+    "usuario_id": "d6bee750-6c4f-494d-9fdb-0d98f3e6230d",
+    "pelicula_id": 2,
+    "minuto": 106
   }
 ]

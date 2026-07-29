@@ -1,6 +1,7 @@
 from config.supabase_config import supabase
 
 
+# cambia el plan de suscripcion del usuario en la tabla profiles
 def actualizar_suscripcion(user_id, nuevo_plan):
 
     try:
@@ -25,12 +26,13 @@ def actualizar_suscripcion(user_id, nuevo_plan):
         return False
 
 
-# cambiar contraseña
+# cambia la contraseña del perfil (pide la clave actual primero)
 
 def cambiar_password(email, current_password, new_password):
 
     try:
 
+        # reautenticamos con la clave actual para confirmar que si es el dueño
         response = supabase.auth.sign_in_with_password(
             {
                 "email": email,
