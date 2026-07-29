@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, session, url_for, abort
+from services.favorite_service import es_favorito
 
 # TODO: reemplazar por movie_service.py (consultando la tabla `movies` de
 # Supabase) cuando ese servicio exista. Por ahora reusamos los mismos datos
@@ -23,6 +24,17 @@ def detalle(movie_id):
 
     recomendaciones = [m for m in PELICULAS_MOCK if m["id"] != movie_id]
 
+    favorito = False
+
+    if session.get("usuario"):
+
+        favorito = es_favorito(
+            session["usuario"]["id"],
+            movie_id
+        )
+
+    print("Favorito:", favorito)
+
     return render_template(
         "movie_detail.html",
         current_user=session.get("usuario"),
@@ -30,4 +42,5 @@ def detalle(movie_id):
         back_url=url_for("home.inicio"),
         movie=pelicula,
         recomendaciones=recomendaciones,
+        favorito=favorito
     )
