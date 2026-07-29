@@ -106,7 +106,7 @@ def enviar_correo_recuperacion(email):
 
 
 
-# cambiar contraseña
+# cambiar la contraseña
 
 def actualizar_password(password):
 
