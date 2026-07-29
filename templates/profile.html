@@ -44,4 +44,83 @@
 
 <p><strong>Región:</strong> {{ current_user.region }}</p>
 
+<hr>
+
+<h2>Cambiar contraseña</h2>
+
+<button
+    type="button"
+    onclick="mostrarFormulario()">
+    Cambiar contraseña
+</button>
+
+<br><br>
+
+<div
+    id="form-password"
+    style="display: none;">
+
+    <form action="{{ url_for('profile.profile') }}" method="POST">
+
+        <label>Contraseña actual</label><br>
+        <input
+            type="password"
+            name="current_password"
+            required
+        >
+
+        <br><br>
+
+        <label>Nueva contraseña</label><br>
+        <input
+            type="password"
+            name="new_password"
+            required
+        >
+
+        <br><br>
+
+        <label>Confirmar contraseña</label><br>
+        <input
+            type="password"
+            name="confirm_password"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Guardar cambios
+        </button>
+
+    </form>
+
+</div>
+
+<br>
+
+{% if mensaje_password %}
+    <p>{{ mensaje_password }}</p>
+{% endif %}
+
+<script>
+
+function mostrarFormulario() {
+
+    const formulario = document.getElementById("form-password");
+
+    if (formulario.style.display === "none") {
+
+        formulario.style.display = "block";
+
+    } else {
+
+        formulario.style.display = "none";
+
+    }
+
+}
+
+</script>
+
 {% endblock %}
