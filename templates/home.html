@@ -15,7 +15,7 @@
 
 <section class="hero">
         {% if destacada and destacada.hero_url and destacada.hero_url.startswith('/static/') %}
-               {% set _hf = destacada.hero_url.lstrip('/') %}
+               {% set _hf = destacada.hero_url[8:] %}
                <img src="{{ url_for('static', filename=_hf) }}" alt="{{ destacada.titulo }}" class="hero__image"
                    onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder.svg') }}';">
         {% else %}

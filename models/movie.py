@@ -28,20 +28,21 @@ class Movie:
 
     @classmethod
     def from_dict(cls, data):
-        imagen = data.get("imagen_url")
-        # normalize imagen_url:
-        # - if absolute (http...) keep as-is
-        # - if points to local static files (starts with 'static/'), serve from /static/
-        # - otherwise assume it's a Supabase storage object path and build public URL
-        if imagen:
-            if imagen.startswith('http'):
-                pass
-            elif imagen.startswith('static/') or imagen.startswith('/static/'):
-                imagen = '/' + imagen.lstrip('/')
-            elif SUPABASE_URL:
-                imagen = f"{SUPABASE_URL.rstrip('/')}/storage/v1/object/public/movies/{imagen.lstrip('/')}"
+        def normalize_static_path(url):
+            if not url:
+                return url
+            if url.startswith('http'):
+                return url
+            if url.startswith('static/') or url.startswith('/static/'):
+                normalized = '/' + url.lstrip('/')
+                # Some records may still use the old pictures/ directory name.
+                return normalized.replace('/static/pictures/', '/static/images/', 1)
+            if SUPABASE_URL:
+                return f"{SUPABASE_URL.rstrip('/')}/storage/v1/object/public/movies/{url.lstrip('/')}"
+            return url
 
-        hero = data.get("hero_url") or imagen
+        imagen = normalize_static_path(data.get("imagen_url"))
+        hero = normalize_static_path(data.get("hero_url")) if data.get("hero_url") else imagen
 
         return cls(
             id=data.get("id"),

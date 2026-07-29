@@ -15,7 +15,7 @@
 <a class="movie-card" href="{{ url_for('movie.detalle', movie_id=movie.id) }}" aria-label="{{ movie.titulo }}">
     <div class="movie-card__poster">
            {% if movie.imagen_url and movie.imagen_url.startswith('/static/') %}
-              {% set _fn = movie.imagen_url.lstrip('/') %}
+              {% set _fn = movie.imagen_url[8:] %}
               <img src="{{ url_for('static', filename=_fn) }}" alt="{{ movie.titulo }}" loading="lazy"
                   onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder.svg') }}';">
            {% else %}
