@@ -83,3 +83,47 @@ def obtener_perfil(usuario_id):
 
         print("ERROR PERFIL:", e)
         return None
+
+# recuperacion de contraseña
+
+def enviar_correo_recuperacion(email):
+
+    try:
+
+        supabase.auth.reset_password_for_email(
+            email,
+            {
+                "redirect_to": "http://127.0.0.1:5000/auth/reset-password"
+            }
+        )
+
+        return "Si el correo está registrado, recibirás un enlace para recuperar tu contraseña."
+
+    except Exception as e:
+
+        print("ERROR RECUPERACION:", e)
+        return f"Error: {str(e)}"
+
+
+
+# cambiar contraseña
+
+def actualizar_password(password):
+
+    try:
+
+        response = supabase.auth.update_user(
+            {
+                "password": password
+            }
+        )
+
+        if response.user is None:
+            return "No se pudo actualizar la contraseña."
+
+        return "Contraseña actualizada correctamente."
+
+    except Exception as e:
+
+        print("ERROR CAMBIO PASSWORD:", e)
+        return f"Error: {str(e)}"
