@@ -7,8 +7,9 @@
 
   video.addEventListener("loadedmetadata", () => {
     const minuto = parseInt(video.dataset.minuto, 10);
-    if (!isNaN(minuto) && minuto > 0) {
-      video.currentTime = minuto * 60;
+    // `minuto` here stores seconds for finer-grained resume support
+    if (!isNaN(minuto) && minuto > 0 && minuto < (video.duration || Infinity) - 1) {
+      video.currentTime = minuto;
     }
   });
 
@@ -155,15 +156,41 @@
     if (video.paused || !video.duration) return;
     if (!root.dataset.movieId) return;
 
+    // send seconds for finer resume granularity
     fetch(`/movie/${root.dataset.movieId}/progreso`, {
       method: "POST",
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        minuto: Math.floor(video.currentTime),
-      }),
+      body: JSON.stringify({ minuto: Math.floor(video.currentTime) }),
     }).catch(() => {});
   }, 15000);
+
+  // send progress immediately (in minutes) — used on pause/unload
+  function sendProgressNow() {
+    if (!root.dataset.movieId || !video.duration) return;
+    try {
+      const payload = JSON.stringify({ minuto: Math.floor(video.currentTime) });
+      const url = `/movie/${root.dataset.movieId}/progreso`;
+      if (navigator.sendBeacon) {
+        const blob = new Blob([payload], { type: "application/json" });
+        navigator.sendBeacon(url, blob);
+      } else {
+        fetch(url, {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: payload,
+          keepalive: true,
+        }).catch(() => {});
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  video.addEventListener("pause", sendProgressNow);
+  window.addEventListener("pagehide", sendProgressNow);
+  window.addEventListener("beforeunload", sendProgressNow);
 })();
