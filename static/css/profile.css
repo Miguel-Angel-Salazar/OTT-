@@ -74,6 +74,7 @@
 .account-field {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   gap: var(--space-sm);
   padding-block: 0.6rem;
   border-bottom: 1px solid var(--border-color);
@@ -86,11 +87,14 @@
 
 .account-field__label {
   color: var(--text-muted);
+  flex-shrink: 0;
 }
 
 .account-field__value {
   color: var(--text-main);
   text-align: right;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .plan-options {
