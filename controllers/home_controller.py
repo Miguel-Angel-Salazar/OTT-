@@ -73,3 +73,4 @@ def ayuda():
         "help.html",
         current_user=session.get("usuario")
     )
+    
