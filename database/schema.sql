@@ -1,9 +1,26 @@
+-- ============================================================
+-- Schema para OTT - PostgreSQL directo (sin Supabase)
+-- ============================================================
+
+-- tabla de usuarios (reemplaza auth.users de supabase)
+
+CREATE TABLE IF NOT EXISTS users (
+
+    id SERIAL PRIMARY KEY,
+
+    email VARCHAR(255) UNIQUE NOT NULL,
+
+    password_hash VARCHAR(255) NOT NULL,
+
+    created_at TIMESTAMP DEFAULT NOW()
+
+);
 
 -- tabla de perfiles
 
-CREATE TABLE profiles (
+CREATE TABLE IF NOT EXISTS profiles (
 
-    id UUID PRIMARY KEY REFERENCES auth.users(id),
+    id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
 
     nombre VARCHAR(100) NOT NULL,
 
@@ -11,13 +28,13 @@ CREATE TABLE profiles (
 
     suscripcion VARCHAR(20) NOT NULL DEFAULT 'Sin plan',
 
-    created_at TIMESTAMP DEFAULT now()
+    created_at TIMESTAMP DEFAULT NOW()
 
 );
 
 -- tabla de peliculas
 
-CREATE TABLE movies (
+CREATE TABLE IF NOT EXISTS movies (
 
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 
@@ -31,48 +48,56 @@ CREATE TABLE movies (
 
     video_url TEXT,
 
-    imagen_url TEXT
+    imagen_url TEXT,
+
+    hero_url TEXT,
+
+    tipo VARCHAR(50)
 
 );
 
 -- tabla de favoritos
 
-CREATE TABLE favorites (
+CREATE TABLE IF NOT EXISTS favorites (
 
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 
-    usuario_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+    usuario_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
 
-    pelicula_id BIGINT REFERENCES movies(id) ON DELETE CASCADE
+    pelicula_id BIGINT REFERENCES movies(id) ON DELETE CASCADE,
+
+    UNIQUE(usuario_id, pelicula_id)
 
 );
 
 -- tabla de historial
 
-CREATE TABLE watch_history (
+CREATE TABLE IF NOT EXISTS watch_history (
 
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 
-    usuario_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+    usuario_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
 
     pelicula_id BIGINT REFERENCES movies(id) ON DELETE CASCADE,
 
-    minuto INTEGER DEFAULT 0
+    minuto INTEGER DEFAULT 0,
+
+    UNIQUE(usuario_id, pelicula_id)
 
 );
 
 -- tabla de ratings
 
-create table ratings (
+CREATE TABLE IF NOT EXISTS ratings (
 
-    id bigint generated always as identity primary key,
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 
-    usuario_id uuid references profiles(id) on delete cascade,
+    usuario_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
 
-    pelicula_id bigint references movies(id) on delete cascade,
+    pelicula_id BIGINT REFERENCES movies(id) ON DELETE CASCADE,
 
-    valor integer not null,
+    valor INTEGER NOT NULL,
 
-    unique(usuario_id, pelicula_id)
+    UNIQUE(usuario_id, pelicula_id)
 
 );
