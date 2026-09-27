@@ -13,31 +13,34 @@
 
 {% block content %}
 
+{% if destacada %}
 <section class="hero">
-        {% if destacada and destacada.hero_url and destacada.hero_url.startswith('/static/') %}
+        {% if destacada.hero_url and destacada.hero_url.startswith('/static/') %}
                {% set _hf = destacada.hero_url[8:] %}
                <img src="{{ url_for('static', filename=_hf) }}" alt="{{ destacada.titulo }}" class="hero__image"
                    onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder.svg') }}';">
-        {% else %}
+        {% elif destacada.hero_url %}
                <img src="{{ destacada.hero_url }}" alt="{{ destacada.titulo }}" class="hero__image"
                    onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder.svg') }}';">
+        {% else %}
+               <img src="{{ url_for('static', filename='images/placeholder.svg') }}" alt="{{ destacada.titulo }}" class="hero__image">
         {% endif %}
     <div class="hero__gradient-bottom"></div>
     <div class="hero__gradient-side"></div>
 
-    <span class="hero__badge">Destacada · {{ destacada.region }}</span>
+    <span class="hero__badge">Destacada · {{ destacada.region or 'General' }}</span>
 
     <div class="hero__content">
         <p class="hero__eyebrow">Película del día</p>
         <h1 class="hero__title">{{ destacada.titulo }}</h1>
 
         <div class="hero__meta">
-            <span>{{ destacada.region }}</span>
+            <span>{{ destacada.region or 'General' }}</span>
             <span class="hero__dot">·</span>
-            <span>{{ destacada.categoria }}</span>
+            <span>{{ destacada.categoria or 'Cine' }}</span>
         </div>
 
-        <p class="hero__synopsis">{{ destacada.descripcion | truncate(128) }}</p>
+        <p class="hero__synopsis">{{ (destacada.descripcion or '') | truncate(128) }}</p>
 
         <div class="hero__actions">
             <a href="{{ url_for('movie.detalle', movie_id=destacada.id) }}" class="btn btn-primary hero__play">
@@ -62,6 +65,14 @@
         <span>{{ "%02d" | format(recomendadas | length) }}</span>
     </div>
 </section>
+{% else %}
+<section class="hero hero--empty" style="min-height: 250px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 40px 20px;">
+    <div class="hero__content" style="position: static; max-width: 600px;">
+        <h1 class="hero__title" style="font-size: 2rem;">¡Bienvenido a CINÉFILO!</h1>
+        <p class="hero__synopsis">El catálogo se está actualizando. Pronto encontrarás tus títulos favoritos.</p>
+    </div>
+</section>
+{% endif %}
 
 <section class="carousel-section">
     <div class="carousel-section__header">

@@ -1,6 +1,8 @@
 import os
 
+# pyrefly: ignore [missing-import]
 from dotenv import load_dotenv
+# pyrefly: ignore [missing-import]
 from flask import Flask, redirect, url_for
 
 # blueprints de cada modulo de la app
@@ -11,7 +13,7 @@ from controllers.profile_controller import profile_bp
 from controllers.favorite_controller import favorite_bp
 
 
-# carga las variables del .env (supabase, secret key, etc)
+# carga las variables del .env (base de datos, secret key, etc)
 load_dotenv()
 
 app = Flask(__name__)

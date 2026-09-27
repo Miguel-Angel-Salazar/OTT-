@@ -22,10 +22,12 @@ def inicio():
     user_region = user_region.strip()
 
     if usuario and user_region:
-        peliculas = [
+        peliculas_filtradas = [
             m for m in peliculas
-            if m.region and m.region.strip().lower() == user_region.lower()
+            if m.region and (m.region.strip().lower() == user_region.lower() or m.region.strip().upper() == "GLOBAL")
         ]
+        if peliculas_filtradas:
+            peliculas = peliculas_filtradas
 
     # la primera pelicula del listado es la destacada del hero
     destacada = peliculas[0] if peliculas else None
