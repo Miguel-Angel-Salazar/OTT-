@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Mi cuenta — CINÉFILO{% endblock %}
+
+{% block navbar %}
+    {% include "components/_navbar.html" %}
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="account-page">
+    <div class="account-header">
+        <span class="account-header__avatar">{{ current_user.nombre[0] | upper }}</span>
+        <div>
+            <h1 class="account-header__name">{{ current_user.nombre }}</h1>
+            <p class="account-header__email">{{ current_user.email }}</p>
+        </div>
+    </div>
+
+    <div class="account-grid">
+
+        <div class="account-card">
+            <h2 class="account-card__title">Datos de la cuenta</h2>
+
+            <div class="account-field">
+                <span class="account-field__label">Nombre</span>
+                <span class="account-field__value">{{ current_user.nombre }}</span>
+            </div>
+            <div class="account-field">
+                <span class="account-field__label">Correo</span>
+                <span class="account-field__value">{{ current_user.email }}</span>
+            </div>
+            <div class="account-field">
+                <span class="account-field__label">Región</span>
+                <span class="account-field__value">{{ current_user.region }}</span>
+            </div>
+        </div>
+
+        <div class="account-card">
+            <h2 class="account-card__title">Suscripción</h2>
+            <p class="account-card__subtitle">Plan actual: <strong>{{ current_user.suscripcion }}</strong></p>
+
+            <form action="{{ url_for('profile.profile') }}" method="POST" class="plan-options">
+                <button type="submit" name="plan" value="Basica"
+                        class="plan-option {{ 'plan-option--active' if current_user.suscripcion == 'Basica' else '' }}">
+                    <span class="plan-option__name">Básica</span>
+                    <span class="plan-option__desc">Catálogo completo, calidad estándar</span>
+                </button>
+
+                <button type="submit" name="plan" value="Premium"
+                        class="plan-option {{ 'plan-option--active' if current_user.suscripcion == 'Premium' else '' }}">
+                    <span class="plan-option__name">Premium</span>
+                    <span class="plan-option__desc">Catálogo completo, calidad alta</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="account-card">
+            <h2 class="account-card__title">Cambiar contraseña</h2>
+
+            <button type="button" class="btn btn-secondary" id="toggle-password-form">
+                Cambiar contraseña
+            </button>
+
+            <form action="{{ url_for('profile.profile') }}" method="POST"
+                  class="password-form" id="password-form" hidden>
+
+                <div class="form-group">
+                    <label>Contraseña actual</label>
+                    <input type="password" name="current_password" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Nueva contraseña</label>
+                    <input type="password" name="new_password" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirmar nueva contraseña</label>
+                    <input type="password" name="confirm_password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </form>
+
+            {% if mensaje_password %}
+                <p class="form-message">{{ mensaje_password }}</p>
+            {% endif %}
+        </div>
+
+    </div>
+</section>
+
+<script>
+    (function () {
+        var toggleBtn = document.getElementById("toggle-password-form");
+        var form = document.getElementById("password-form");
+
+        toggleBtn.addEventListener("click", function () {
+            form.hidden = !form.hidden;
+        });
+    })();
+</script>
+{% endblock %}
