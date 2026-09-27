@@ -1,39 +1,52 @@
-from config.supabase_config import supabase
+import bcrypt
+from types import SimpleNamespace
+from config.db_config import get_connection
 
 
-# crea la cuenta en supabase auth y guarda el registro en profiles
+# crea la cuenta en la tabla users y guarda el registro en profiles
 
 def register_user(nombre, email, password, region):
 
     try:
 
-        # crear usuario en supabase auth
-        response = supabase.auth.sign_up(
-            {
-                "email": email,
-                "password": password,
-                "options": {
-                    "email_redirect_to": "http://127.0.0.1:5000/auth/login"
-                }
-            }
-        )
+        conn = get_connection()
+        cur = conn.cursor()
 
-        # verificar que el usuario se creo
-        if response.user is None:
-            return "No se pudo crear la cuenta."
+        # verificar si el correo ya esta registrado
+        cur.execute("SELECT id FROM users WHERE email = %s", (email,))
+
+        if cur.fetchone():
+            cur.close()
+            conn.close()
+            return "El correo ya está registrado."
+
+        # hashear la contraseña con bcrypt
+        password_hash = bcrypt.hashpw(
+            password.encode("utf-8"),
+            bcrypt.gensalt()
+        ).decode("utf-8")
+
+        # crear usuario en la tabla users
+        cur.execute(
+            "INSERT INTO users (email, password_hash) VALUES (%s, %s) RETURNING id",
+            (email, password_hash)
+        )
+        user_row = cur.fetchone()
+        user_id = user_row["id"]
 
         # guarda informacion adicional (nombre, region) en la tabla profiles
-        supabase.table("profiles").insert(
-            {
-                "id": response.user.id,
-                "nombre": nombre,
-                "region": region
-            }
-        ).execute()
+        cur.execute(
+            "INSERT INTO profiles (id, nombre, region) VALUES (%s, %s, %s)",
+            (user_id, nombre, region)
+        )
 
-        # devolvemos el usuario (no un mensaje) para que el controller sepa
-        # que si funciono, igual que hace login_user
-        return response.user
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        # devolvemos un objeto con id y email para que el controller sepa
+        # que si funciono, igual que hacia con supabase
+        return SimpleNamespace(id=user_id, email=email)
 
     except Exception as e:
 
@@ -42,24 +55,36 @@ def register_user(nombre, email, password, region):
 
 
 
-# valida el email y clave contra supabase auth
+# valida el email y clave contra la tabla users con bcrypt
 
 def login_user(email, password):
 
     try:
 
-        response = supabase.auth.sign_in_with_password(
-            {
-                "email": email,
-                "password": password
-            }
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute(
+            "SELECT id, email, password_hash FROM users WHERE email = %s",
+            (email,)
         )
+        user = cur.fetchone()
 
-        # credenciales invalidas
-        if response.user is None:
-            return None
+        cur.close()
+        conn.close()
 
-        return response.user
+        # si no existe el usuario
+        if user is None:
+            return "Credenciales inválidas."
+
+        # verificar la contraseña con bcrypt
+        if not bcrypt.checkpw(
+            password.encode("utf-8"),
+            user["password_hash"].encode("utf-8")
+        ):
+            return "Credenciales inválidas."
+
+        return SimpleNamespace(id=user["id"], email=user["email"])
 
     except Exception as e:
 
@@ -67,68 +92,48 @@ def login_user(email, password):
         return str(e)
 
 
-# perfil (nombre, region, suscripcion) - la tabla profiles, no viene en el
-# objeto de supabase auth
+# perfil (nombre, region, suscripcion) de la tabla profiles
 def obtener_perfil(usuario_id):
 
     try:
 
-        response = (
-            supabase.table("profiles")
-            .select("nombre, region, suscripcion")
-            .eq("id", usuario_id)
-            .single()
-            .execute()
-        )
+        conn = get_connection()
+        cur = conn.cursor()
 
-        return response.data
+        cur.execute(
+            "SELECT nombre, region, suscripcion FROM profiles WHERE id = %s",
+            (usuario_id,)
+        )
+        perfil = cur.fetchone()
+
+        cur.close()
+        conn.close()
+
+        return dict(perfil) if perfil else None
 
     except Exception as e:
 
         print("ERROR PERFIL:", e)
         return None
 
-# manda el correo de recuperacion de clave (lo maneja supabase auth)
+
+# la recuperacion de clave por correo requiere configurar SMTP.
+# por ahora devolvemos un mensaje informativo.
 
 def enviar_correo_recuperacion(email):
 
-    try:
-
-        supabase.auth.reset_password_for_email(
-            email,
-            {
-                "redirect_to": "http://127.0.0.1:5000/auth/reset-password"
-            }
-        )
-
-        # siempre devolvemos el mismo mensaje, asi no se sabe si el correo existe o no
-        return "Si el correo está registrado, recibirás un enlace para recuperar tu contraseña."
-
-    except Exception as e:
-
-        print("ERROR RECUPERACION:", e)
-        return f"Error: {str(e)}"
+    return (
+        "La recuperación de contraseña por correo no está disponible "
+        "en este momento. Contacte al administrador."
+    )
 
 
-
-# cambia la clave del usuario que ya viene autenticado por el link del correo
+# el cambio de clave desde un link externo requiere un flujo con tokens.
+# por ahora se puede cambiar desde el perfil con la clave actual.
 
 def actualizar_password(password):
 
-    try:
-
-        response = supabase.auth.update_user(
-            {
-                "password": password
-            }
-        )
-
-        if response.user is None:
-            return "No se pudo actualizar la contraseña."
-
-        return "Contraseña actualizada correctamente."
-
-    except Exception as e:
-
-        print("ERROR CAMBIO PASSWORD:", e)
-        return f"Error: {str(e)}"
+    return (
+        "La recuperación de contraseña por enlace no está disponible "
+        "en este momento. Use la opción de cambiar contraseña desde su perfil."
+    )

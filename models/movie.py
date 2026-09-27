@@ -1,4 +1,3 @@
-from config.supabase_config import SUPABASE_URL
 
 
 # representa una fila de la tabla movies como objeto, en vez de un dict crudo
@@ -28,7 +27,7 @@ class Movie:
         self.hero_url = hero_url or imagen_url
         self.tipo = tipo
 
-    # arma un Movie a partir de la fila que devuelve supabase
+    # arma un Movie a partir de la fila que devuelve la base de datos
     @classmethod
     def from_dict(cls, data):
         # arregla la ruta de imagenes locales para que sirvan con url_for
@@ -44,9 +43,8 @@ class Movie:
                 normalized = normalized.replace('/static/pictures/', '/static/images/')
                 normalized = normalized.replace('/static/picture/', '/static/images/')
                 return normalized
-            if SUPABASE_URL:
-                return f"{SUPABASE_URL.rstrip('/')}/storage/v1/object/public/movies/{url.lstrip('/')}"
-            return url
+            # por defecto asumimos que es una ruta relativa bajo static/images/
+            return '/static/images/' + url.lstrip('/')
 
         imagen = normalize_static_path(data.get("imagen_url"))
         hero = normalize_static_path(data.get("hero_url")) if data.get("hero_url") else imagen

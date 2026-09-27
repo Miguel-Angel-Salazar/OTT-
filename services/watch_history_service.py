@@ -1,9 +1,9 @@
-from config.supabase_config import supabase
+from config.db_config import get_connection
 import json
 from pathlib import Path
 
 
-# archivo local de respaldo por si supabase falla (para desarrollo/pruebas)
+# archivo local de respaldo por si la bd falla (para desarrollo/pruebas)
 LOCAL_DB_PATH = Path("database") / "watch_history_local.json"
 
 
@@ -33,32 +33,25 @@ def _save_local_history(data):
 def guardar_historial(usuario_id, pelicula_id, minuto):
 
     try:
-        # revisa si ya hay un registro de este usuario con esta pelicula
-        existe = (
-            supabase.table("watch_history")
-            .select("id")
-            .eq("usuario_id", usuario_id)
-            .eq("pelicula_id", pelicula_id)
-            .execute()
-        )
+        conn = get_connection()
+        cur = conn.cursor()
 
-        if existe.data:
-            supabase.table("watch_history").update({"minuto": minuto}).eq(
-                "usuario_id", usuario_id
-            ).eq("pelicula_id", pelicula_id).execute()
-        else:
-            supabase.table("watch_history").insert(
-                {
-                    "usuario_id": usuario_id,
-                    "pelicula_id": pelicula_id,
-                    "minuto": minuto,
-                }
-            ).execute()
+        # usa UPSERT para insertar o actualizar en una sola operacion
+        cur.execute("""
+            INSERT INTO watch_history (usuario_id, pelicula_id, minuto)
+            VALUES (%s, %s, %s)
+            ON CONFLICT (usuario_id, pelicula_id)
+            DO UPDATE SET minuto = EXCLUDED.minuto
+        """, (usuario_id, pelicula_id, minuto))
+
+        conn.commit()
+        cur.close()
+        conn.close()
 
         return True
 
     except Exception as e:
-        # si supabase fallo, guardamos en el json local para no perder el progreso
+        # si la bd fallo, guardamos en el json local para no perder el progreso
         try:
             data = _load_local_history()
             # buscamos si ya habia un registro
@@ -81,22 +74,25 @@ def guardar_historial(usuario_id, pelicula_id, minuto):
 def obtener_historial(usuario_id, pelicula_id):
 
     try:
-        respuesta = (
-            supabase.table("watch_history")
-            .select("minuto")
-            .eq("usuario_id", usuario_id)
-            .eq("pelicula_id", pelicula_id)
-            .single()
-            .execute()
-        )
+        conn = get_connection()
+        cur = conn.cursor()
 
-        if respuesta.data:
-            return respuesta.data["minuto"]
+        cur.execute(
+            "SELECT minuto FROM watch_history WHERE usuario_id = %s AND pelicula_id = %s",
+            (usuario_id, pelicula_id)
+        )
+        row = cur.fetchone()
+
+        cur.close()
+        conn.close()
+
+        if row:
+            return row["minuto"]
 
         return 0
 
     except Exception:
-        # si supabase fallo, revisamos el respaldo local
+        # si la bd fallo, revisamos el respaldo local
         try:
             data = _load_local_history()
             for item in data:

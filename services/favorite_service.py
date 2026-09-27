@@ -1,19 +1,23 @@
-from config.supabase_config import supabase
+from config.db_config import get_connection
 
 
 # revisa si esa pelicula ya esta en favoritos del usuario
 def es_favorito(usuario_id, pelicula_id):
 
     try:
-        response = (
-            supabase.table("favorites")
-            .select("*")
-            .eq("usuario_id", usuario_id)
-            .eq("pelicula_id", pelicula_id)
-            .execute()
-        )
+        conn = get_connection()
+        cur = conn.cursor()
 
-        return len(response.data) > 0
+        cur.execute(
+            "SELECT 1 FROM favorites WHERE usuario_id = %s AND pelicula_id = %s",
+            (usuario_id, pelicula_id)
+        )
+        result = cur.fetchone()
+
+        cur.close()
+        conn.close()
+
+        return result is not None
 
     except Exception as e:
         print(e)
@@ -24,12 +28,17 @@ def es_favorito(usuario_id, pelicula_id):
 def agregar_favorito(usuario_id, pelicula_id):
 
     try:
-        supabase.table("favorites").insert(
-            {
-                "usuario_id": usuario_id,
-                "pelicula_id": pelicula_id
-            }
-        ).execute()
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute(
+            "INSERT INTO favorites (usuario_id, pelicula_id) VALUES (%s, %s) ON CONFLICT DO NOTHING",
+            (usuario_id, pelicula_id)
+        )
+
+        conn.commit()
+        cur.close()
+        conn.close()
 
         return True
 
@@ -42,13 +51,17 @@ def agregar_favorito(usuario_id, pelicula_id):
 def eliminar_favorito(usuario_id, pelicula_id):
 
     try:
-        (
-            supabase.table("favorites")
-            .delete()
-            .eq("usuario_id", usuario_id)
-            .eq("pelicula_id", pelicula_id)
-            .execute()
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute(
+            "DELETE FROM favorites WHERE usuario_id = %s AND pelicula_id = %s",
+            (usuario_id, pelicula_id)
         )
+
+        conn.commit()
+        cur.close()
+        conn.close()
 
         return True
 
@@ -72,14 +85,19 @@ def toggle_favorito(usuario_id, pelicula_id):
 def obtener_favoritos(usuario_id, peliculas):
 
     try:
-        response = (
-            supabase.table("favorites")
-            .select("pelicula_id")
-            .eq("usuario_id", usuario_id)
-            .execute()
-        )
+        conn = get_connection()
+        cur = conn.cursor()
 
-        ids = [fila["pelicula_id"] for fila in response.data]
+        cur.execute(
+            "SELECT pelicula_id FROM favorites WHERE usuario_id = %s",
+            (usuario_id,)
+        )
+        rows = cur.fetchall()
+
+        cur.close()
+        conn.close()
+
+        ids = [fila["pelicula_id"] for fila in rows]
 
     except Exception as e:
         print(e)

@@ -1,19 +1,21 @@
-from config.supabase_config import supabase
+from config.db_config import get_connection
 from models.movie import Movie
 
 
 # trae todas las peliculas de la tabla movies y las pasa a objetos Movie
 def listar_peliculas():
     try:
-        response = (
-            supabase
-            .table("movies")
-            .select("*")
-            .execute()
-        )
+        conn = get_connection()
+        cur = conn.cursor()
 
-        data = response.data or []
-        return [Movie.from_dict(fila) for fila in data]
+        cur.execute("SELECT * FROM movies")
+        rows = cur.fetchall()
+
+        cur.close()
+        conn.close()
+
+        return [Movie.from_dict(dict(fila)) for fila in rows]
+
     except Exception:
-        # si supabase falla devolvemos catalogo vacio en vez de tronar la pagina
+        # si la bd falla devolvemos catalogo vacio en vez de tronar la pagina
         return []

@@ -1,4 +1,4 @@
-from config.supabase_config import supabase
+from config.db_config import get_connection
 
 
 # guarda o actualiza el like/dislike del usuario para esa pelicula
@@ -8,40 +8,20 @@ def calificar_pelicula(usuario_id, pelicula_id, valor):
 
     try:
 
-        # revisa si el usuario ya habia calificado esta pelicula
-        existente = (
-            supabase.table("ratings")
-            .select("id")
-            .eq("usuario_id", usuario_id)
-            .eq("pelicula_id", pelicula_id)
-            .execute()
-        )
+        conn = get_connection()
+        cur = conn.cursor()
 
-        if existente.data:
+        # usa UPSERT para insertar o actualizar en una sola operacion
+        cur.execute("""
+            INSERT INTO ratings (usuario_id, pelicula_id, valor)
+            VALUES (%s, %s, %s)
+            ON CONFLICT (usuario_id, pelicula_id)
+            DO UPDATE SET valor = EXCLUDED.valor
+        """, (usuario_id, pelicula_id, valor))
 
-            # ya existe, solo actualizamos el valor
-            supabase.table("ratings").update(
-                {
-                    "valor": valor
-                }
-            ).eq(
-                "usuario_id",
-                usuario_id
-            ).eq(
-                "pelicula_id",
-                pelicula_id
-            ).execute()
-
-        else:
-
-            # primera vez que califica, insertamos
-            supabase.table("ratings").insert(
-                {
-                    "usuario_id": usuario_id,
-                    "pelicula_id": pelicula_id,
-                    "valor": valor
-                }
-            ).execute()
+        conn.commit()
+        cur.close()
+        conn.close()
 
         return True
 
@@ -58,15 +38,19 @@ def obtener_likes(pelicula_id):
 
     try:
 
-        response = (
-            supabase.table("ratings")
-            .select("*", count="exact")
-            .eq("pelicula_id", pelicula_id)
-            .eq("valor", 1)
-            .execute()
-        )
+        conn = get_connection()
+        cur = conn.cursor()
 
-        return response.count
+        cur.execute(
+            "SELECT COUNT(*) AS total FROM ratings WHERE pelicula_id = %s AND valor = 1",
+            (pelicula_id,)
+        )
+        result = cur.fetchone()
+
+        cur.close()
+        conn.close()
+
+        return result["total"] if result else 0
 
     except Exception:
 
@@ -79,15 +63,19 @@ def obtener_dislikes(pelicula_id):
 
     try:
 
-        response = (
-            supabase.table("ratings")
-            .select("*", count="exact")
-            .eq("pelicula_id", pelicula_id)
-            .eq("valor", -1)
-            .execute()
-        )
+        conn = get_connection()
+        cur = conn.cursor()
 
-        return response.count
+        cur.execute(
+            "SELECT COUNT(*) AS total FROM ratings WHERE pelicula_id = %s AND valor = -1",
+            (pelicula_id,)
+        )
+        result = cur.fetchone()
+
+        cur.close()
+        conn.close()
+
+        return result["total"] if result else 0
 
     except Exception:
 
