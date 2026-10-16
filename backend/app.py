@@ -17,7 +17,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # clave para firmar la sesion de flask
-app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = os.getenv("SECRET_KEY", "dev_secret_key_mubi_ott")
 
 # registrar cada blueprint en la app
 app.register_blueprint(auth_bp)
@@ -32,4 +32,7 @@ def inicio():
     return redirect(url_for("auth.login"))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    host = os.getenv("FLASK_RUN_HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", os.getenv("FLASK_RUN_PORT", 5000)))
+    debug = os.getenv("FLASK_DEBUG", "True").lower() in ("true", "1", "t")
+    app.run(host=host, port=port, debug=debug)

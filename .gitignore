@@ -20,3 +20,5 @@ instance/
 
 # Archivos de logs
 *.log
+
+.idea/
