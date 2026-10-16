@@ -31,7 +31,7 @@ def inicio():
 
     # la primera pelicula del listado es la destacada del hero
     destacada = peliculas[0] if peliculas else None
-    colombianas = [m for m in peliculas if "Colombiano" in (m.categoria or "")]
+    colombianas = [m for m in peliculas if "colombian" in (m.categoria or "").lower()]
 
     mi_lista = []
 
@@ -41,12 +41,11 @@ def inicio():
             usuario["id"],
             peliculas
         )
-    print("Favoritos:", mi_lista)
 
     # ver si la destacada ya esta en mi lista, para pintar el corazon lleno
     destacada_favorito = False
     if destacada:
-        destacada_favorito = any(m.id == destacada.id for m in mi_lista)
+        destacada_favorito = any(getattr(m, "id", None) == destacada.id for m in mi_lista)
 
     return render_template(
         "home.html",

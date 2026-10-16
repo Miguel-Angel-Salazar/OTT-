@@ -165,9 +165,9 @@ def progreso(movie_id):
             }
         ), 401
 
-    datos = request.get_json()
+    datos = request.get_json(silent=True) or {}
 
-    minuto = datos["minuto"]
+    minuto = datos.get("minuto", 0)
 
     guardar_historial(
         usuario["id"],
