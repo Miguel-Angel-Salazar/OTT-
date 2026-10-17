@@ -98,6 +98,11 @@ docker pull postgres:16-alpine
    - **Documentación Swagger UI:** [http://localhost/apidocs/](http://localhost/apidocs/)
    - **Healthcheck del Sistema:** [http://localhost/api/health](http://localhost/api/health)
 
+5. **Comandos útiles de administración:**
+   - **Ver logs en tiempo real:** `docker compose logs -f`
+   - **Detener los servicios:** `docker compose down`
+   - **Reiniciar y restablecer la base de datos a cero:** `docker compose down -v`
+
 ---
 
 ### Método 2: Ejecución Local en Desarrollo (Sin Docker)
