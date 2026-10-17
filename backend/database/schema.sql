@@ -1,8 +1,8 @@
 -- ============================================================
--- Schema para OTT - PostgreSQL directo (sin Supabase)
+-- Schema para OTT - PostgreSQL directo
 -- ============================================================
 
--- tabla de usuarios (reemplaza auth.users de supabase)
+-- tabla de usuarios para autenticacion local
 
 CREATE TABLE IF NOT EXISTS users (
 

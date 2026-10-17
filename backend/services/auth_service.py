@@ -45,7 +45,7 @@ def register_user(nombre, email, password, region):
         conn.close()
 
         # devolvemos un objeto con id y email para que el controller sepa
-        # que si funciono, igual que hacia con supabase
+        # que si funciono correctamente
         return SimpleNamespace(id=user_id, email=email)
 
     except Exception as e:
