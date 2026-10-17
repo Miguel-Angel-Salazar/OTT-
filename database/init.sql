@@ -60,8 +60,8 @@ CREATE TABLE IF NOT EXISTS ratings (
 -- demo@ott.com  -> demo123
 
 INSERT INTO users (id, email, password_hash) VALUES
-(1, 'admin@ott.com', '$2b$12$54DB9tOt6iTkVIV/A3YpSOnzpdVilXkPk.ojOfa4Z7KGOGs3b/dyW'),
-(2, 'demo@ott.com', '$2b$12$CtKFfpe8OIeIzFuOKnDeu.q.Hv4UBbG3Ny9ChJXKhlLTr3fJhHV/W')
+(1, 'admin@ott.com', '$2b$12$d6o84SDSxivV.CbqAmTas.A0EOEcGIAcjWmFQppjANyReSoTqTUhW'),
+(2, 'demo@ott.com', '$2b$12$x0z0XVfsPl7eQUwozCW9j.YD9rAy8VnqcpS0qmt0k8319fXJfqM/.')
 ON CONFLICT (email) DO NOTHING;
 
 SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
