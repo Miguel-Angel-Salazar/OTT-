@@ -13,8 +13,8 @@ Este documento detalla las Historias de Usuario (HU) desarrolladas para la plata
 | **HU-02** | Gestión de favoritos ("Mi Lista") | Miguel Ángel Salazar | Entregada |
 | **HU-03** | Contenerización y orquestación con Docker Compose | Juan Esteban Vallejo | Entregada |
 | **HU-04** | Base de datos relacional y scripts de inicialización (`init.sql`) | Juan Esteban Vallejo | Entregada |
-| **HU-05** | Autenticación y registro con contraseñas seguras (bcrypt) | Juan Esteban Echavarría Corrales | Entregada |
-| **HU-06** | Perfil de usuario y actualización de suscripción | Juan Esteban Echavarría Corrales | Entregada |
+| **HU-05** | Autenticación y registro con contraseñas seguras (bcrypt) | Tomás Sepúlveda | Entregada |
+| **HU-06** | Perfil de usuario y actualización de suscripción | Tomás Sepúlveda | Entregada |
 | **HU-07** | Reproductor de video con guardado de progreso | Sebastián Villa | Entregada |
 | **HU-08** | Calificaciones (Like/Dislike) y búsqueda en tiempo real | Sebastián Villa | Entregada |
 
@@ -55,7 +55,7 @@ Este documento detalla las Historias de Usuario (HU) desarrolladas para la plata
   3. Se deben precargar cuentas de prueba (`admin@ott.com`, `demo@ott.com`) con hashes válidos y datos de ejemplo en favoritos e historial.
 
 #### HU-05: Autenticación y registro con contraseñas seguras (bcrypt)
-* **Responsable:** Juan Esteban Echavarría Corrales
+* **Responsable:** Tomás Sepúlveda
 * **Descripción:** Como visitante, quiero registrarme e iniciar sesión de manera segura para acceder a las funciones exclusivas para miembros.
 * **Criterios de Aceptación:**
   1. Las contraseñas deben cifrarse usando `bcrypt` antes de almacenarse en la base de datos.
@@ -63,7 +63,7 @@ Este documento detalla las Historias de Usuario (HU) desarrolladas para la plata
   3. Al iniciar sesión correctamente se genera una cookie de sesión firmada con `SECRET_KEY` que almacena id, correo, nombre y plan del usuario.
 
 #### HU-06: Perfil de usuario y actualización de suscripción
-* **Responsable:** Juan Esteban Echavarría Corrales
+* **Responsable:** Tomás Sepúlveda
 * **Descripción:** Como usuario registrado, quiero consultar los datos de mi cuenta y cambiar mi plan de suscripción (Básica o Premium) para acceder a distintos beneficios.
 * **Criterios de Aceptación:**
   1. La ruta `/profile/` permite ver el correo, nombre y plan actual almacenados en la tabla `profiles`.

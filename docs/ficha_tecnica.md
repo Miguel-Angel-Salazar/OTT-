@@ -29,7 +29,7 @@
 | :-: | :--- | :--- | :--- | :--- |
 | **1** | Miguel Ángel Salazar | `miguelangelguarnizosalazar@gmail.com` | Líder de Desarrollo / Backend | Arquitectura MVC, modelos de dominio, catálogo dinámico, filtrado regional y gestión de favoritos (HU-01, HU-02). |
 | **2** | Juan Esteban Vallejo | `juanvallejo240@gmail.com` | DevOps / Infraestructura | Contenerización multi-servicio (Docker, Docker Compose), publicación en Docker Hub y esquema relacional PostgreSQL con `init.sql` (HU-03, HU-04). |
-| **3** | Juan Esteban Echavarría Corrales | `juanestebanechavarria511@gmail.com` | Backend / Seguridad | Módulo de autenticación segura (bcrypt), manejo de sesiones HTTP, perfil de usuario y cambio de suscripción (HU-05, HU-06). |
+| **3** | Tomás Sepúlveda | `tomas.sepulveda@ott.com` | Backend / Seguridad | Módulo de autenticación segura (bcrypt), manejo de sesiones HTTP, perfil de usuario y cambio de suscripción (HU-05, HU-06). |
 | **4** | Sebastián Villa | `sebasviro567@gmail.com` | Fullstack / QA | Reproductor multimedia con persistencia de minuto, motor de búsqueda, calificaciones (Like/Dislike) y automatización de pruebas Playwright (HU-07, HU-08). |
 
 ---
@@ -97,13 +97,13 @@
 | **F-03** | Docker Compose para entorno local | Juan Esteban Vallejo | Alta | **Completado** | 100% | Orquestación completa de `frontend`, `backend` y `db` con redes y volúmenes. |
 | **F-04** | Integridad y esquema relacional en BD | Juan Esteban Vallejo | Alta | **Completado** | 100% | Script `init.sql` con llaves foráneas, cascade y 20 títulos sembrados. |
 | **F-05** | Validación y manejo seguro de datos | Juan Sebastián Villa | Alta | **Completado** | 100% | Manejo seguro de payload JSON en progreso y normalización de rutas. |
-| **F-06** | Control de sesiones y autenticación | J. Echavarría Corrales | Media | **Completado** | 100% | Hashing criptográfico con `bcrypt` y sesiones de Flask firmadas. |
+| **F-06** | Control de sesiones y autenticación | Tomás Sepúlveda | Media | **Completado** | 100% | Hashing criptográfico con `bcrypt` y sesiones de Flask firmadas. |
 | **F-07** | Consultas SQL directas y eficientes | Miguel Salazar | Media | **Completado** | 100% | Conexión directa vía `psycopg2` sin dependencias de PostgREST. |
 | **F-08** | Modelo de dominio `Movie` consistente | Juan Sebastián Villa | Media | **Completado** | 100% | Clase `Movie` con método `from_dict` y normalización de rutas estáticas. |
 | **F-09** | Historial de reproducción persistente | Miguel Salazar | Media | **Completado** | 100% | Persistencia en `watch_history` y respaldo local de contingencia en JSON. |
-| **F-10** | Vista de perfil y planes de suscripción | J. Echavarría Corrales | Media | **Completado** | 100% | Gestión de cuenta, cambio de contraseña y alternancia de plan en `/profile`. |
+| **F-10** | Vista de perfil y planes de suscripción | Tomás Sepúlveda | Media | **Completado** | 100% | Gestión de cuenta, cambio de contraseña y alternancia de plan en `/profile`. |
 | **F-11** | Encuesta de onboarding | Juan Esteban Vallejo | Baja | **Completado** | 100% | Vista `/home/onboarding` disponible tras registro. |
-| **F-12** | Poblar categoría "Cine Colombiano" | J. Echavarría / Tomás S. | Baja | **Completado** | 100% | 5 películas colombianas completamente integradas al catálogo. |
+| **F-12** | Poblar categoría "Cine Colombiano" | Tomás Sepúlveda | Baja | **Completado** | 100% | 5 películas colombianas completamente integradas al catálogo. |
 | **F-13** | Suite de pruebas automatizadas | J. Vallejo / S. Villa | Alta | **Completado** | 100% | 10 pruebas unitarias, 4 de flujo de integración y 6 E2E con Playwright. |
 | **F-14** | Pipeline CI: lint, pruebas y build | Miguel Salazar | Alta | En diseño | 30% | Pruebas listas para integrarse en GitHub Actions en el siguiente hito. |
 | **F-15** | Pipeline CD: publicación a Docker Hub | Miguel Salazar / J. Vallejo | Alta | En diseño | 30% | Imágenes publicadas manualmente; automatización programada. |

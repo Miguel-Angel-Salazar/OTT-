@@ -18,7 +18,7 @@ INTEGRANTES Y ROLES,,,,,,,
 #,Nombre completo *,Correo institucional / Git,Rol principal *,Responsabilidades,Disponibilidad semanal (h),Experiencia relevante,Observaciones
 1,Miguel Ángel Salazar,miguelangelguarnizosalazar@gmail.com,Líder / Backend,Arquitectura MVC, modelos de dominio, catálogo dinámico, filtrado regional y favoritos (HU-01 y HU-02),12,Python / Flask / Git,Líder de desarrollo
 2,Juan Esteban Vallejo,juanvallejo240@gmail.com,DevOps / Infraestructura,Contenerización multi-servicio con Docker, Docker Compose, publicación en Docker Hub y esquema PostgreSQL con init.sql (HU-03 y HU-04),12,Docker / PostgreSQL / Linux,Responsable DevOps
-3,Juan Esteban Echavarría Corrales,juanestebanechavarria511@gmail.com,Backend / Seguridad,Módulo de autenticación con bcrypt, sesiones HTTP, perfil de usuario y cambio de plan de suscripción (HU-05 y HU-06),12,Python / Criptografía / SQL,Responsable Backend
+3,Tomás Sepúlveda,tomas.sepulveda@ott.com,Backend / Seguridad,Módulo de autenticación con bcrypt, sesiones HTTP, perfil de usuario y cambio de plan de suscripción (HU-05 y HU-06),12,Python / Criptografía / SQL,Responsable Backend
 4,Sebastián Villa,sebasviro567@gmail.com,Fullstack / QA,Reproductor interactivo con guardado de minuto, motor de búsqueda, ratings (Like/Dislike) y automatización de pruebas con Playwright (HU-07 y HU-08),12,JavaScript / Pruebas E2E,Responsable QA
 ,,,,,,,
 "ARQUITECTURA, REPOSITORIOS Y DEVOPS",,,,,,,
@@ -35,13 +35,13 @@ F-02,Docker,Dockerfile del backend Flask,Dockerfile multi-etapa para Python 3.11
 F-03,Docker,Docker Compose para entorno local,docker-compose.yml que orquesta frontend (Nginx), backend (Flask) y base de datos (PostgreSQL 16).,Infraestructura,Juan Esteban Vallejo,Alta,Completado,1,2026-09-26
 F-04,Base de datos,Esquema relacional y datos semilla,Script init.sql con tablas maestras, llaves foráneas, cascade y 20 producciones precargadas.,Base de datos,Juan Esteban Vallejo,Alta,Completado,1,2026-09-12
 F-05,Seguridad,Validación y manejo seguro de datos,Validación de entradas y lectura resiliente de payloads JSON en el endpoint de progreso.,Backend / API,Juan Sebastián Villa,Alta,Completado,1,2026-10-03
-F-06,Seguridad,Autenticación y sesiones seguras,Cifrado de contraseñas con bcrypt y manejo de sesiones HTTP firmadas con SECRET_KEY.,Backend / API,J. Echavarría Corrales,Media,Completado,1,2026-10-03
+F-06,Seguridad,Autenticación y sesiones seguras,Cifrado de contraseñas con bcrypt y manejo de sesiones HTTP firmadas con SECRET_KEY.,Backend / API,Tomás Sepúlveda,Media,Completado,1,2026-10-03
 F-07,Backend / API,Consultas SQL directas y optimizadas,Consultas relacionales directas mediante psycopg2 eliminando intermediarios lentos.,Backend / API,Miguel Salazar,Media,Completado,1,2026-10-10
 F-08,Backend / API,Modelo de dominio Movie consistente,Clase Movie con mapeo from_dict y normalización automática de rutas estáticas.,Backend / API,Juan Sebastián Villa,Media,Completado,1,2026-10-10
 F-09,Base de datos,Historial de reproducción persistente,Persistencia del segundo de reproducción en watch_history con respaldo local en JSON.,Base de datos,Miguel Salazar,Media,Completado,1,2026-09-26
-F-10,Frontend,Vista de perfil y planes de suscripción,Gestión de cuenta, cambio de contraseña y actualización de suscripción en /profile.,Frontend,J. Echavarría Corrales,Media,Completado,1,2026-09-19
+F-10,Frontend,Vista de perfil y planes de suscripción,Gestión de cuenta, cambio de contraseña y actualización de suscripción en /profile.,Frontend,Tomás Sepúlveda,Media,Completado,1,2026-09-19
 F-11,Frontend,Encuesta de onboarding,Vista de encuesta de géneros y preferencias disponible tras el registro exitoso.,Frontend,Juan Esteban Vallejo,Baja,Completado,1,2026-10-24
-F-12,Producto,Poblar categoría Cine Colombiano,Inclusión de 5 películas colombianas completas con metadatos, póster y video streaming.,Base de datos,J. Echavarría / Tomás S.,Baja,Completado,1,2026-10-31
+F-12,Producto,Poblar categoría Cine Colombiano,Inclusión de 5 películas colombianas completas con metadatos, póster y video streaming.,Base de datos,Tomás Sepúlveda,Baja,Completado,1,2026-10-31
 F-13,Calidad,Suite de pruebas automatizadas,20 pruebas automatizadas: 10 unitarias (unittest), 4 de integración/flujo y 6 E2E con Playwright.,Calidad,J. Vallejo / S. Villa,Alta,Completado,1,2026-10-24
 F-14,CI,Pipeline CI: lint y pruebas automatizadas,Configuración de pipeline en GitHub Actions para ejecución de tests en PR.,CI,Miguel Salazar,Alta,En diseño,0.3,2026-11-07
 F-15,CD,Pipeline CD: publicación de imágenes,Automatización de compilación y publicación a Docker Hub tras merge en main.,CD,Miguel Salazar / J. Vallejo,Alta,En diseño,0.3,2026-11-21
