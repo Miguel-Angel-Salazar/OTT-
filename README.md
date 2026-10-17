@@ -15,7 +15,7 @@ Plataforma de streaming de video bajo demanda (OTT), inspirada en el diseño, cu
 | **Frontend / Proxy** | Nginx Alpine | 1.25-alpine | Proxy inverso, compresión y entrega de estáticos |
 | **Seguridad** | bcrypt | 4.3.0 | Hashing y salting criptográfico de contraseñas |
 | **Orquestación** | Docker Compose | v2+ | Contenerización y redes internas entre servicios |
-| **Pruebas Automatizadas**| Playwright / Unittest | 1.50+ | Pruebas unitarias y pruebas de navegador E2E |
+| **Pruebas Automatizadas**| Pytest / Playwright / Unittest | 9.x / 1.50+ | Pruebas unitarias, integración y de navegador E2E |
 
 ---
 
@@ -177,7 +177,7 @@ El backend incorpora Swagger UI para la inspección y prueba interactiva de los 
 
 ## 🧪 Pruebas Automatizadas
 
-El proyecto incluye dos niveles de pruebas automatizadas:
+El proyecto incluye tres niveles de pruebas automatizadas con un total de 20 casos de prueba automatizados (100% pasando):
 
 ### 1. Pruebas Unitarias y de Lógica de Negocio
 Evalúan el modelo `Movie`, la normalización de rutas, el hashing con `bcrypt`, el filtrado regional y los endpoints HTTP clave:
@@ -219,6 +219,17 @@ El trabajo fue distribuido de manera equitativa entre los integrantes del equipo
 | **HU-06** | Perfil de usuario y actualización de planes de suscripción | Tomás Sepúlveda | Entregada |
 | **HU-07** | Reproductor de video interactivo con guardado de progreso | Sebastián Villa | Entregada |
 | **HU-08** | Calificaciones (Like/Dislike) y motor de búsqueda en tiempo real | Sebastián Villa | Entregada |
+
+---
+
+## 📑 Documentación y Entregables del Proyecto
+
+Para la revisión académica y entrega final, la documentación del proyecto se encuentra consolidada en la carpeta `docs/`:
+
+* **Ficha Técnica Oficial (Excel):** [`docs/Ficha_Tecnica_Proyecto_Cinefilo.xlsx`](docs/Ficha_Tecnica_Proyecto_Cinefilo.xlsx) — Libro con información técnica consolidada, integrantes, arquitectura multicontenedor y plan de HU.
+* **Ficha Técnica (Markdown):** [`docs/ficha_tecnica.md`](docs/ficha_tecnica.md)
+* **Ficha Técnica (CSV):** [`docs/ficha_tecnica.csv`](docs/ficha_tecnica.csv)
+* **Historias de Usuario y Criterios de Aceptación:** [`docs/historias_de_usuario.md`](docs/historias_de_usuario.md)
 
 ---
 
