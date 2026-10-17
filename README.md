@@ -210,8 +210,8 @@ El trabajo fue distribuido de manera equitativa entre los integrantes del equipo
 | **HU-02** | Gestión de "Mi Lista" (agregar y remover películas favoritas) | Miguel Ángel Salazar | Entregada |
 | **HU-03** | Contenerización y orquestación con Docker Compose | Juan Esteban Vallejo | Entregada |
 | **HU-04** | Base de datos relacional y scripts de inicialización (`init.sql`) | Juan Esteban Vallejo | Entregada |
-| **HU-05** | Autenticación de usuarios con contraseñas seguras (`bcrypt`) | Juan Esteban Echavarría Corrales | Entregada |
-| **HU-06** | Perfil de usuario y actualización de planes de suscripción | Juan Esteban Echavarría Corrales | Entregada |
+| **HU-05** | Autenticación de usuarios con contraseñas seguras (`bcrypt`) | Tomas sepulveda  | Entregada |
+| **HU-06** | Perfil de usuario y actualización de planes de suscripción | Tomas sepulverda | Entregada |
 | **HU-07** | Reproductor de video interactivo con guardado de progreso | Sebastián Villa | Entregada |
 | **HU-08** | Calificaciones (Like/Dislike) y motor de búsqueda en tiempo real | Sebastián Villa | Entregada |
 
