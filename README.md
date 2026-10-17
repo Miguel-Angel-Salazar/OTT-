@@ -196,7 +196,12 @@ Valida las funcionalidades críticas directamente sobre el navegador (renderizad
 ```bash
 python -m unittest tests/test_e2e_playwright.py
 ```
-*(Opcionalmente se puede ejecutar con `pytest tests/test_e2e_playwright.py`)*
+
+### 4. Ejecución de la Suite Completa (20/20 pruebas)
+Para ejecutar todas las pruebas (unitarias, integración y E2E) con reporte detallado:
+```bash
+pytest -v
+```
 
 ---
 
@@ -210,8 +215,8 @@ El trabajo fue distribuido de manera equitativa entre los integrantes del equipo
 | **HU-02** | Gestión de "Mi Lista" (agregar y remover películas favoritas) | Miguel Ángel Salazar | Entregada |
 | **HU-03** | Contenerización y orquestación con Docker Compose | Juan Esteban Vallejo | Entregada |
 | **HU-04** | Base de datos relacional y scripts de inicialización (`init.sql`) | Juan Esteban Vallejo | Entregada |
-| **HU-05** | Autenticación de usuarios con contraseñas seguras (`bcrypt`) | Tomas sepulveda  | Entregada |
-| **HU-06** | Perfil de usuario y actualización de planes de suscripción | Tomas sepulverda | Entregada |
+| **HU-05** | Autenticación de usuarios con contraseñas seguras (`bcrypt`) | Tomás Sepúlveda | Entregada |
+| **HU-06** | Perfil de usuario y actualización de planes de suscripción | Tomás Sepúlveda | Entregada |
 | **HU-07** | Reproductor de video interactivo con guardado de progreso | Sebastián Villa | Entregada |
 | **HU-08** | Calificaciones (Like/Dislike) y motor de búsqueda en tiempo real | Sebastián Villa | Entregada |
 
@@ -237,11 +242,13 @@ OTT-/
 │   ├── nginx.conf.template   # Plantilla de configuración de Nginx
 │   └── Dockerfile            # Dockerfile para Nginx Alpine
 ├── database/
-│   └── init.sql              # Esquema de tablas y datos semilla de PostgreSQL
+│   ├── init.sql              # Esquema de tablas y datos semilla de PostgreSQL
+│   └── watch_history_local.json # Historial de reproducción inicial y respaldo local
 ├── docs/
 │   ├── historias_de_usuario.md # Documentación detallada de HU y responsables
 │   ├── ficha_tecnica.md       # Ficha técnica del proyecto en Markdown
-│   └── ficha_tecnica.csv      # Ficha técnica en formato de hoja de cálculo CSV
+│   ├── ficha_tecnica.csv      # Ficha técnica en formato de hoja de cálculo CSV
+│   └── Ficha_Tecnica_Proyecto_Cinefilo.xlsx # Ficha técnica oficial en formato Excel
 ├── tests/
 │   ├── test_unit.py          # Pruebas unitarias de modelos, seguridad y rutas
 │   ├── test_flow.py          # Prueba del flujo de comunicación completo
