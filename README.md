@@ -234,7 +234,9 @@ OTT-/
 ├── database/
 │   └── init.sql              # Esquema de tablas y datos semilla de PostgreSQL
 ├── docs/
-│   └── historias_de_usuario.md # Documentación detallada de HU y responsables
+│   ├── historias_de_usuario.md # Documentación detallada de HU y responsables
+│   ├── ficha_tecnica.md       # Ficha técnica del proyecto en Markdown
+│   └── ficha_tecnica.csv      # Ficha técnica en formato de hoja de cálculo CSV
 ├── tests/
 │   ├── test_unit.py          # Pruebas unitarias de modelos, seguridad y rutas
 │   ├── test_flow.py          # Prueba del flujo de comunicación completo

@@ -1,0 +1,50 @@
+FICHA TÉCNICA DEL PROYECTO — Gestión de la configuración,,,,
+,,,,
+"Propósito: documentar un proyecto existente que será versionado, contenerizado, automatizado y desplegado durante el semestre.",,,,
+,,,,
+1. Identificación y contexto,,,,,
+Nombre del proyecto *,"CINÉFILO (Clon OTT MUBI)",,,Semestre / grupo *,2026-2 / Gestión de la Configuración
+"Cliente, área o contexto *","Proyecto académico de ingeniería de sistemas enfocado en el ciclo de vida de desarrollo de software: versionamiento modular, contenerización multi-servicio, pruebas automatizadas y despliegue continuo.",,,Docente / responsable,
+Problema o necesidad que aborda *,"Aplicar de forma funcional la separación en tres capas (MVC), persistencia relacional nativa en PostgreSQL con scripts de inicialización y manejo seguro de sesiones bajo renderizado SSR con Flask y Jinja2, eliminando dependencias externas cerradas y asegurando portabilidad con contenedores Docker.",,,Estado actual *,Funcional y Contenerizado
+Descripción general del proyecto *,"Plataforma web de streaming de video bajo demanda inspirada en MUBI. Arquitectura desacoplada en tres contenedores: Frontend (Nginx 1.25 Alpine como proxy inverso y entrega de estáticos), Backend (Python 3.11-slim + Flask 3.1.1 con Blueprints MVC y Swagger/OpenAPI en /apidocs/) y Base de Datos (PostgreSQL 16 Alpine con datos semilla automáticos en init.sql). Permite autenticación segura con bcrypt, catálogo de 20 producciones con video y posters locales, streaming con reanudación, favoritos, likes/dislikes, buscador y suite de 20 pruebas automatizadas.",,,URL demo / evidencia,http://localhost (Frontend) / http://localhost/apidocs/ (Swagger)
+Usuarios objetivo / actores,"Suscriptores que se registran, inician sesión, exploran el catálogo por región o categoría, reproducen películas con reanudación automática, gestionan su lista de favoritos y plan de suscripción; y evaluadores que inspeccionan endpoints interactivos mediante Swagger UI.",,,Repositorio actual,https://github.com/Miguel-Angel-Salazar/OTT- (rama main)
+Lenguaje(s) principal(es),"Python 3.11 (Flask 3.1.1, Flasgger 0.9.7.1, psycopg2-binary 2.9.10, bcrypt 4.3.0). Nginx 1.25 Alpine, HTML5, CSS3 nativo con variables :root y JavaScript ES6+ sin frameworks pesados. PostgreSQL 16 Alpine.",,,Licencia / restricciones,Uso académico
+Descripción de datos sensibles o restricciones de privacidad,"Contraseñas cifradas mediante hashing criptográfico con salt (bcrypt 4.3.0). Cookies de sesión de Flask firmadas criptográficamente con SECRET_KEY. Variables sensibles de conexión gestionadas mediante archivo .env no versionado.",,,¿Hay datos de prueba?,Sí: Base de datos relacional precargada con 20 películas/series completas (con posters y videos MP4 locales), usuarios de prueba (admin@ott.com y demo@ott.com) con contraseñas en bcrypt, historial y favoritos.
+Criterio de éxito del semestre *,"Garantizar comunicación entre frontend, backend y base de datos, orquestación completa con docker compose up, documentación interactiva Swagger/OpenAPI y verificación con pruebas unitarias y de Playwright.",,,Nivel de riesgo inicial,Bajo (arquitectura consolidada)
+,,,,,
+INTEGRANTES Y ROLES,,,,,,,
+"Registre una fila por integrante. Los roles pueden combinarse, pero cada persona debe tener una responsabilidad principal.",,,,,,,
+,,,,,,,
+#,Nombre completo *,Correo institucional / Git,Rol principal *,Responsabilidades,Disponibilidad semanal (h),Experiencia relevante,Observaciones
+1,Miguel Ángel Salazar,miguelangelguarnizosalazar@gmail.com,Líder / Backend,Arquitectura MVC, modelos de dominio, catálogo dinámico, filtrado regional y favoritos (HU-01 y HU-02),12,Python / Flask / Git,Líder de desarrollo
+2,Juan Esteban Vallejo,juanvallejo240@gmail.com,DevOps / Infraestructura,Contenerización multi-servicio con Docker, Docker Compose, publicación en Docker Hub y esquema PostgreSQL con init.sql (HU-03 y HU-04),12,Docker / PostgreSQL / Linux,Responsable DevOps
+3,Juan Esteban Echavarría Corrales,juanestebanechavarria511@gmail.com,Backend / Seguridad,Módulo de autenticación con bcrypt, sesiones HTTP, perfil de usuario y cambio de plan de suscripción (HU-05 y HU-06),12,Python / Criptografía / SQL,Responsable Backend
+4,Sebastián Villa,sebasviro567@gmail.com,Fullstack / QA,Reproductor interactivo con guardado de minuto, motor de búsqueda, ratings (Like/Dislike) y automatización de pruebas con Playwright (HU-07 y HU-08),12,JavaScript / Pruebas E2E,Responsable QA
+,,,,,,,
+"ARQUITECTURA, REPOSITORIOS Y DEVOPS",,,,,,,
+1. Componentes mínimos,,,,,,,
+Capa / componente,Tecnología actual *,Versión,Repositorio / ruta,Cómo se ejecuta localmente,Puerto / endpoint,Imagen Docker propuesta,Observaciones
+Frontend,"Nginx Alpine como Reverse Proxy y servidor de estáticos (HTML5, CSS3, JS nativo)",1.25-alpine,https://github.com/Miguel-Angel-Salazar/OTT- (carpeta /frontend),docker compose up -d (o docker run con nginx),http://localhost:80 (puerto 80),juanexzz/ott-frontend:latest,Sirve estáticos con caché y redirige tráfico dinámico al backend
+Backend / API,"Python con Flask, arquitectura MVC en Blueprints y Swagger UI interactivo",Python 3.11 · Flask 3.1.1 · Flasgger 0.9.7.1 · psycopg2-binary 2.9.10,https://github.com/Miguel-Angel-Salazar/OTT- (carpeta /backend),docker compose up -d (o python backend/app.py con .venv activo),http://localhost:5000 (o vía proxy en puerto 80) / Swagger en /apidocs/,juanexzz/ott-backend:latest,Incluye endpoint de salud en /api/health y documentación OpenAPI
+Base de datos,PostgreSQL relacional directo con volumen persistente y script de semillas init.sql,16-alpine,https://github.com/Miguel-Angel-Salazar/OTT- (carpeta /database),docker compose up -d (inicia servicio db),localhost:5432,postgres:16-alpine,Carga automáticamente tablas maestras y 20 títulos clasificados
+,,,,,,,
+PLAN DE TRABAJO DEL SEMESTRE,,,,,,,,,
+ID,Tipo,Entregable / funcionalidad *,Descripción y criterio de aceptación,Capa,Responsable,Prioridad,Estado,% avance,Semana / fecha objetivo
+F-01,Git,Control de versiones y flujo en Git,Estructura monorepo con control de cambios y primeros commits verificables en main.,Transversal,Miguel Salazar,Alta,Completado,1,2026-08-29
+F-02,Docker,Dockerfile del backend Flask,Dockerfile multi-etapa para Python 3.11-slim con dependencias y exposición en puerto 5000.,Infraestructura,Miguel Salazar / J. Vallejo,Alta,Completado,1,2026-09-19
+F-03,Docker,Docker Compose para entorno local,docker-compose.yml que orquesta frontend (Nginx), backend (Flask) y base de datos (PostgreSQL 16).,Infraestructura,Juan Esteban Vallejo,Alta,Completado,1,2026-09-26
+F-04,Base de datos,Esquema relacional y datos semilla,Script init.sql con tablas maestras, llaves foráneas, cascade y 20 producciones precargadas.,Base de datos,Juan Esteban Vallejo,Alta,Completado,1,2026-09-12
+F-05,Seguridad,Validación y manejo seguro de datos,Validación de entradas y lectura resiliente de payloads JSON en el endpoint de progreso.,Backend / API,Juan Sebastián Villa,Alta,Completado,1,2026-10-03
+F-06,Seguridad,Autenticación y sesiones seguras,Cifrado de contraseñas con bcrypt y manejo de sesiones HTTP firmadas con SECRET_KEY.,Backend / API,J. Echavarría Corrales,Media,Completado,1,2026-10-03
+F-07,Backend / API,Consultas SQL directas y optimizadas,Consultas relacionales directas mediante psycopg2 eliminando intermediarios lentos.,Backend / API,Miguel Salazar,Media,Completado,1,2026-10-10
+F-08,Backend / API,Modelo de dominio Movie consistente,Clase Movie con mapeo from_dict y normalización automática de rutas estáticas.,Backend / API,Juan Sebastián Villa,Media,Completado,1,2026-10-10
+F-09,Base de datos,Historial de reproducción persistente,Persistencia del segundo de reproducción en watch_history con respaldo local en JSON.,Base de datos,Miguel Salazar,Media,Completado,1,2026-09-26
+F-10,Frontend,Vista de perfil y planes de suscripción,Gestión de cuenta, cambio de contraseña y actualización de suscripción en /profile.,Frontend,J. Echavarría Corrales,Media,Completado,1,2026-09-19
+F-11,Frontend,Encuesta de onboarding,Vista de encuesta de géneros y preferencias disponible tras el registro exitoso.,Frontend,Juan Esteban Vallejo,Baja,Completado,1,2026-10-24
+F-12,Producto,Poblar categoría Cine Colombiano,Inclusión de 5 películas colombianas completas con metadatos, póster y video streaming.,Base de datos,J. Echavarría / Tomás S.,Baja,Completado,1,2026-10-31
+F-13,Calidad,Suite de pruebas automatizadas,20 pruebas automatizadas: 10 unitarias (unittest), 4 de integración/flujo y 6 E2E con Playwright.,Calidad,J. Vallejo / S. Villa,Alta,Completado,1,2026-10-24
+F-14,CI,Pipeline CI: lint y pruebas automatizadas,Configuración de pipeline en GitHub Actions para ejecución de tests en PR.,CI,Miguel Salazar,Alta,En diseño,0.3,2026-11-07
+F-15,CD,Pipeline CD: publicación de imágenes,Automatización de compilación y publicación a Docker Hub tras merge en main.,CD,Miguel Salazar / J. Vallejo,Alta,En diseño,0.3,2026-11-21
+F-16,Kubernetes/EKS,Manifiestos y despliegue en EKS,Definición de manifiestos y despliegue de la solución contenerizada en Kubernetes/EKS.,Kubernetes/EKS,Juan Sebastián Villa,Alta,No iniciado,0,2026-12-05
+F-17,DevOps,Observabilidad y monitoreo de salud,Endpoint de healthcheck en /api/health para verificar estado de backend y base de datos.,Infraestructura,Miguel Salazar,Media,En desarrollo,0.5,2026-12-12
+F-18,Documentación,Actualización de Ficha Técnica,Ficha técnica actualizada y alineada con la arquitectura contenerizada real del proyecto.,Documentación,Juan Esteban Vallejo,Media,Completado,1,2026-10-16
