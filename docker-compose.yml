@@ -19,7 +19,10 @@ services:
       retries: 5
 
   backend:
-    image: juanexzz/ott-backend:latest
+    image: juanexzz/ott-backend:${IMAGE_TAG:-latest}
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: ott-backend
     restart: unless-stopped
     environment:
@@ -33,7 +36,10 @@ services:
         condition: service_healthy
 
   frontend:
-    image: juanexzz/ott-frontend:latest
+    image: juanexzz/ott-frontend:${IMAGE_TAG:-latest}
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: ott-frontend
     restart: unless-stopped
     environment:

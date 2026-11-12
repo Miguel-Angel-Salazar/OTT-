@@ -1,6 +1,6 @@
 # FICHA TÉCNICA DEL PROYECTO — Gestión de la Configuración
 ## Proyecto Semestral: CINÉFILO (Plataforma OTT)
-**Fecha de actualización:** Octubre 2026 — Segunda Entrega y Estado de Consolidación
+**Fecha de actualización:** Noviembre 2026 — Entrega Final (CI/CD + Docker + Kubernetes/Minikube)
 
 ---
 
@@ -105,11 +105,11 @@
 | **F-11** | Encuesta de onboarding | Juan Esteban Vallejo | Baja | **Completado** | 100% | Vista `/home/onboarding` disponible tras registro. |
 | **F-12** | Poblar categoría "Cine Colombiano" | Tomás Sepúlveda | Baja | **Completado** | 100% | 5 películas colombianas completamente integradas al catálogo. |
 | **F-13** | Suite de pruebas automatizadas | J. Vallejo / S. Villa | Alta | **Completado** | 100% | 10 pruebas unitarias, 4 de flujo de integración y 6 E2E con Playwright. |
-| **F-14** | Pipeline CI: lint, pruebas y build | Miguel Salazar | Alta | En diseño | 30% | Pruebas listas para integrarse en GitHub Actions en el siguiente hito. |
-| **F-15** | Pipeline CD: publicación a Docker Hub | Miguel Salazar / J. Vallejo | Alta | En diseño | 30% | Imágenes publicadas manualmente; automatización programada. |
-| **F-16** | Manifiestos y despliegue en Kubernetes / EKS | Juan Sebastián Villa | Alta | No iniciado | 0% | Programado para la entrega final del semestre. |
-| **F-17** | Observabilidad, logging y healthcheck | Miguel Salazar | Media | En desarrollo | 50% | Endpoint `/api/health` implementado y logs de contenedores accesibles. |
-| **F-18** | Actualización de Ficha Técnica | Juan Esteban Vallejo | Media | **Completado** | 100% | Documento alineado con la arquitectura contenerizada real. |
+| **F-14** | Pipeline CI: lint, pruebas y build | Miguel Salazar | Alta | **Completado** | 100% | Workflow `.github/workflows/ci-cd.yml` con PostgreSQL en CI y bloqueo ante fallos. |
+| **F-15** | Pipeline CD: publicación a Docker Hub | Miguel Salazar / J. Vallejo | Alta | **Completado** | 100% | Construcción y etiquetado automático por versión (`v1.0.0`) y SHA del commit (`sha-xxxxxxx`). |
+| **F-16** | Manifiestos y despliegue en Kubernetes / Minikube | Juan Sebastián Villa | Alta | **Completado** | 100% | Carpeta `k8s/` con `Namespace`, `ConfigMap`, `Secret`, `PVC`, `StatefulSet`, `Deployments` y `Services`. |
+| **F-17** | Observabilidad, logging y healthcheck | Miguel Salazar | Media | **Completado** | 100% | Endpoint `/api/health`, `livenessProbe` y `readinessProbe` en K8s, y diagnóstico con `kubectl`. |
+| **F-18** | Actualización de Ficha Técnica | Juan Esteban Vallejo | Media | **Completado** | 100% | Documento alineado con el despliegue final en Kubernetes / Minikube. |
 
 ---
 

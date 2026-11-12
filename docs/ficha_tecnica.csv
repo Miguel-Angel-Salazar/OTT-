@@ -43,8 +43,8 @@ F-10,Frontend,Vista de perfil y planes de suscripción,Gestión de cuenta, cambi
 F-11,Frontend,Encuesta de onboarding,Vista de encuesta de géneros y preferencias disponible tras el registro exitoso.,Frontend,Juan Esteban Vallejo,Baja,Completado,1,2026-10-24
 F-12,Producto,Poblar categoría Cine Colombiano,Inclusión de 5 películas colombianas completas con metadatos, póster y video streaming.,Base de datos,Tomás Sepúlveda,Baja,Completado,1,2026-10-31
 F-13,Calidad,Suite de pruebas automatizadas,20 pruebas automatizadas: 10 unitarias (unittest), 4 de integración/flujo y 6 E2E con Playwright.,Calidad,J. Vallejo / S. Villa,Alta,Completado,1,2026-10-24
-F-14,CI,Pipeline CI: lint y pruebas automatizadas,Configuración de pipeline en GitHub Actions para ejecución de tests en PR.,CI,Miguel Salazar,Alta,En diseño,0.3,2026-11-07
-F-15,CD,Pipeline CD: publicación de imágenes,Automatización de compilación y publicación a Docker Hub tras merge en main.,CD,Miguel Salazar / J. Vallejo,Alta,En diseño,0.3,2026-11-21
-F-16,Kubernetes/EKS,Manifiestos y despliegue en EKS,Definición de manifiestos y despliegue de la solución contenerizada en Kubernetes/EKS.,Kubernetes/EKS,Juan Sebastián Villa,Alta,No iniciado,0,2026-12-05
-F-17,DevOps,Observabilidad y monitoreo de salud,Endpoint de healthcheck en /api/health para verificar estado de backend y base de datos.,Infraestructura,Miguel Salazar,Media,En desarrollo,0.5,2026-12-12
-F-18,Documentación,Actualización de Ficha Técnica,Ficha técnica actualizada y alineada con la arquitectura contenerizada real del proyecto.,Documentación,Juan Esteban Vallejo,Media,Completado,1,2026-10-16
+F-14,CI,Pipeline CI: lint y pruebas automatizadas,Workflow en GitHub Actions (.github/workflows/ci-cd.yml) con PostgreSQL de servicio y control de fallos.,CI,Miguel Salazar,Alta,Completado,1,2026-11-07
+F-15,CD,Pipeline CD: publicación de imágenes,Compilación y etiquetado trazable (v1.0.0 / sha-commit / latest) hacia Docker Hub.,CD,Miguel Salazar / J. Vallejo,Alta,Completado,1,2026-11-11
+F-16,Kubernetes,Manifiestos y despliegue en Minikube,Manifiestos declarativos en k8s/ (Namespace, ConfigMap, Secret, PVC, StatefulSet, Deployments y Services).,Kubernetes,Juan Sebastián Villa,Alta,Completado,1,2026-11-11
+F-17,DevOps,Observabilidad y monitoreo de salud,Endpoint /api/health integrado con readinessProbe y livenessProbe en Kubernetes.,Infraestructura,Miguel Salazar,Media,Completado,1,2026-11-11
+F-18,Documentación,Actualización de Ficha Técnica,Ficha técnica actualizada y alineada con la entrega final DevOps en Minikube.,Documentación,Juan Esteban Vallejo,Media,Completado,1,2026-11-11

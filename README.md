@@ -13,9 +13,11 @@ Plataforma de streaming de video bajo demanda (OTT), inspirada en el diseño, cu
 | **Documentación API** | Flasgger (OpenAPI/Swagger) | 0.9.7.1 | Especificación OpenAPI y Swagger UI interactivo |
 | **Base de Datos** | PostgreSQL Alpine | 16-alpine | Base de datos relacional con integridad referencial |
 | **Frontend / Proxy** | Nginx Alpine | 1.25-alpine | Proxy inverso, compresión y entrega de estáticos |
-| **Seguridad** | bcrypt | 4.3.0 | Hashing y salting criptográfico de contraseñas |
-| **Orquestación** | Docker Compose | v2+ | Contenerización y redes internas entre servicios |
-| **Pruebas Automatizadas**| Pytest / Playwright / Unittest | 9.x / 1.50+ | Pruebas unitarias, integración y de navegador E2E |
+| **Seguridad** | bcrypt + K8s Secrets | 4.3.0 | Hashing criptográfico de contraseñas, usuario no-root y Secrets |
+| **Contenedores** | Docker + Docker Compose | v24+ / v2+ | Imágenes multi-capa con etiquetas por versión (`v1.0.0`) y SHA |
+| **Orquestación Cloud** | Kubernetes (Minikube) | v1.36+ / v1.39+ | `Namespace`, `ConfigMap`, `Secret`, `PVC`, `StatefulSet`, `Deployments` y `Services` |
+| **CI/CD Automatizado** | GitHub Actions | Workflows v4 | Ejecución automática de pruebas con PostgreSQL, control de fallos y build Docker |
+| **Pruebas Automatizadas**| Pytest / Playwright / Unittest | 9.x / 1.50+ | Pruebas unitarias, integración y de navegador E2E (20 casos) |
 
 ---
 
@@ -72,7 +74,60 @@ docker pull postgres:16-alpine
 
 ## 🚀 Instalación y Ejecución
 
-### Método 1: Con Docker Compose (Entorno Contenerizado)
+### Método 1: Despliegue en Kubernetes / Minikube (Entrega Final DevOps)
+
+**Requisitos:** Docker Desktop / Engine, `minikube` y `kubectl`.
+
+1. **Iniciar el clúster de Minikube y verificar estado (`D4`):**
+   ```bash
+   minikube start --driver=docker
+   minikube status
+   kubectl config current-context
+   ```
+
+2. **(Opcional) Construir y cargar imágenes locales en Minikube (`D3`):**
+   *(Si no tienes conexión a internet o deseas probar cambios locales antes de subirlos a Docker Hub)*
+   ```bash
+   docker build -t juanexzz/ott-backend:v1.0.0 -t juanexzz/ott-backend:latest ./backend
+   docker build -t juanexzz/ott-frontend:v1.0.0 -t juanexzz/ott-frontend:latest ./frontend
+   minikube image load juanexzz/ott-backend:latest
+   minikube image load juanexzz/ott-frontend:latest
+   ```
+
+3. **Aplicar todos los manifiestos declarativos de Kubernetes (`D4`, `D6`, `D7`):**
+   ```bash
+   kubectl apply -f k8s/
+   ```
+   Esto crea en orden dentro del namespace `ott-platform`:
+   * [`k8s/01-namespace.yaml`](k8s/01-namespace.yaml) — Namespace aislado `ott-platform`.
+   * [`k8s/02-configmap-and-secret.yaml`](k8s/02-configmap-and-secret.yaml) — `ConfigMap` (`ott-config`, `ott-db-init` con `init.sql`) y `Secret` (`ott-secrets` con credenciales y `SECRET_KEY`).
+   * [`k8s/03-postgres.yaml`](k8s/03-postgres.yaml) — `PersistentVolumeClaim` (`postgres-pvc` de 1Gi), `StatefulSet` (`ott-db`) con probes `pg_isready` y `Service` `ClusterIP` (`5432`).
+   * [`k8s/04-backend.yaml`](k8s/04-backend.yaml) — `Deployment` (`ott-backend`) con `readinessProbe` y `livenessProbe` hacia `/api/health`, límites de CPU/Memoria y `Service` `ClusterIP` (`5000`).
+   * [`k8s/05-frontend.yaml`](k8s/05-frontend.yaml) — `Deployment` (`ott-frontend`) con probes HTTP y `Service` `NodePort` (`80:30080`).
+
+4. **Verificar recursos saludables y observabilidad (`D4`, `D8`):**
+   ```bash
+   kubectl get all,pvc,cm,secret -n ott-platform
+   kubectl get pods -n ott-platform -o wide
+   kubectl logs -n ott-platform deployment/ott-backend
+   kubectl describe deployment ott-backend -n ott-platform
+   ```
+
+5. **Exponer y abrir la aplicación Web desde Minikube (`D5`):**
+   ```bash
+   # Opción A: Túnel directo con port-forward (Recomendado en Windows)
+   kubectl port-forward svc/ott-frontend -n ott-platform 8080:80
+   # Abrir en el navegador: http://localhost:8080
+   # Swagger UI:           http://localhost:8080/apidocs/
+   # Healthcheck JSON:     http://localhost:8080/api/health
+
+   # Opción B: Servicio nativo de Minikube
+   minikube service ott-frontend -n ott-platform
+   ```
+
+---
+
+### Método 2: Con Docker Compose (Entorno Contenerizado Local)
 
 **Requisitos:** Docker Desktop (Windows/Mac) o Docker Engine + Compose v2 (Linux).
 
@@ -105,7 +160,7 @@ docker pull postgres:16-alpine
 
 ---
 
-### Método 2: Ejecución Local en Desarrollo (Sin Docker)
+### Método 3: Ejecución Local en Desarrollo (Sin Docker)
 
 **Requisitos:** Python 3.11+, PostgreSQL 14+ local.
 
@@ -230,6 +285,40 @@ Para la revisión académica y entrega final, la documentación del proyecto se 
 * **Ficha Técnica (Markdown):** [`docs/ficha_tecnica.md`](docs/ficha_tecnica.md)
 * **Ficha Técnica (CSV):** [`docs/ficha_tecnica.csv`](docs/ficha_tecnica.csv)
 * **Historias de Usuario y Criterios de Aceptación:** [`docs/historias_de_usuario.md`](docs/historias_de_usuario.md)
+* **Guía de Sustentación Final y Checklist DevOps:** [`docs/guia_sustentacion_final.md`](docs/guia_sustentacion_final.md)
+
+---
+
+## 🔄 Cadena de Entrega Continua (CI/CD) y Trazabilidad (`D2`, `D3`, `D6`)
+
+El repositorio cuenta con el pipeline automatizado [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml) que conecta cada cambio desde Git hasta el clúster:
+
+```
+[ git push / PR ]
+       │
+       ▼
+[ Job 1: CI - Pruebas Unitarias e Integración ]
+  • Levanta contenedor de servicio postgres:16-alpine
+  • Carga esquema y semillas (database/init.sql)
+  • Ejecuta test_unit.py (10 pruebas) + test_flow.py (4 pruebas)
+  • Control de fallos: si una prueba falla, bloquea el Job 2
+       │
+       ▼ (needs: unit-and-integration-tests)
+[ Job 2: Build, Tagging Trazable & Docker Hub ]
+  • Genera etiquetas trazables: v1.0.0, sha-<commit>, latest
+  • Construye juanexzz/ott-backend y juanexzz/ott-frontend
+  • Publica en Docker Hub y valida manifiestos en k8s/
+       │
+       ▼
+[ Despliegue Declarativo en Minikube (k8s/) ]
+  • kubectl apply -f k8s/ reconcilia el estado deseado en el clúster
+```
+
+Para comprobar la correspondencia exacta de la imagen desplegada en vivo (`D6`):
+```bash
+git rev-parse --short HEAD
+kubectl get pods -n ott-platform -o jsonpath="{range .items[*]}{.metadata.name}{'\t'}{.spec.containers[*].image}{'\t'}{.status.containerStatuses[*].imageID}{'\n'}{end}"
+```
 
 ---
 
@@ -237,6 +326,15 @@ Para la revisión académica y entrega final, la documentación del proyecto se 
 
 ```
 OTT-/
+├── .github/
+│   └── workflows/
+│       └── ci-cd.yml         # Pipeline CI/CD en GitHub Actions (Tests + Docker Build/Push)
+├── k8s/                      # Manifiestos declarativos de Kubernetes (Minikube)
+│   ├── 01-namespace.yaml     # Namespace aislado ott-platform
+│   ├── 02-configmap-and-secret.yaml # ConfigMaps (config + init.sql) y Secrets
+│   ├── 03-postgres.yaml      # PVC (1Gi), StatefulSet y Service de PostgreSQL 16
+│   ├── 04-backend.yaml       # Deployment (probes + resources) y Service de Flask
+│   └── 05-frontend.yaml      # Deployment (probes + resources) y Service NodePort de Nginx
 ├── backend/                  # Código de la aplicación Flask
 │   ├── config/               # Configuración de base de datos
 │   ├── controllers/          # Controladores MVC (auth, home, movie, api, etc.)
@@ -246,16 +344,17 @@ OTT-/
 │   ├── static/               # Activos estáticos (posters, videos, css, js)
 │   ├── templates/            # Vistas Jinja2 (HTML)
 │   ├── app.py                # Punto de entrada de la aplicación Flask y Swagger
-│   ├── Dockerfile            # Dockerfile para Python 3.11-slim
+│   ├── Dockerfile            # Dockerfile con Python 3.11-slim, usuario no-root y HEALTHCHECK
 │   └── requirements.txt      # Dependencias de Python
 ├── frontend/                 # Servicio de Frontend y Proxy Inverso
 │   ├── static/               # Archivos estáticos servidos por Nginx
 │   ├── nginx.conf.template   # Plantilla de configuración de Nginx
-│   └── Dockerfile            # Dockerfile para Nginx Alpine
+│   └── Dockerfile            # Dockerfile para Nginx 1.25-alpine con HEALTHCHECK
 ├── database/
 │   ├── init.sql              # Esquema de tablas y datos semilla de PostgreSQL
 │   └── watch_history_local.json # Historial de reproducción inicial y respaldo local
 ├── docs/
+│   ├── guia_sustentacion_final.md # Guion paso a paso de Pitch + Demo + Checklist Excel
 │   ├── historias_de_usuario.md # Documentación detallada de HU y responsables
 │   ├── ficha_tecnica.md       # Ficha técnica del proyecto en Markdown
 │   ├── ficha_tecnica.csv      # Ficha técnica en formato de hoja de cálculo CSV
