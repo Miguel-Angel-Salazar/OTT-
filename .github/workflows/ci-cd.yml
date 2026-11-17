@@ -142,12 +142,20 @@ jobs:
         if: ${{ env.DOCKERHUB_USERNAME != '' && env.DOCKERHUB_TOKEN != '' }}
         run: |
           echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-          docker push ${{ env.BACKEND_IMAGE }}:v${{ env.APP_VERSION }}
-          docker push ${{ env.BACKEND_IMAGE }}:sha-${{ steps.vars.outputs.short_sha }}
-          docker push ${{ env.BACKEND_IMAGE }}:latest
-          docker push ${{ env.FRONTEND_IMAGE }}:v${{ env.APP_VERSION }}
-          docker push ${{ env.FRONTEND_IMAGE }}:sha-${{ steps.vars.outputs.short_sha }}
-          docker push ${{ env.FRONTEND_IMAGE }}:latest
+          TARGET_BACKEND="${DOCKERHUB_USERNAME}/ott-backend"
+          TARGET_FRONTEND="${DOCKERHUB_USERNAME}/ott-frontend"
+          docker tag ${{ env.BACKEND_IMAGE }}:v${{ env.APP_VERSION }} ${TARGET_BACKEND}:v${{ env.APP_VERSION }}
+          docker tag ${{ env.BACKEND_IMAGE }}:v${{ env.APP_VERSION }} ${TARGET_BACKEND}:sha-${{ steps.vars.outputs.short_sha }}
+          docker tag ${{ env.BACKEND_IMAGE }}:v${{ env.APP_VERSION }} ${TARGET_BACKEND}:latest
+          docker tag ${{ env.FRONTEND_IMAGE }}:v${{ env.APP_VERSION }} ${TARGET_FRONTEND}:v${{ env.APP_VERSION }}
+          docker tag ${{ env.FRONTEND_IMAGE }}:v${{ env.APP_VERSION }} ${TARGET_FRONTEND}:sha-${{ steps.vars.outputs.short_sha }}
+          docker tag ${{ env.FRONTEND_IMAGE }}:v${{ env.APP_VERSION }} ${TARGET_FRONTEND}:latest
+          docker push ${TARGET_BACKEND}:v${{ env.APP_VERSION }}
+          docker push ${TARGET_BACKEND}:sha-${{ steps.vars.outputs.short_sha }}
+          docker push ${TARGET_BACKEND}:latest
+          docker push ${TARGET_FRONTEND}:v${{ env.APP_VERSION }}
+          docker push ${TARGET_FRONTEND}:sha-${{ steps.vars.outputs.short_sha }}
+          docker push ${TARGET_FRONTEND}:latest
 
       - name: Resumen de trazabilidad (Commit -> Imagen -> Manifiesto)
         if: always()

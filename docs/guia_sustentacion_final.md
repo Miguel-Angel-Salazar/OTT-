@@ -168,7 +168,7 @@ kubectl get pods -n ott-platform -o custom-columns="POD:.metadata.name,STATUS:.s
 | **CI** | Pruebas unitarias | **Sí** | `python -m unittest discover tests -p "test_unit.py" -v` (10 unitarias + 4 de flujo + 6 E2E = 20 pruebas) | D2 |
 | **CI** | Control de fallos | **Sí** | En `.github/workflows/ci-cd.yml`: `needs: unit-and-integration-tests` + `if: success()` bloquea el build si falla un test | D2 |
 | **Imagen** | Dockerfiles de web y API | **Sí** | `backend/Dockerfile` (Python 3.11-slim, `USER appuser`, `HEALTHCHECK`) y `frontend/Dockerfile` (Nginx 1.25-alpine) | D3 |
-| **Imagen** | DockerHub | **Sí** | `juanexzz/ott-backend:v1.0.0` (`latest`) y `juanexzz/ott-frontend:v1.0.0` (`latest`) | D3 |
+| **Imagen** | DockerHub | **Sí** | `https://hub.docker.com/r/miguelsalazar22/ott-backend/tags` y `miguelsalazar22/ott-frontend/tags` (tags `v1.0.0`, `sha-a8898ad`, `latest`) y `juanexzz/ott-*` | D3 |
 | **Despliegue** | Minikube activo | **Sí** | `minikube status` ; `kubectl config current-context` (`minikube`) | D4 |
 | **Despliegue** | Manifiestos versionados | **Sí** | Carpeta `k8s/` (`01-namespace`, `02-configmap-and-secret`, `03-postgres`, `04-backend`, `05-frontend`) | D4, D6 |
 | **Despliegue** | Recursos saludables | **Sí** | `kubectl get pods,svc,deploy,statefulset,pvc -n ott-platform` (`1/1 Running`, PVC `Bound`) | D4, D8 |

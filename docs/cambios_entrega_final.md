@@ -32,11 +32,11 @@ Reglas que más afectan la nota:
 | P1–P4 · Pitch | Guion en `docs/guia_sustentacion_final.md` (Parte I) y presentación en diapositivas | Cumple |
 | D1 · Arquitectura y Git | Estructura `backend/`, `frontend/`, `database/`, `tests/`, `k8s/`, historial de commits | Cumple |
 | D2 · CI, pruebas y control de fallos | `.github/workflows/ci-cd.yml` con 2 jobs (`needs` + `if: success()`), 10 pruebas unitarias y 4 de integración | **Fallaba** (corregido, ver sección 3) |
-| D3 · Dockerfiles y Docker Hub | Capas ordenadas, usuario `appuser`, `HEALTHCHECK`, etiquetas OCI; imágenes `juanexzz/ott-backend` y `juanexzz/ott-frontend` | Cumple. Falta configurar secretos para que CI publique solo |
+| D3 · Dockerfiles y Docker Hub | Capas ordenadas, usuario `appuser`, `HEALTHCHECK`, etiquetas OCI; imágenes publicadas en Docker Hub (`miguelsalazar22/ott-backend` y `miguelsalazar22/ott-frontend` con tags `v1.0.0`, `sha-a8898ad` y `latest`, además de `juanexzz/*`) | Cumple |
 | D4 · Minikube | 5 manifiestos en `k8s/`: Namespace, ConfigMap/Secret, PostgreSQL StatefulSet + PVC, Deployments y Services con probes | Cumple |
 | D5 · Flujo E2E y caso de error | Login → favorito/progreso → consulta en `ott-db-0`; `/api/movies/999` devuelve 404 y login inválido muestra alerta | Cumple |
 | D6 · Trazabilidad | Tags `v1.0.0` y `sha-<commit>`, comando `kubectl get pods ... imageID` | Cumple; reforzado con validación y resumen en CI |
-| D7 · Seguridad | `.env` ignorado, `.env.example`, Secret de Kubernetes, contenedor sin root | Cumple con una advertencia (ver sección 5) |
+| D7 · Seguridad | `.env` ignorado, `.env.example`, Secret de Kubernetes codificado en Base64 (`data:`), contenedor sin root | Cumple |
 | D8 · Observabilidad y operación | `kubectl logs`, `describe`, borrado de pod y autorrecuperación | Cumple |
 | D9 · Roles | Reparto de integrantes en la guía de sustentación | Cumple |
 
@@ -116,7 +116,7 @@ Se preparó una presentación de 15 diapositivas, con notas del orador y los com
    Sin ellos el pipeline pasa igual, pero no publica las imágenes; el Summary lo indica.
 2. **Confirmar el pipeline en verde.** Hacer push o ejecutar *Run workflow* en Actions y verificar que los 2 jobs terminen bien.
 3. **Ensayar la demo completa en Minikube** siguiendo `docs/guia_sustentacion_final.md` y tomar capturas de respaldo.
-4. **No abrir en pantalla `k8s/02-configmap-and-secret.yaml`.** Tiene credenciales de desarrollo en texto plano (`ott_password`, `SECRET_KEY`). Si el profesor pregunta, explicarlo como límite (diapositiva 14) y proponer Sealed Secrets o crear el Secret desde un `.env` fuera de Git.
+4. **Secretos en Kubernetes (`D7`):** `k8s/02-configmap-and-secret.yaml` utiliza ahora el bloque estándar `data:` en Base64 (sin contraseñas en texto plano). Durante la demo se recomienda mostrarlo con `kubectl describe secret ott-secrets -n ott-platform` para evidenciar las llaves inyectadas sin exponer sus valores decodificados.
 
 ---
 
