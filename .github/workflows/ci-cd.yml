@@ -80,6 +80,12 @@ jobs:
     needs: unit-and-integration-tests
     if: success()
 
+    # Los secretos no se pueden usar directamente en un "if:" de un paso;
+    # se exponen como variables de entorno del job y se evalúa env.*
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
     steps:
       - name: Checkout del código fuente
         uses: actions/checkout@v4
@@ -114,16 +120,51 @@ jobs:
         run: |
           echo "=== IMÁGENES CONSTRUIDAS Y ETIQUETADAS ==="
           docker images | grep -E "ott-backend|ott-frontend"
-          echo "=== MANIFIESTOS KUBERNETES VERSIONADOS ==="
-          ls -la k8s/
+          echo "=== VALIDACIÓN DE MANIFIESTOS KUBERNETES (k8s/) ==="
+          python3 -c "import yaml" 2>/dev/null || sudo apt-get install -y python3-yaml
+          python3 - <<'PY'
+          import glob, sys, yaml
+          errores = 0
+          for f in sorted(glob.glob("k8s/*.yaml")):
+              docs = [d for d in yaml.safe_load_all(open(f)) if d]
+              print(f"{f}: " + ", ".join(f"{d['kind']}/{d['metadata']['name']}" for d in docs))
+              for d in docs:
+                  if not d.get("apiVersion") or not d.get("kind"):
+                      print(f"  ERROR: documento sin apiVersion/kind en {f}"); errores += 1
+          sys.exit(1 if errores else 0)
+          PY
+          echo "=== COHERENCIA TAG CI <-> MANIFIESTO ==="
+          grep -q "image: ${{ env.BACKEND_IMAGE }}:v${{ env.APP_VERSION }}" k8s/04-backend.yaml
+          grep -q "image: ${{ env.FRONTEND_IMAGE }}:v${{ env.APP_VERSION }}" k8s/05-frontend.yaml
+          echo "OK: k8s/ despliega exactamente v${{ env.APP_VERSION }}, la versión construida por este pipeline"
 
       - name: Publicar en Docker Hub (si secretos DOCKERHUB están configurados)
-        if: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+        if: ${{ env.DOCKERHUB_USERNAME != '' && env.DOCKERHUB_TOKEN != '' }}
         run: |
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
           docker push ${{ env.BACKEND_IMAGE }}:v${{ env.APP_VERSION }}
           docker push ${{ env.BACKEND_IMAGE }}:sha-${{ steps.vars.outputs.short_sha }}
           docker push ${{ env.BACKEND_IMAGE }}:latest
           docker push ${{ env.FRONTEND_IMAGE }}:v${{ env.APP_VERSION }}
           docker push ${{ env.FRONTEND_IMAGE }}:sha-${{ steps.vars.outputs.short_sha }}
           docker push ${{ env.FRONTEND_IMAGE }}:latest
+
+      - name: Resumen de trazabilidad (Commit -> Imagen -> Manifiesto)
+        if: always()
+        run: |
+          {
+            echo "## Trazabilidad de la entrega"
+            echo ""
+            echo "| Elemento | Valor |"
+            echo "|---|---|"
+            echo "| Commit | \`${GITHUB_SHA}\` |"
+            echo "| Rama | \`${GITHUB_REF_NAME}\` |"
+            echo "| Imagen backend | \`${{ env.BACKEND_IMAGE }}:v${{ env.APP_VERSION }}\` y \`sha-${{ steps.vars.outputs.short_sha }}\` |"
+            echo "| Imagen frontend | \`${{ env.FRONTEND_IMAGE }}:v${{ env.APP_VERSION }}\` y \`sha-${{ steps.vars.outputs.short_sha }}\` |"
+            echo "| Manifiestos | \`k8s/04-backend.yaml\`, \`k8s/05-frontend.yaml\` (v${{ env.APP_VERSION }}) |"
+            if [ -n "$DOCKERHUB_USERNAME" ]; then
+              echo "| Docker Hub | publicado |"
+            else
+              echo "| Docker Hub | omitido: faltan los secretos DOCKERHUB_USERNAME / DOCKERHUB_TOKEN |"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
