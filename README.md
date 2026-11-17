@@ -1,5 +1,5 @@
 # 🎬 Proyecto OTT - Clon de MUBI
-### Materia: Paradigmas de Programación — Entrega 2 y Final
+### Materias: Paradigmas de Programación (Entrega 2 y Final) · Gestión de la Configuración (Entrega Final DevOps)
 
 Plataforma de streaming de video bajo demanda (OTT), inspirada en el diseño, curaduría y funcionamiento de MUBI. El proyecto implementa una arquitectura Modelo-Vista-Controlador (MVC), persistencia relacional en PostgreSQL, renderizado en servidor con Jinja2, documentación Swagger/OpenAPI, proxy inverso con Nginx y despliegue modular con Docker Compose.
 

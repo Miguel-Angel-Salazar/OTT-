@@ -53,6 +53,7 @@ Este documento está estructurado exactamente según el libro de calificación *
 1. **Abrir en GitHub la pestaña Actions** (`.github/workflows/ci-cd.yml`) y señalar los 2 Jobs encadenados con `needs: unit-and-integration-tests`:
    * **Job 1 (`unit-and-integration-tests`):** Levanta un servicio `postgres:16-alpine`, ejecuta `database/init.sql` y corre las pruebas.
    * **Job 2 (`docker-build-and-traceability`):** Solo se ejecuta si `if: success()` del Job 1 se cumple (demostrando la política de control de fallos que previene promocionar código roto).
+   * **Validación de manifiestos:** el Job 2 también lee los YAML de `k8s/` y falla si `04-backend.yaml` o `05-frontend.yaml` no usan la misma versión (`v1.0.0`) que el pipeline acaba de construir.
 2. **Ejecutar las pruebas en vivo en la terminal** para mostrar el test runner y qué cubren:
    ```powershell
    .\.venv\Scripts\python.exe -m unittest discover tests -p "test_unit.py" -v
@@ -107,6 +108,8 @@ git rev-parse --short HEAD
 # 2. Ver exactamente qué imagen e ImageID están corriendo en cada Pod de Minikube
 kubectl get pods -n ott-platform -o custom-columns="POD:.metadata.name,STATUS:.status.phase,IMAGE:.spec.containers[*].image,IMAGE_ID:.status.containerStatuses[*].imageID"
 ```
+**Evidencia en GitHub:** abrir la última ejecución en Actions y mostrar el **Summary** del Job 2: incluye la tabla *Trazabilidad de la entrega* (commit, rama, imágenes con tag `v1.0.0` y `sha-<commit>`, manifiestos y estado de la publicación en Docker Hub).
+
 *Explicar la diferencia entre CI y CD/GitOps:*
 * **CI (GitHub Actions):** Valida el código con pruebas automatizadas y empaqueta el artefacto inmutable (imagen Docker etiquetada con versión y SHA).
 * **Estado Declarativo / GitOps (`k8s/`):** La carpeta `k8s/` en Git es la **única fuente de verdad** del estado deseado del clúster; `kubectl apply -f k8s/` reconcilia el estado real de Minikube con lo declarado en Git.
