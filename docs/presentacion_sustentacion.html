@@ -3,1153 +3,943 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Presentación Sustentación Final · Plataforma OTT CINÉFILO</title>
+  <title>CINÉFILO — Plataforma de Streaming & Arquitectura Cloud-Native</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
     :root {
-      --bg-dark: #0b0f19;
-      --bg-slide: #111827;
-      --bg-card: #1f2937;
-      --bg-code: #090d16;
-      --text-primary: #f9fafb;
-      --text-secondary: #9ca3af;
-      --accent-red: #e11d48;
-      --accent-blue: #3b82f6;
-      --accent-emerald: #10b981;
-      --accent-amber: #f59e0b;
-      --accent-purple: #8b5cf6;
-      --border-subtle: rgba(255, 255, 255, 0.09);
+      --bg-base: #000000;
+      --bg-surface: #0d0d0d;
+      --bg-card: #141414;
+      --bg-card-hover: #1c1c1c;
+      --text-main: #ffffff;
+      --text-secondary: #d4d4d4;
+      --text-muted: #8c8c8c;
+      --border-color: rgba(255, 255, 255, 0.09);
+      --border-strong: rgba(255, 255, 255, 0.28);
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+      --radius-sm: 3px;
+      --radius-md: 6px;
+      --transition: 180ms ease;
     }
 
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+    html {
+      color-scheme: dark;
+    }
+
     body {
-      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-primary);
+      background-color: var(--bg-base);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.028'/%3E%3C/svg%3E");
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
       height: 100vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
 
-    /* Barra superior limpia */
-    .header {
-      height: 56px;
-      padding: 0 36px;
+    ::selection {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    /* Navbar idéntica a la estética de CINÉFILO */
+    .navbar {
+      height: 64px;
+      padding: 0 4rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(17, 24, 39, 0.85);
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(14px);
       flex-shrink: 0;
+      z-index: 50;
     }
 
-    .header-logo {
+    .navbar__brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      font-size: 1rem;
-      letter-spacing: 0.5px;
+      gap: 2rem;
     }
 
-    .logo-badge {
-      background: var(--accent-red);
-      color: #fff;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 800;
+    .navbar__logo {
+      font-size: 0.8125rem;
+      font-weight: 300;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--text-main);
     }
 
-    .header-tools {
+    .navbar__divider {
+      width: 1px;
+      height: 14px;
+      background: var(--border-color);
+    }
+
+    .navbar__section-label {
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .navbar__steps {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 0.45rem;
     }
 
-    .timer-pill {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 0.85rem;
+    .step-line {
+      width: 1.4rem;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.16);
       cursor: pointer;
+      transition: background var(--transition), height var(--transition);
+    }
+
+    .step-line:hover {
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    .step-line.is-active {
+      background: #ffffff;
+      height: 2px;
+    }
+
+    .navbar__actions {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-weight: 600;
+      gap: 1rem;
     }
 
-    .timer-pill:hover {
-      border-color: var(--accent-blue);
-    }
-
-    .tool-btn {
-      background: var(--bg-card);
-      color: var(--text-primary);
-      border: 1px solid var(--border-subtle);
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
+    .btn-minimal {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--text-main);
+      padding: 0.45rem 0.95rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: border-color var(--transition), background var(--transition);
     }
 
-    .tool-btn:hover {
-      background: var(--accent-blue);
-      border-color: var(--accent-blue);
+    .btn-minimal:hover {
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.04);
     }
 
-    /* Área central de la diapositiva */
-    .stage {
+    /* Contenedor de diapositivas */
+    .viewport {
       flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px 40px;
+      position: relative;
       overflow: hidden;
     }
 
     .slide {
+      position: absolute;
+      inset: 0;
+      padding: 3.5rem 4rem 2.5rem;
       display: none;
-      width: 100%;
-      max-width: 1240px;
-      height: 100%;
-      max-height: 680px;
-      background: var(--bg-slide);
-      border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      padding: 40px 48px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-      flex-direction: column;
-      justify-content: space-between;
-      overflow-y: auto;
-      animation: slideFade 0.22s ease-out;
-    }
-
-    .slide.active {
-      display: flex;
-    }
-
-    @keyframes slideFade {
-      from { opacity: 0; transform: scale(0.99); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    /* Encabezado de cada slide */
-    .slide-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border-subtle);
-      margin-bottom: 24px;
-    }
-
-    .meta-tags {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-    }
-
-    .pill {
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 999px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .pill-pitch { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
-    .pill-demo { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
-    .pill-score { background: rgba(16, 185, 129, 0.15); color: #34d399; }
-
-    .slide-title {
-      font-size: 1.95rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      line-height: 1.2;
-    }
-
-    .slide-subtitle {
-      color: var(--text-secondary);
-      font-size: 1rem;
-      margin-top: 6px;
-    }
-
-    .presenter-tag {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      padding: 10px 18px;
-      border-radius: 12px;
-      text-align: right;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .presenter-tag span {
-      display: block;
-      font-size: 0.72rem;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .presenter-tag strong {
-      font-size: 1.05rem;
-      color: #fff;
-    }
-
-    /* Cuerpo de la diapositiva */
-    .slide-body {
-      flex: 1;
-      display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 20px;
+      max-width: 1360px;
+      margin: 0 auto;
+      width: 100%;
+      overflow-y: auto;
+      animation: fadeSlide 240ms ease-out;
     }
 
-    .cols-2 {
+    .slide.is-active {
+      display: flex;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Tipografía editorial CINÉFILO */
+    .eyebrow {
+      color: var(--text-muted);
+      font-size: 0.6875rem;
+      font-weight: 400;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .headline {
+      font-size: clamp(2rem, 3.2vw, 2.85rem);
+      font-weight: 300;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: var(--text-main);
+      margin-bottom: 0.85rem;
+    }
+
+    .headline strong {
+      font-weight: 600;
+    }
+
+    .lead {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.65;
+      max-width: 52rem;
+      margin-bottom: 2.25rem;
+    }
+
+    /* Layouts de rejilla */
+    .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 1.5rem;
     }
 
-    .cols-3 {
+    .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 1.25rem;
     }
 
-    .cols-4 {
+    .grid-4 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      gap: 1.15rem;
     }
 
-    .card {
+    /* Tarjetas monocromáticas estilo MUBI/CINÉFILO */
+    .panel {
       background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 22px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 1.6rem 1.75rem;
+      transition: border-color var(--transition);
     }
 
-    .card h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .panel:hover {
+      border-color: rgba(255, 255, 255, 0.22);
     }
 
-    .card p {
-      font-size: 0.94rem;
-      color: #d1d5db;
-      line-height: 1.55;
-    }
-
-    .card ul {
-      padding-left: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      color: #d1d5db;
-      font-size: 0.93rem;
-      line-height: 1.5;
-    }
-
-    /* Diagrama visual limpio con CSS */
-    .flow-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 24px;
-    }
-
-    .flow-node {
-      flex: 1;
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 18px 16px;
-      text-align: center;
-    }
-
-    .flow-node strong {
+    .panel__index {
+      font-size: 0.6875rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.65rem;
       display: block;
-      font-size: 1rem;
-      margin-bottom: 6px;
-      color: #fff;
     }
 
-    .flow-node span {
-      font-size: 0.83rem;
+    .panel__title {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text-main);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    .panel p {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .panel ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .panel li {
+      font-size: 0.86rem;
+      font-weight: 300;
       color: var(--text-secondary);
-      display: block;
-      line-height: 1.4;
-    }
-
-    .flow-arrow {
-      font-size: 1.4rem;
-      color: var(--accent-blue);
-      font-weight: 800;
-    }
-
-    /* Bloques de terminal limpios */
-    .terminal {
-      background: var(--bg-code);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      border-radius: 12px;
-      padding: 16px 18px;
-      font-family: 'Cascadia Code', Consolas, monospace;
-      font-size: 0.85rem;
-      color: #93c5fd;
       line-height: 1.55;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .panel li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--text-muted);
+    }
+
+    .panel li strong {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    /* Diagrama de flujo minimalista */
+    .arch-chain {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .arch-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      font-weight: 300;
+      padding: 0 0.25rem;
+    }
+
+    /* Bloques de código y comandos */
+    .code-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 1.15rem 1.35rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: #e5e5e5;
+      line-height: 1.6;
       position: relative;
       white-space: pre-wrap;
     }
 
-    .copy-btn {
+    .code-panel .comment {
+      color: #6e6e6e;
+    }
+
+    .copy-trigger {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(59, 130, 246, 0.2);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: var(--text-muted);
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 0.6875rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
       cursor: pointer;
+      transition: all var(--transition);
     }
 
-    .copy-btn:hover {
-      background: var(--accent-blue);
-      color: #fff;
+    .copy-trigger:hover {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
     }
 
-    /* Tablas limpias */
+    /* Tablas editoriales */
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.9rem;
-      border-radius: 12px;
-      overflow: hidden;
+      border: 1px solid var(--border-color);
+      font-size: 0.85rem;
     }
 
     th, td {
-      padding: 12px 16px;
+      padding: 0.9rem 1.15rem;
       text-align: left;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-color);
     }
 
     th {
-      background: rgba(255, 255, 255, 0.05);
-      color: #fbbf24;
-      font-weight: 700;
-      font-size: 0.82rem;
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
     td {
-      background: var(--bg-card);
-      color: #e5e7eb;
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    td strong {
+      color: var(--text-main);
+      font-weight: 500;
     }
 
     code {
-      background: rgba(255, 255, 255, 0.08);
-      padding: 2px 6px;
-      border-radius: 5px;
-      font-family: Consolas, monospace;
-      font-size: 0.86em;
-      color: #93c5fd;
+      font-family: var(--font-mono);
+      font-size: 0.82em;
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.07);
+      padding: 0.15rem 0.4rem;
+      border-radius: 2px;
+    }
+
+    /* Métricas destacadas */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      padding: 1.25rem 1.5rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .stat-card__value {
+      font-size: 1.85rem;
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-card__label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
     }
 
     /* Barra inferior */
     .footer {
       height: 54px;
-      padding: 0 36px;
+      padding: 0 4rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(17, 24, 39, 0.85);
-      border-top: 1px solid var(--border-subtle);
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-base);
       flex-shrink: 0;
+      font-size: 0.75rem;
+      color: var(--text-muted);
     }
 
-    .dots {
+    .footer__controls {
       display: flex;
-      gap: 6px;
-    }
-
-    .dot {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-      font-size: 0.78rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .dot.active {
-      background: var(--accent-red);
-      color: #fff;
-      border-color: var(--accent-red);
+      gap: 0.5rem;
     }
   </style>
 </head>
 <body>
 
-  <!-- Barra Superior -->
-  <header class="header">
-    <div class="header-logo">
-      <span class="logo-badge">CINÉFILO</span>
-      <span>Plataforma OTT · Entrega Final DevOps</span>
+  <!-- Barra de Navegación CINÉFILO -->
+  <header class="navbar">
+    <div class="navbar__brand">
+      <span class="navbar__logo">CINÉFILO</span>
+      <span class="navbar__divider"></span>
+      <span class="navbar__section-label" id="section-indicator">Plataforma OTT & Arquitectura Cloud-Native</span>
     </div>
-    <div class="header-tools">
-      <div class="timer-pill" onclick="toggleTimer()" title="Clic para iniciar o pausar">
-        <span>⏱️ Tiempo:</span>
-        <span id="timer">00:00</span>
-      </div>
-      <button class="tool-btn" onclick="resetTimer()">Reiniciar</button>
-      <button class="tool-btn" onclick="toggleFullscreen()">⛶ Pantalla Completa</button>
+
+    <div class="navbar__steps" id="step-bars"></div>
+
+    <div class="navbar__actions">
+      <button class="btn-minimal" onclick="toggleFullscreen()">Pantalla Completa</button>
     </div>
   </header>
 
-  <!-- Escenario de Diapositivas -->
-  <main class="stage">
+  <!-- Escenario Principal -->
+  <main class="viewport">
 
-    <!-- ==================== SLIDE 1: PORTADA ==================== -->
-    <section class="slide active">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-pitch">Sustentación Final</span>
-            <span class="pill pill-demo">Aplicación Web + API + BD en Minikube</span>
-          </div>
-          <h1 class="slide-title">🎬 Plataforma de Streaming «CINÉFILO»</h1>
-          <p class="slide-subtitle">Cadena de entrega verificable desde Git hasta Kubernetes con flujo E2E real</p>
+    <!-- ==================== 01 · PORTADA ==================== -->
+    <section class="slide is-active" data-section="Presentación General">
+      <p class="eyebrow">Ingeniería de Software · Gestión de la Configuración & DevOps</p>
+      <h1 class="headline" style="font-size: clamp(2.6rem, 4.5vw, 4rem); margin-bottom: 1.25rem;">
+        <strong>CINÉFILO</strong> — Plataforma de Streaming OTT
+      </h1>
+      <p class="lead">
+        Arquitectura web multi-servicio desacoplada, entrega continua verificada con pruebas automatizadas, contenerización segura y orquestación declarativa sobre Kubernetes.
+      </p>
+
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-card__value">3 Capas</div>
+          <div class="stat-card__label">Nginx · Flask API · PostgreSQL 16</div>
         </div>
-        <div class="presenter-tag">
-          <span>Estructura de Defensa</span>
-          <strong>Pitch 20% · Demo 80%</strong>
+        <div class="stat-card">
+          <div class="stat-card__value">20 Títulos</div>
+          <div class="stat-card__label">Catálogo Semilla & Cine Colombiano</div>
         </div>
-      </div>
-
-      <div class="slide-body">
-        <div class="cols-4">
-          <div class="card" style="border-top: 4px solid var(--accent-red);">
-            <h3>👤 Integrante 1</h3>
-            <p><strong>Contexto, Arquitectura y CI</strong></p>
-            <ul>
-              <li><strong>P1 (5%):</strong> Problema y motivación</li>
-              <li><strong>D1 (8%):</strong> Arquitectura y Git</li>
-              <li><strong>D2 (12%):</strong> GitHub Actions + 20 pruebas + Control de fallos</li>
-            </ul>
-          </div>
-
-          <div class="card" style="border-top: 4px solid var(--accent-amber);">
-            <h3>👤 Integrante 2</h3>
-            <p><strong>Valor, Docker y Seguridad</strong></p>
-            <ul>
-              <li><strong>P2 (5%):</strong> Propuesta de valor y alcance</li>
-              <li><strong>D3 (8%):</strong> Dockerfiles y Docker Hub</li>
-              <li><strong>D7 (5%):</strong> Configuración y Secretos K8s</li>
-            </ul>
-          </div>
-
-          <div class="card" style="border-top: 4px solid var(--accent-blue);">
-            <h3>👤 Integrante 3</h3>
-            <p><strong>DevOps, Minikube y Operación</strong></p>
-            <ul>
-              <li><strong>P3 (5%):</strong> Justificación técnica DevOps</li>
-              <li><strong>D4 (14%):</strong> Despliegue en Minikube</li>
-              <li><strong>D8 (5%):</strong> Logs, diagnóstico y Self-Healing</li>
-            </ul>
-          </div>
-
-          <div class="card" style="border-top: 4px solid var(--accent-emerald);">
-            <h3>👤 Integrante 4</h3>
-            <p><strong>Trazabilidad y Flujo E2E Real</strong></p>
-            <ul>
-              <li><strong>P4 / D9 (9%):</strong> Síntesis y autonomía</li>
-              <li><strong>D6 (10%):</strong> Trazabilidad Commit → Pod</li>
-              <li><strong>D5 (14%):</strong> Flujo E2E UI → API → BD y errores</li>
-            </ul>
-          </div>
+        <div class="stat-card">
+          <div class="stat-card__value">20 Pruebas</div>
+          <div class="stat-card__label">Unitarias · Integración SQL · E2E</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value">Kubernetes</div>
+          <div class="stat-card__label">StatefulSet · PVC · Health Probes</div>
         </div>
       </div>
     </section>
 
-    <!-- ==================== SLIDE 2: P1 PROBLEMA ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-pitch">Parte I · Elevator Pitch</span>
-            <span class="pill pill-score">Criterio P1 · 5%</span>
-          </div>
-          <h2 class="slide-title">Problema Real, Destinatarios y Motivación</h2>
-        </div>
-        <div class="presenter-tag">
-          <span>Expone</span>
-          <strong>Integrante 1</strong>
-        </div>
-      </div>
+    <!-- ==================== 02 · PROBLEMA Y MOTIVACIÓN ==================== -->
+    <section class="slide" data-section="01 · Problema y Motivación">
+      <p class="eyebrow">01 · Contexto y Necesidad</p>
+      <h2 class="headline">Visibilidad Cultural y <strong>Autonomía de Infraestructura</strong></h2>
+      <p class="lead">
+        El proyecto responde simultáneamente a una brecha en la distribución de cine regional y a los retos operativos de mantener una plataforma multimedia reproducible.
+      </p>
 
-      <div class="slide-body">
-        <div class="cols-2">
-          <div class="card">
-            <h3>🎯 Necesidad del Producto y Usuarios</h3>
-            <ul>
-              <li><strong>Baja visibilidad del Cine Colombiano e Independiente:</strong> Los catálogos comerciales masivos no priorizan curaduría regional latinoamericana.</li>
-              <li><strong>Usuarios Suscriptores:</strong> Buscan explorar cine por región (<code>LATAM</code>, <code>EUROPA</code>, <code>USA</code>), guardar su lista de favoritos, calificar títulos y reanudar películas en el segundo exacto.</li>
-              <li><strong>Usuarios Evaluadores / Operación:</strong> Necesitan consultar el estado de salud (<code>/api/health</code>) y probar endpoints en vivo con Swagger (<code>/apidocs/</code>).</li>
-            </ul>
-          </div>
+      <div class="grid-2">
+        <div class="panel">
+          <span class="panel__index">Dimensión de Producto</span>
+          <h3 class="panel__title">Curaduría de Cine Colombiano e Independiente</h3>
+          <ul>
+            <li><strong>Problema:</strong> Los catálogos comerciales masivos relegan el cine independiente y las producciones latinoamericanas frente a algoritmos genéricos.</li>
+            <li><strong>Espectadores / Suscriptores:</strong> Requieren un catálogo organizado por región (<code>LATAM</code>, <code>EUROPA</code>, <code>USA</code>), reproducción continua con memoria del segundo exacto de visualización, lista personalizada y calificaciones.</li>
+            <li><strong>Operadores y Auditores:</strong> Requieren endpoints de diagnóstico en vivo (<code>/api/health</code>) y contratos REST documentados en OpenAPI (<code>/apidocs/</code>).</li>
+          </ul>
+        </div>
 
-          <div class="card">
-            <h3>⚙️ Problema Técnico Inicial que Resolvimos</h3>
-            <ul>
-              <li><strong>Dependencia de servicios externos cerrados:</strong> En la entrega inicial la base de datos dependía de <em>Supabase</em> en la nube.</li>
-              <li><strong>Cuello de botella en un solo proceso:</strong> Flask servía tanto las vistas HTML como los archivos de video MP4 pesados, saturando el servidor.</li>
-              <li><strong>Falta de reproducibilidad:</strong> Sin contenedores ni pruebas automatizadas en CI, cualquier cambio de código rompía el entorno del equipo.</li>
-            </ul>
-          </div>
+        <div class="panel">
+          <span class="panel__index">Dimensión de Ingeniería</span>
+          <h3 class="panel__title">Eliminación de Dependencias Externas y Monolito</h3>
+          <ul>
+            <li><strong>Acoplamiento inicial:</strong> La primera iteración dependía de una base de datos externa en la nube (<em>Supabase</em>), impidiendo despliegues autónomos y reproducibles.</li>
+            <li><strong>Saturación por archivos multimedia:</strong> Servir archivos de video MP4 y renderizar plantillas HTML desde el mismo proceso Python bloqueaba los hilos del servidor.</li>
+            <li><strong>Riesgo de regresión:</strong> La ausencia de un pipeline de integración continua permitía que cambios en consultas SQL o rutas afectaran la rama principal sin detección previa.</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- ==================== SLIDE 3: P2 PROPUESTA DE VALOR ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-pitch">Parte I · Elevator Pitch</span>
-            <span class="pill pill-score">Criterio P2 · 5%</span>
-          </div>
-          <h2 class="slide-title">Propuesta de Valor, Solución y Alcance Real</h2>
+    <!-- ==================== 03 · PROPUESTA DE VALOR Y ALCANCE ==================== -->
+    <section class="slide" data-section="02 · Propuesta de Valor y Alcance">
+      <p class="eyebrow">02 · Solución Implementada</p>
+      <h2 class="headline">Propuesta de Valor, <strong>Funcionalidades y Alcance</strong></h2>
+      <p class="lead">
+        Una plataforma de video bajo demanda 100% autónoma que inicializa su propio esquema relacional, activos multimedia y reglas de negocio en cualquier entorno.
+      </p>
+
+      <div class="grid-3">
+        <div class="panel">
+          <span class="panel__index">Experiencia de Usuario</span>
+          <h3 class="panel__title">Capacidades en Producción</h3>
+          <ul>
+            <li><strong>Autenticación Criptográfica:</strong> Registro, login y cambio de clave con hashing <code>bcrypt</code> y sesiones firmadas.</li>
+            <li><strong>Catálogo Regional (20 Obras):</strong> Selección dedicada de <em>Cine Colombiano</em> (<em>Monos</em>, <em>El olvido que seremos</em>, <em>La vendedora de rosas</em>, <em>Pájaros de verano</em>, <em>El páramo</em>).</li>
+            <li><strong>Reproductor con Estado:</strong> Persistencia automática del segundo de reproducción en base de datos (<code>watch_history</code>).</li>
+            <li><strong>Interacción:</strong> Gestión de <em>Mi Lista</em> (favoritos), sistema de Likes/Dislikes, buscador instantáneo y cambio de plan de suscripción.</li>
+          </ul>
         </div>
-        <div class="presenter-tag">
-          <span>Expone</span>
-          <strong>Integrante 2</strong>
+
+        <div class="panel">
+          <span class="panel__index">Diferenciador Técnico</span>
+          <h3 class="panel__title">Portabilidad sin Servicios Externos</h3>
+          <ul>
+            <li><strong>Base de Datos Propia:</strong> Migración completa a <code>PostgreSQL 16 Alpine</code> con 6 tablas relacionales e integridad referencial (<code>ON DELETE CASCADE</code>).</li>
+            <li><strong>Sembrado Automático:</strong> El script <code>init.sql</code> aprovisiona estructura, usuarios de prueba y catálogo sin intervención manual.</li>
+            <li><strong>Separación de Tráfico:</strong> Nginx entrega los videos MP4 directamente desde disco con caché, liberando al backend Flask.</li>
+          </ul>
         </div>
-      </div>
 
-      <div class="slide-body">
-        <div class="cols-3">
-          <div class="card">
-            <h3>✨ Funcionalidades Clave</h3>
-            <ul>
-              <li><strong>Autenticación segura:</strong> Contraseñas cifradas con <code>bcrypt</code> y sesiones firmadas.</li>
-              <li><strong>Catálogo de 20 títulos:</strong> Incluye 5 películas colombianas (<em>Monos</em>, <em>El olvido que seremos</em>, <em>La vendedora de rosas</em>, <em>Pájaros de verano</em>, <em>El páramo</em>).</li>
-              <li><strong>Reproductor con memoria:</strong> Guarda el segundo de reproducción en PostgreSQL (<code>watch_history</code>).</li>
-              <li><strong>Favoritos, Likes y Búsqueda:</strong> Filtros instantáneos y gestión de plan en <code>/profile</code>.</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>🏛️ Diferenciador Técnico</h3>
-            <ul>
-              <li><strong>100% Autónomo y Portátil:</strong> Base de datos PostgreSQL 16 propia con inicialización automática (<code>init.sql</code>).</li>
-              <li><strong>Arquitectura Desacoplada en 3 Capas:</strong>
-                <ul>
-                  <li><strong>Frontend:</strong> Nginx 1.25 Alpine (Reverse Proxy + Caché).</li>
-                  <li><strong>Backend:</strong> Python 3.11 + Flask MVC + OpenAPI.</li>
-                  <li><strong>Base de Datos:</strong> PostgreSQL 16 con volumen persistente.</li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>🚧 Límites Honestos del Alcance</h3>
-            <ul>
-              <li><strong>Streaming de video:</strong> Entrega progresiva de archivos MP4 locales con caché en Nginx (no transcodificación adaptativa HLS).</li>
-              <li><strong>Despliegue declarativo:</strong> Manifiestos versionados en Git (<code>k8s/</code>) aplicados sobre <strong>Minikube</strong> con <code>kubectl apply -f k8s/</code> (sin operador externo Argo CD ni Jenkins).</li>
-            </ul>
-          </div>
+        <div class="panel">
+          <span class="panel__index">Transparencia Técnica</span>
+          <h3 class="panel__title">Límites del Alcance Actual</h3>
+          <ul>
+            <li><strong>Entrega Multimedia:</strong> Streaming HTTP progresivo de archivos MP4 locales (no incluye transcodificación adaptativa HLS multi-bitrate).</li>
+            <li><strong>Reconciliación en Clúster:</strong> Estado declarativo versionado en Git (<code>k8s/</code>) aplicado sobre <strong>Minikube</strong> mediante <code>kubectl apply</code>, sin requerir operadores externos como Argo CD o Jenkins.</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- ==================== SLIDE 4: P3 JUSTIFICACIÓN DEVOPS ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-pitch">Parte I · Elevator Pitch</span>
-            <span class="pill pill-score">Criterio P3 · 5%</span>
-          </div>
-          <h2 class="slide-title">Justificación Técnica y Aporte de las Prácticas DevOps</h2>
-        </div>
-        <div class="presenter-tag">
-          <span>Expone</span>
-          <strong>Integrante 3</strong>
-        </div>
-      </div>
+    <!-- ==================== 04 · STACK TECNOLÓGICO Y JUSTIFICACIÓN ==================== -->
+    <section class="slide" data-section="03 · Stack Tecnológico y Decisiones">
+      <p class="eyebrow">03 · Decisiones de Ingeniería</p>
+      <h2 class="headline">Stack Tecnológico y <strong>Justificación DevOps</strong></h2>
 
-      <div class="slide-body">
-        <table>
-          <thead>
-            <tr>
-              <th>Práctica / Decisión Técnica</th>
-              <th>Por qué aporta valor real al producto</th>
-              <th>Compensación (Trade-off) asumida</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>1. Nginx como Proxy Inverso y Servidor Estático</strong></td>
-              <td>Descarga a Flask de enviar archivos MP4 pesados; aplica caché de 30 días en <code>/static/*</code> y enruta peticiones dinámicas a <code>ott-backend:5000</code>.</td>
-              <td>Añade un contenedor adicional, pero reduce drásticamente la carga de CPU en Python.</td>
-            </tr>
-            <tr>
-              <td><strong>2. CI en GitHub Actions con PostgreSQL Real</strong></td>
-              <td>Cada commit levanta un contenedor <code>postgres:16-alpine</code> efímero, carga <code>init.sql</code> y ejecuta 14 pruebas reales antes de construir imágenes.</td>
-              <td>El pipeline toma ~45 segundos adicionales a cambio de detectar errores SQL reales antes del despliegue.</td>
-            </tr>
-            <tr>
-              <td><strong>3. StatefulSet + PVC en Kubernetes</strong></td>
-              <td>Garantiza que si el pod de PostgreSQL se reinicia, los usuarios registrados, favoritos y el minuto de reproducción persistan en disco (<code>1Gi</code>).</td>
-              <td>Requiere aprovisionar almacenamiento persistente (<code>postgres-pv</code> / <code>postgres-pvc</code>) en el clúster.</td>
-            </tr>
-            <tr>
-              <td><strong>4. Probes HTTP hacia <code>/api/health</code></strong></td>
-              <td>Kubernetes verifica cada 15 s que Flask y PostgreSQL respondan (<code>SELECT 1</code>) y reinicia el pod automáticamente si falla.</td>
-              <td>Genera una consulta ligera periódica hacia la base de datos.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Capa / Práctica</th>
+            <th>Tecnología y Versión</th>
+            <th>Por qué se eligió en esta arquitectura</th>
+            <th>Compensación (Trade-off) asumida</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Proxy Inverso & Estáticos</strong></td>
+            <td><code>Nginx 1.25-alpine</code></td>
+            <td>Entrega directamente <code>/static/*</code> (videos MP4 y pósters) con caché de 30 días y enruta peticiones dinámicas a Flask.</td>
+            <td>Introduce un contenedor adicional que requiere sincronizar la variable <code>BACKEND_URL</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Backend & API REST</strong></td>
+            <td><code>Python 3.11</code> · <code>Flask 3.1.1</code> · <code>Flasgger</code></td>
+            <td>Estructura modular en Blueprints MVC, renderizado SSR con Jinja2 y especificación interactiva OpenAPI en <code>/apidocs/</code>.</td>
+            <td>Requiere sondas de salud activas (<code>/api/health</code>) para supervisar la conexión con PostgreSQL.</td>
+          </tr>
+          <tr>
+            <td><strong>Persistencia Relacional</strong></td>
+            <td><code>PostgreSQL 16-alpine</code> · <code>psycopg2</code></td>
+            <td>Garantiza integridad referencial y restricciones <code>UNIQUE</code> en favoritos, calificaciones e historial de reproducción.</td>
+            <td>Exige desplegarse como <code>StatefulSet</code> con un <code>PersistentVolumeClaim</code> para no perder datos al reiniciar pods.</td>
+          </tr>
+          <tr>
+            <td><strong>Integración Continua (CI)</strong></td>
+            <td><code>GitHub Actions</code> · <code>Pytest</code> · <code>Playwright</code></td>
+            <td>Levanta un contenedor PostgreSQL real por cada commit/PR, ejecuta las pruebas y valida la sintaxis de los manifiestos K8s.</td>
+            <td>Mayor tiempo de ejecución del workflow (~45 s) frente a pruebas simuladas en memoria, a cambio de fidelidad real.</td>
+          </tr>
+          <tr>
+            <td><strong>Orquestación Local</strong></td>
+            <td><code>Kubernetes (Minikube v1.39)</code></td>
+            <td>Provee aislamiento por <code>Namespace</code>, inyección de <code>Secret</code>/<code>ConfigMap</code>, balanceo interno <code>ClusterIP</code> y <em>Self-Healing</em>.</td>
+            <td>Empaquetar los 20 videos MP4 en la imagen de Frontend incrementa su tamaño (~380 MB) para garantizar ejecución 100% offline.</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
-    <!-- ==================== SLIDE 5: P4 & D1 MAPA DE ARQUITECTURA ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-pitch">Cierre del Pitch & Arquitectura</span>
-            <span class="pill pill-score">Criterios P4 (5%) + D1 (8%)</span>
-          </div>
-          <h2 class="slide-title">Arquitectura Multi-Servicio y Cadena de Entrega</h2>
-        </div>
-        <div class="presenter-tag">
-          <span>Expone</span>
-          <strong>Integrante 4 / Integrante 1</strong>
-        </div>
-      </div>
+    <!-- ==================== 05 · ARQUITECTURA DE TRES CAPAS ==================== -->
+    <section class="slide" data-section="04 · Arquitectura del Sistema">
+      <p class="eyebrow">04 · Topología y Comunicación</p>
+      <h2 class="headline">Arquitectura Desacoplada en <strong>Tres Capas</strong></h2>
+      <p class="lead">
+        El tráfico externo ingresa únicamente a través del proxy inverso Nginx; el servidor de aplicaciones y la base de datos permanecen aislados dentro de la red interna del clúster.
+      </p>
 
-      <div class="slide-body">
-        <div class="flow-row">
-          <div class="flow-node" style="border-top: 3px solid var(--accent-red);">
-            <strong>1. GitHub (Monorepo)</strong>
-            <span>Código MVC + <code>tests/</code> + <code>k8s/</code><br/>Rama <code>main</code></span>
-          </div>
-          <div class="flow-arrow">➔</div>
-          <div class="flow-node" style="border-top: 3px solid var(--accent-amber);">
-            <strong>2. GitHub Actions CI</strong>
-            <span>Postgres 16 + Pruebas + Validador YAML + Control de Fallos</span>
-          </div>
-          <div class="flow-arrow">➔</div>
-          <div class="flow-node" style="border-top: 3px solid var(--accent-blue);">
-            <strong>3. Docker Hub</strong>
-            <span>Tags trazables:<br/><code>v1.0.0</code> · <code>sha-commit</code> · <code>latest</code></span>
-          </div>
-          <div class="flow-arrow">➔</div>
-          <div class="flow-node" style="border-top: 3px solid var(--accent-emerald);">
-            <strong>4. Clúster Minikube</strong>
-            <span>Namespace <code>ott-platform</code><br/>3 Pods + Services + PVC</span>
-          </div>
+      <div class="arch-chain">
+        <div class="panel">
+          <span class="panel__index">Capa 01 · Perímetro Web</span>
+          <h3 class="panel__title">Frontend & Reverse Proxy</h3>
+          <p style="margin-bottom:0.75rem;"><code>ott-frontend</code> · <code>nginx:1.25-alpine</code></p>
+          <ul>
+            <li>Expuesto mediante <strong>Service NodePort</strong> (<code>80:30080</code>).</li>
+            <li>Regla <code>location /static/</code>: Sirve videos MP4, pósters y CSS desde disco con <code>Cache-Control: public, max-age=30d</code>.</li>
+            <li>Regla <code>location /</code>: Redirige tráfico dinámico mediante <code>proxy_pass http://ott-backend:5000</code>.</li>
+          </ul>
         </div>
 
-        <div class="cols-3">
-          <div class="card">
-            <h3>🌐 Capa 1: Frontend (Nginx)</h3>
-            <p><code>Service NodePort (80:30080)</code><br/>Sirve CSS, JS, pósters y 20 videos MP4 en <code>/static/*</code> y redirige tráfico dinámico a Flask.</p>
-          </div>
-          <div class="card">
-            <h3>⚙️ Capa 2: Backend (Flask API)</h3>
-            <p><code>Service ClusterIP (5000)</code><br/>Controladores MVC, sesiones seguras, Swagger en <code>/apidocs/</code> y salud en <code>/api/health</code>.</p>
-          </div>
-          <div class="card">
-            <h3>🗄️ Capa 3: Base de Datos (PostgreSQL)</h3>
-            <p><code>StatefulSet + Service ClusterIP (5432)</code><br/>6 tablas relacionales autoinicializadas con <code>init.sql</code> y persistencia en <code>postgres-pvc</code>.</p>
-          </div>
+        <div class="arch-arrow">───►</div>
+
+        <div class="panel">
+          <span class="panel__index">Capa 02 · Lógica de Negocio</span>
+          <h3 class="panel__title">Backend MVC & OpenAPI</h3>
+          <p style="margin-bottom:0.75rem;"><code>ott-backend</code> · <code>python:3.11-slim</code></p>
+          <ul>
+            <li>Aislado mediante <strong>Service ClusterIP</strong> interno (puerto <code>5000</code>).</li>
+            <li>6 Blueprints: <code>auth</code>, <code>home</code>, <code>movie</code>, <code>favorite</code>, <code>profile</code> y <code>api</code>.</li>
+            <li>Ejecuta bajo usuario sin privilegios (<code>appuser</code>) y expone <code>/api/health</code> y <code>/apidocs/</code>.</li>
+          </ul>
+        </div>
+
+        <div class="arch-arrow">───►</div>
+
+        <div class="panel">
+          <span class="panel__index">Capa 03 · Persistencia</span>
+          <h3 class="panel__title">Base de Datos Relacional</h3>
+          <p style="margin-bottom:0.75rem;"><code>ott-db-0</code> · <code>postgres:16-alpine</code></p>
+          <ul>
+            <li>Desplegado como <strong>StatefulSet</strong> con <strong>Service ClusterIP</strong> (puerto <code>5432</code>).</li>
+            <li>Almacenamiento persistente montado en <code>postgres-pvc</code> (<code>1 GiB</code>).</li>
+            <li>Inicialización automática mediante el ConfigMap <code>ott-db-init</code> (<code>init.sql</code>).</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- ==================== SLIDE 6: D1 REPOSITORIO GIT ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-demo">Parte II · Demo Técnica</span>
-            <span class="pill pill-score">Criterio D1 · 8%</span>
-          </div>
-          <h2 class="slide-title">D1 · Estructura del Repositorio e Infraestructura Versionada</h2>
-        </div>
-        <div class="presenter-tag">
-          <span>Demo en Vivo</span>
-          <strong>Integrante 1</strong>
-        </div>
-      </div>
+    <!-- ==================== 06 · ESTRUCTURA DEL REPOSITORIO ==================== -->
+    <section class="slide" data-section="05 · Repositorio e Infraestructura como Código">
+      <p class="eyebrow">05 · Organización del Código Fuente</p>
+      <h2 class="headline">Estructura del Monorepo y <strong>Control de Versiones</strong></h2>
 
-      <div class="slide-body">
-        <div class="cols-2">
-          <div class="card">
-            <h3>📂 Organización del Monorepo (<code>OTT-/</code>)</h3>
-            <ul>
-              <li><code>backend/</code> — Aplicación Flask MVC, Swagger, <code>Dockerfile</code> y <code>requirements.txt</code>.</li>
-              <li><code>frontend/</code> — Servidor Nginx, <code>nginx.conf.template</code>, <code>Dockerfile</code> y activos multimedia.</li>
-              <li><code>database/</code> — Esquema relacional y semillas en <code>init.sql</code>.</li>
-              <li><code>tests/</code> — 20 pruebas automatizadas (<code>test_unit.py</code>, <code>test_flow.py</code>, <code>test_e2e_playwright.py</code>).</li>
-              <li><code>.github/workflows/ci-cd.yml</code> — Pipeline CI/CD automatizado.</li>
-              <li><code>k8s/</code> — 5 manifiestos declarativos de Kubernetes (<code>01</code> a <code>05</code>).</li>
-            </ul>
-          </div>
+      <div class="grid-2">
+        <div class="panel">
+          <span class="panel__index">Distribución Modular</span>
+          <h3 class="panel__title"> Directorios del Proyecto (<code>OTT-/</code>)</h3>
+          <ul>
+            <li><code>.github/workflows/ci-cd.yml</code> — Pipeline automatizado de pruebas, validación YAML y construcción de imágenes.</li>
+            <li><code>k8s/</code> — 5 manifiestos declarativos de Kubernetes numerados por orden de aplicación (<code>01</code> a <code>05</code>).</li>
+            <li><code>backend/</code> — Aplicación Flask (<code>config/</code>, <code>models/</code>, <code>controllers/</code>, <code>services/</code>, <code>templates/</code>) y su <code>Dockerfile</code>.</li>
+            <li><code>frontend/</code> — Configuración del proxy Nginx (<code>nginx.conf.template</code>), activos multimedia y su <code>Dockerfile</code>.</li>
+            <li><code>database/init.sql</code> — Definición DDL de las 6 tablas y datos semilla (usuarios bcrypt y 20 películas).</li>
+            <li><code>tests/</code> — Suite de 20 pruebas automatizadas (<code>test_unit.py</code>, <code>test_flow.py</code>, <code>test_e2e_playwright.py</code>).</li>
+          </ul>
+        </div>
 
-          <div class="card">
-            <h3>💻 Comandos en Vivo (Repositorio y Ramas)</h3>
-            <div class="terminal"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button>git status
+        <div class="panel">
+          <span class="panel__index">Verificación en Consola</span>
+          <h3 class="panel__title">Inspección del Repositorio y Ramas</h3>
+          <div class="code-panel"><button class="copy-trigger" onclick="copyCode(this)">Copiar</button><span class="comment"># Estado del árbol de trabajo y ramas activas</span>
+git status
 git branch -a
+
+<span class="comment"># Historial de commits recientes en main</span>
 git log --oneline -n 8
+
+<span class="comment"># Archivos de infraestructura versionados</span>
 Get-ChildItem k8s/, .github/workflows/</div>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- ==================== SLIDE 7: D2 CI Y PRUEBAS ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-demo">Parte II · Demo Técnica</span>
-            <span class="pill pill-score">Criterio D2 · 12%</span>
-          </div>
-          <h2 class="slide-title">D2 · CI Automatizada en GitHub Actions, Pruebas y Control de Fallos</h2>
-        </div>
-        <div class="presenter-tag">
-          <span>Demo en Vivo</span>
-          <strong>Integrante 1</strong>
-        </div>
-      </div>
+    <!-- ==================== 07 · INTEGRACIÓN CONTINUA Y PRUEBAS ==================== -->
+    <section class="slide" data-section="06 · Integración Continua y Pruebas">
+      <p class="eyebrow">06 · Aseguramiento de Calidad Automatizado</p>
+      <h2 class="headline">Pipeline CI/CD en GitHub Actions y <strong>Control de Fallos</strong></h2>
 
-      <div class="slide-body">
-        <div class="cols-2">
-          <div class="card">
-            <h3>✅ Qué Verifica el Pipeline Automáticamente</h3>
-            <ul>
-              <li><strong>Job 1 (Pruebas con PostgreSQL 16 real):</strong>
-                <ul>
-                  <li>Carga <code>database/init.sql</code> en un contenedor de servicio Postgres.</li>
-                  <li>Ejecuta <code>test_unit.py</code> (10 pruebas: modelo <code>Movie</code>, rutas, hashing <code>bcrypt</code>, filtro por región y rutas HTTP).</li>
-                  <li>Ejecuta <code>test_flow.py</code> (4 pruebas: <code>/api/health</code>, semillas SQL, login real y navegación autenticada).</li>
-                </ul>
-              </li>
-              <li><strong>Control de Fallos:</strong> El Job 2 exige <code>needs: unit-and-integration-tests</code> y <code>if: success()</code>. Si falla un test, bloquea el build de imágenes (Run fallido <code>#43124379460</code> vs Run exitoso <code>#44195742949</code>).</li>
-            </ul>
-          </div>
+      <div class="grid-2">
+        <div class="panel">
+          <span class="panel__index">Arquitectura del Pipeline</span>
+          <h3 class="panel__title">Dos Etapas con Compuerta de Calidad</h3>
+          <ul>
+            <li><strong>Etapa 1 · Pruebas con PostgreSQL Real:</strong> Aprovisiona un contenedor de servicio <code>postgres:16-alpine</code>, carga <code>database/init.sql</code> y ejecuta las suites unitarias y de flujo de comunicación.</li>
+            <li><strong>Política de Control de Fallos:</strong> La Etapa 2 declara <code>needs: unit-and-integration-tests</code> junto con <code>if: success()</code>. Cualquier fallo en una prueba detiene el pipeline e impide construir o promover imágenes.</li>
+            <li><strong>Etapa 2 · Build, Validación K8s y Trazabilidad:</strong> Valida la sintaxis de todos los YAML en <code>k8s/</code>, verifica coherencia de versión (<code>v1.0.0</code>), construye las imágenes con tag SHA y genera el reporte en el <em>Job Summary</em>.</li>
+          </ul>
+        </div>
 
-          <div class="card">
-            <h3>💻 Ejecutar Suite de Pruebas en Vivo</h3>
-            <div class="terminal"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button># Ejecutar las 10 pruebas unitarias
+        <div class="panel">
+          <span class="panel__index">Pirámide de Pruebas (20 Casos)</span>
+          <h3 class="panel__title">Ejecución de la Suite Automatizada</h3>
+          <div class="code-panel"><button class="copy-trigger" onclick="copyCode(this)">Copiar</button><span class="comment"># 1. Pruebas Unitarias (10 casos: modelo Movie, bcrypt, filtros, HTTP)</span>
 .\.venv\Scripts\python.exe -m unittest discover tests -p "test_unit.py" -v
 
-# Ejecutar las 4 pruebas de integración con PostgreSQL
-.\.venv\Scripts\python.exe -m unittest tests/test_flow.py -v</div>
-          </div>
+<span class="comment"># 2. Pruebas de Integración Backend <-> PostgreSQL (4 casos)</span>
+.\.venv\Scripts\python.exe -m unittest tests/test_flow.py -v
+
+<span class="comment"># 3. Suite Completa (Unitarias + Integración + 6 E2E Playwright)</span>
+.\.venv\Scripts\python.exe -m pytest -v</div>
         </div>
       </div>
     </section>
 
-    <!-- ==================== SLIDE 8: D3 DOCKER E IMÁGENES ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-demo">Parte II · Demo Técnica</span>
-            <span class="pill pill-score">Criterio D3 · 8%</span>
-          </div>
-          <h2 class="slide-title">D3 · Construcción de Dockerfiles e Imágenes en Docker Hub</h2>
-        </div>
-        <div class="presenter-tag">
-          <span>Demo en Vivo</span>
-          <strong>Integrante 2</strong>
-        </div>
-      </div>
+    <!-- ==================== 08 · CONTENERIZACIÓN Y DOCKER HUB ==================== -->
+    <section class="slide" data-section="07 · Contenerización y Registro de Imágenes">
+      <p class="eyebrow">07 · Construcción y Distribución de Artefactos</p>
+      <h2 class="headline">Buenas Prácticas en <strong>Dockerfiles y Docker Hub</strong></h2>
 
-      <div class="slide-body">
-        <div class="cols-2">
-          <div class="card">
-            <h3>🐳 Buenas Prácticas en los Dockerfiles</h3>
-            <ul>
-              <li><strong>Caché de capas optimizada:</strong> En <code>backend/Dockerfile</code> se copia e instala <code>requirements.txt</code> antes de copiar el resto del código.</li>
-              <li><strong>Usuario sin privilegios (No-Root):</strong> Creación y ejecución bajo <code>USER appuser</code>.</li>
-              <li><strong>Secretos fuera de la imagen:</strong> <code>.env</code> excluido mediante <code>.dockerignore</code>.</li>
-              <li><strong>Healthcheck y metadatos OCI:</strong> Etiquetas <code>version="1.0.0"</code> y chequeo nativo contra <code>/api/health</code>.</li>
-            </ul>
-          </div>
+      <div class="grid-2">
+        <div class="panel">
+          <span class="panel__index">Ingeniería de Contenedores</span>
+          <h3 class="panel__title">Optimización y Seguridad en Imágenes</h3>
+          <ul>
+            <li><strong>Aprovechamiento de Caché de Capas:</strong> En <code>backend/Dockerfile</code> se copia e instala <code>requirements.txt</code> antes de copiar el código de la aplicación, evitando reinstalar dependencias ante cambios en controladores.</li>
+            <li><strong>Ejecución sin Privilegios (Non-Root):</strong> Se crea el usuario del sistema <code>appuser</code> y se transfiere la propiedad de <code>/app</code> para ejecutar Flask bajo <code>USER appuser</code>.</li>
+            <li><strong>Higiene del Contexto:</strong> Archivos <code>.env</code>, entornos virtuales y cachés excluidos vía <code>.dockerignore</code>.</li>
+            <li><strong>Etiquetado Trazable:</strong> Imágenes publicadas en Docker Hub bajo versión semántica (<code>v1.0.0</code>), hash de commit (<code>sha-a8b8492</code>) y <code>latest</code>.</li>
+          </ul>
+        </div>
 
-          <div class="card">
-            <h3>💻 Comprobar Imágenes Locales y Tags en Docker Hub</h3>
-            <div class="terminal"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button>Get-Content backend/Dockerfile
+        <div class="panel">
+          <span class="panel__index">Verificación de Artefactos</span>
+          <h3 class="panel__title">Inspección de Dockerfiles y Registro</h3>
+          <div class="code-panel"><button class="copy-trigger" onclick="copyCode(this)">Copiar</button><span class="comment"># Inspeccionar capas, usuario appuser y HEALTHCHECK del Backend</span>
+Get-Content backend/Dockerfile
+
+<span class="comment"># Listar imágenes construidas localmente</span>
 docker images | Select-String "ott"
+
+<span class="comment"># Consultar tags publicados en Docker Hub</span>
 (Invoke-RestMethod "https://hub.docker.com/v2/repositories/miguelsalazar22/ott-backend/tags").results | Select-Object name, last_updated</div>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- ==================== SLIDE 9: D7 SEGURIDAD Y SECRETOS ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-demo">Parte II · Demo Técnica</span>
-            <span class="pill pill-score">Criterio D7 · 5%</span>
-          </div>
-          <h2 class="slide-title">D7 · Configuración por Entorno, Seguridad y Secretos</h2>
-        </div>
-        <div class="presenter-tag">
-          <span>Demo en Vivo</span>
-          <strong>Integrante 2</strong>
-        </div>
-      </div>
+    <!-- ==================== 09 · ORQUESTACIÓN EN KUBERNETES ==================== -->
+    <section class="slide" data-section="08 · Despliegue en Kubernetes (Minikube)">
+      <p class="eyebrow">08 · Infraestructura Declarativa</p>
+      <h2 class="headline">Despliegue en <strong>Kubernetes / Minikube</strong></h2>
 
-      <div class="slide-body">
-        <div class="cols-2">
-          <div class="card">
-            <h3>🔐 Protección de Credenciales y Red</h3>
-            <ul>
-              <li><strong>Archivos sensibles fuera de Git:</strong> <code>.env</code> ignorado en <code>.gitignore</code>; plantilla pública en <code>.env.example</code>.</li>
-              <li><strong>Separación en Kubernetes:</strong>
-                <ul>
-                  <li><code>ConfigMap ott-config</code>: Variables no sensibles (<code>PORT</code>, <code>POSTGRES_DB</code>, <code>BACKEND_URL</code>).</li>
-                  <li><code>Secret ott-secrets</code>: Credenciales codificadas en Base64 (<code>DATABASE_URL</code>, <code>POSTGRES_PASSWORD</code>, <code>SECRET_KEY</code>).</li>
-                </ul>
-              </li>
-              <li><strong>Aislamiento de servicios:</strong> PostgreSQL (5432) y Backend (5000) usan <code>ClusterIP</code> (solo accesibles dentro del clúster).</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>💻 Auditar Secretos sin Exponer Contraseñas</h3>
-            <div class="terminal"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button>git check-ignore -v .env
-kubectl get configmap,secret -n ott-platform
-kubectl describe secret ott-secrets -n ott-platform</div>
-          </div>
+      <div class="grid-2">
+        <div class="panel">
+          <span class="panel__index">Manifiestos en k8s/</span>
+          <h3 class="panel__title">Diseño de Recursos en el Namespace <code>ott-platform</code></h3>
+          <ul>
+            <li><code>01-namespace.yaml</code> — Aislamiento lógico mediante el namespace <code>ott-platform</code>.</li>
+            <li><code>02-configmap-and-secret.yaml</code> — <code>ConfigMap ott-config</code>, <code>Secret ott-secrets</code> y <code>ConfigMap ott-db-init</code> con el script <code>init.sql</code>.</li>
+            <li><code>03-postgres.yaml</code> — <code>PersistentVolume</code> + <code>PersistentVolumeClaim</code> (<code>1 GiB</code>), <code>StatefulSet ott-db</code> con sondas <code>pg_isready</code> y <code>Service ClusterIP:5432</code>.</li>
+            <li><code>04-backend.yaml</code> — <code>Deployment ott-backend</code> con <code>resources</code> (requests/limits), sondas hacia <code>/api/health</code> y <code>Service ClusterIP:5000</code>.</li>
+            <li><code>05-frontend.yaml</code> — <code>Deployment ott-frontend</code> y exposición mediante <code>Service NodePort (80:30080)</code>.</li>
+          </ul>
         </div>
-      </div>
-    </section>
 
-    <!-- ==================== SLIDE 10: D4 DESPLIEGUE EN MINIKUBE ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-demo">Parte II · Demo Técnica</span>
-            <span class="pill pill-score">Criterio D4 · 14%</span>
-          </div>
-          <h2 class="slide-title">D4 · Despliegue Declarativo en Minikube / Kubernetes</h2>
-        </div>
-        <div class="presenter-tag">
-          <span>Demo en Vivo</span>
-          <strong>Integrante 3</strong>
-        </div>
-      </div>
-
-      <div class="slide-body">
-        <div class="cols-2">
-          <div class="card">
-            <h3>☸️ Los 5 Manifiestos en <code>k8s/</code></h3>
-            <ul>
-              <li><code>01-namespace.yaml</code> — Crea el namespace <code>ott-platform</code>.</li>
-              <li><code>02-configmap-and-secret.yaml</code> — Configura variables, secretos y el script semilla <code>init.sql</code>.</li>
-              <li><code>03-postgres.yaml</code> — <code>PV</code> + <code>PVC</code> (<code>1Gi</code>, <code>Bound</code>) + <code>StatefulSet ott-db</code> + <code>Service ClusterIP</code>.</li>
-              <li><code>04-backend.yaml</code> — <code>Deployment ott-backend</code> con <code>readinessProbe</code>, <code>livenessProbe</code> y límites CPU/RAM.</li>
-              <li><code>05-frontend.yaml</code> — <code>Deployment ott-frontend</code> + <code>Service NodePort (30080)</code>.</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>💻 Verificar Clúster y Recursos en Vivo</h3>
-            <div class="terminal"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button>minikube status
+        <div class="panel">
+          <span class="panel__index">Operación del Clúster</span>
+          <h3 class="panel__title">Verificación del Estado en Minikube</h3>
+          <div class="code-panel"><button class="copy-trigger" onclick="copyCode(this)">Copiar</button><span class="comment"># 1. Verificar estado del nodo Minikube y contexto activo</span>
+minikube status
 kubectl config current-context
+
+<span class="comment"># 2. Reconciliar manifiestos declarativos</span>
 kubectl apply -f k8s/
+
+<span class="comment"># 3. Comprobar Pods, Services, Deployments, StatefulSet y PVC</span>
 kubectl get pods,svc,deploy,statefulset,pvc -n ott-platform -o wide</div>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- ==================== SLIDE 11: D8 OBSERVABILIDAD Y DIAGNÓSTICO ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-demo">Parte II · Demo Técnica</span>
-            <span class="pill pill-score">Criterio D8 · 5%</span>
-          </div>
-          <h2 class="slide-title">D8 · Observabilidad, Logs y Autorrecuperación (Self-Healing)</h2>
+    <!-- ==================== 10 · CONFIGURACIÓN Y SEGURIDAD ==================== -->
+    <section class="slide" data-section="09 · Seguridad, Configuración y Secretos">
+      <p class="eyebrow">09 · Gestión de Configuración y Seguridad</p>
+      <h2 class="headline">Protección de Credenciales y <strong>Aislamiento por Entorno</strong></h2>
+
+      <div class="grid-2">
+        <div class="panel">
+          <span class="panel__index">Defensa en Profundidad</span>
+          <h3 class="panel__title">Gestión Segura de Variables y Red</h3>
+          <ul>
+            <li><strong>Desacople Código / Configuración:</strong> El backend lee <code>DATABASE_URL</code> y <code>SECRET_KEY</code> exclusivamente desde variables de entorno; <code>.env</code> está excluido del control de versiones.</li>
+            <li><strong>Separación ConfigMap vs Secret:</strong> Parámetros no sensibles residen en <code>ott-config</code>, mientras que credenciales de base de datos y llave de sesión se almacenan en <code>Secret ott-secrets</code> codificadas en Base64 e inyectadas vía <code>secretKeyRef</code>.</li>
+            <li><strong>Cifrado de Contraseñas:</strong> Las claves de usuario se almacenan en PostgreSQL como hashes <code>bcrypt</code> con factor de costo 12 (<code>$2b$12$...</code>).</li>
+            <li><strong>Superficie de Red Mínima:</strong> Ni PostgreSQL ni Flask poseen puertos públicos hacia el host; solo Nginx recibe conexiones externas.</li>
+          </ul>
         </div>
-        <div class="presenter-tag">
-          <span>Demo en Vivo</span>
-          <strong>Integrante 3</strong>
+
+        <div class="panel">
+          <span class="panel__index">Auditoría en Vivo</span>
+          <h3 class="panel__title">Verificación sin Exposición de Datos Sensibles</h3>
+          <div class="code-panel"><button class="copy-trigger" onclick="copyCode(this)">Copiar</button><span class="comment"># Comprobar que .env está protegido por .gitignore</span>
+git check-ignore -v .env
+
+<span class="comment"># Listar objetos de configuración en el namespace</span>
+kubectl get configmap,secret -n ott-platform
+
+<span class="comment"># Inspeccionar estructura del Secret sin revelar valores en claro</span>
+kubectl describe secret ott-secrets -n ott-platform</div>
         </div>
       </div>
+    </section>
 
-      <div class="slide-body">
-        <div class="cols-2">
-          <div class="card">
-            <h3>🩺 Diagnóstico y Respuesta a Incidentes</h3>
-            <ul>
-              <li><strong>Inspección de logs y estado:</strong> Consultamos las trazas HTTP del contenedor Flask con <code>kubectl logs</code> y auditamos las sondas <code>Liveness/Readiness</code> con <code>kubectl describe</code>.</li>
-              <li><strong>Simulación de incidente en vivo:</strong> Eliminamos el pod activo de <code>ott-backend</code>.</li>
-              <li><strong>Recuperación automática:</strong> El <code>Deployment</code> detecta la caída, crea un pod nuevo inmediatamente y valida <code>/api/health</code> antes de enviarle tráfico.</li>
-            </ul>
-          </div>
+    <!-- ==================== 11 · OBSERVABILIDAD Y RESILIENCIA ==================== -->
+    <section class="slide" data-section="10 · Observabilidad y Alta Disponibilidad">
+      <p class="eyebrow">10 · Operación y Diagnóstico</p>
+      <h2 class="headline">Observabilidad, Sondas de Salud y <strong>Self-Healing</strong></h2>
 
-          <div class="card">
-            <h3>💻 Comandos de Diagnóstico y Falla Controlada</h3>
-            <div class="terminal"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button>kubectl logs -n ott-platform deployment/ott-backend --tail=20
+      <div class="grid-2">
+        <div class="panel">
+          <span class="panel__index">Monitoreo y Recuperación</span>
+          <h3 class="panel__title">Comportamiento ante Fallos en el Clúster</h3>
+          <ul>
+            <li><strong>Healthcheck Transaccional (<code>/api/health</code>):</strong> Ejecuta una consulta real <code>SELECT 1</code> hacia PostgreSQL. Si la base de datos deja de responder, el endpoint retorna HTTP <code>500</code>.</li>
+            <li><strong>Readiness & Liveness Probes:</strong> Kubernetes retira automáticamente del balanceador cualquier pod que no supere la <code>readinessProbe</code> y reinicia el contenedor si falla la <code>livenessProbe</code>.</li>
+            <li><strong>Autorrecuperación (Self-Healing):</strong> Ante la caída o eliminación abrupta de un pod, el controlador del <code>Deployment</code> instancia un reemplazo inmediato sin pérdida de datos en el <code>StatefulSet</code> de PostgreSQL.</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <span class="panel__index">Diagnóstico en Vivo</span>
+          <h3 class="panel__title">Inspección de Logs y Simulación de Incidente</h3>
+          <div class="code-panel"><button class="copy-trigger" onclick="copyCode(this)">Copiar</button><span class="comment"># 1. Inspeccionar logs de aplicación y eventos del Deployment</span>
+kubectl logs -n ott-platform deployment/ott-backend --tail=20
 kubectl describe deployment ott-backend -n ott-platform
 
-# Provocar caída del pod y observar recuperación
+<span class="comment"># 2. Simular caída del pod del Backend y verificar autorrecuperación</span>
 kubectl delete pod -n ott-platform -l app=ott-backend
 kubectl get pods -n ott-platform -o wide</div>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- ==================== SLIDE 12: D6 TRAZABILIDAD Y GITOPS ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-demo">Parte II · Demo Técnica</span>
-            <span class="pill pill-score">Criterio D6 · 10%</span>
-          </div>
-          <h2 class="slide-title">D6 · Trazabilidad (Commit → CI → Imagen → Manifiesto → Pod)</h2>
-        </div>
-        <div class="presenter-tag">
-          <span>Demo en Vivo</span>
-          <strong>Integrante 4</strong>
-        </div>
-      </div>
+    <!-- ==================== 12 · TRAZABILIDAD Y FLUJO E2E ==================== -->
+    <section class="slide" data-section="11 · Trazabilidad y Flujo Funcional E2E">
+      <p class="eyebrow">11 · Cadena de Entrega y Verificación End-to-End</p>
+      <h2 class="headline">Trazabilidad de Artefactos y <strong>Persistencia Real</strong></h2>
 
-      <div class="slide-body">
-        <div class="cols-2">
-          <div class="card">
-            <h3>🔗 Correspondencia Exacta de Extremo a Extremo</h3>
-            <ul>
-              <li><strong>Commit → CI → Tag:</strong> Cada ejecución de GitHub Actions genera una tabla de <em>Trazabilidad</em> en el <em>Job Summary</em> que une el SHA del commit con los tags <code>v1.0.0</code> y <code>sha-&lt;commit&gt;</code>.</li>
-              <li><strong>Validación CI ↔ Manifiesto:</strong> El pipeline verifica con <code>grep</code> que <code>k8s/04-backend.yaml</code> y <code>k8s/05-frontend.yaml</code> usen exactamente el tag <code>v1.0.0</code>.</li>
-              <li><strong>Estado Declarativo en Git:</strong> La carpeta <code>k8s/</code> es la única fuente de verdad del clúster.</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>💻 Comprobar Trazabilidad en Vivo</h3>
-            <div class="terminal"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button>git rev-parse --short HEAD
+      <div class="grid-2">
+        <div class="panel">
+          <span class="panel__index">Commit ➔ Imagen ➔ Manifiesto ➔ Pod</span>
+          <h3 class="panel__title">Auditoría de Trazabilidad</h3>
+          <div class="code-panel"><button class="copy-trigger" onclick="copyCode(this)">Copiar</button><span class="comment"># 1. Identificar commit actual y versión en manifiestos</span>
+git rev-parse --short HEAD
 Select-String -Path k8s/*.yaml -Pattern "image:"
+
+<span class="comment"># 2. Comprobar imagen e ImageID (SHA256) activo en los Pods</span>
 kubectl get pods -n ott-platform -o custom-columns="POD:.metadata.name,STATUS:.status.phase,IMAGE:.spec.containers[*].image,IMAGE_ID:.status.containerStatuses[*].imageID"</div>
-          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ==================== SLIDE 13: D5 FLUJO FUNCIONAL E2E ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-demo">Parte II · Demo Técnica</span>
-            <span class="pill pill-score">Criterio D5 · 14%</span>
-          </div>
-          <h2 class="slide-title">D5 · Flujo Funcional E2E Real en Minikube y Casos de Error</h2>
-        </div>
-        <div class="presenter-tag">
-          <span>Demo en Vivo</span>
-          <strong>Integrante 4</strong>
-        </div>
-      </div>
-
-      <div class="slide-body">
-        <div class="cols-2">
-          <div class="card">
-            <h3>🌐 Demostración Completa (UI → API → BD)</h3>
-            <ul>
-              <li><strong>Acceso desde Minikube:</strong> Aplicación en <code>http://localhost:8090</code> y Swagger en <code>/apidocs/</code>.</li>
-              <li><strong>Casos de error reales:</strong>
-                <ul>
-                  <li>Login con contraseña inválida en <code>/auth/login</code> → alerta controlada en UI.</li>
-                  <li>Petición <code>GET /api/movies/999</code> → responde <code>404 Not Found</code> en JSON.</li>
-                </ul>
-              </li>
-              <li><strong>Persistencia verificada en PostgreSQL:</strong> Iniciar sesión con <code>demo@ott.com</code> / <code>demo123</code>, guardar favorito o avanzar reproducción en <em>Monos</em> y consultar la tabla dentro del pod <code>ott-db-0</code>.</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>💻 Verificar Caso de Error y Persistencia en BD</h3>
-            <div class="terminal"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button># 1. Caso de error 404 en la API
+        <div class="panel">
+          <span class="panel__index">UI ➔ Nginx ➔ Flask ➔ PostgreSQL</span>
+          <h3 class="panel__title">Verificación E2E y Persistencia en Base de Datos</h3>
+          <div class="code-panel"><button class="copy-trigger" onclick="copyCode(this)">Copiar</button><span class="comment"># 1. Validar manejo de error 404 en endpoint REST</span>
 curl.exe -i http://localhost:8090/api/movies/999
 
-# 2. Consultar datos persistidos dentro del Pod PostgreSQL en Minikube
+<span class="comment"># 2. Consultar registros persistidos en el Pod PostgreSQL (ott-db-0)</span>
 kubectl exec -n ott-platform ott-db-0 -- psql -U ott_user -d ott_db -c "SELECT u.email, m.titulo, f.pelicula_id FROM favorites f JOIN users u ON u.id = f.usuario_id JOIN movies m ON m.id = f.pelicula_id;"
 kubectl exec -n ott-platform ott-db-0 -- psql -U ott_user -d ott_db -c "SELECT u.email, m.titulo, w.minuto FROM watch_history w JOIN users u ON u.id = w.usuario_id JOIN movies m ON m.id = w.pelicula_id;"</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== SLIDE 14: CIERRE Y PREGUNTAS ==================== -->
-    <section class="slide">
-      <div class="slide-top">
-        <div>
-          <div class="meta-tags">
-            <span class="pill pill-pitch">Cierre de la Defensa</span>
-            <span class="pill pill-score">20 / 20 Evidencias Cumplidas</span>
-          </div>
-          <h2 class="slide-title">Resumen de Evidencias Verificadas y Preguntas</h2>
-        </div>
-        <div class="presenter-tag">
-          <span>Participan</span>
-          <strong>Integrantes 1, 2, 3 y 4</strong>
-        </div>
-      </div>
-
-      <div class="slide-body">
-        <div class="cols-3">
-          <div class="card" style="border-top: 3px solid var(--accent-amber);">
-            <h3>✔️ Pitch y Arquitectura</h3>
-            <ul>
-              <li>Problema, propuesta de valor y trade-offs DevOps justificados (<code>P1–P4</code>).</li>
-              <li>Monorepo Git limpio y documentado en <code>README.md</code> (<code>D1</code>).</li>
-            </ul>
-          </div>
-
-          <div class="card" style="border-top: 3px solid var(--accent-blue);">
-            <h3>✔️ CI/CD, Docker y Seguridad</h3>
-            <ul>
-              <li>Workflow GitHub Actions en verde con 20 pruebas y bloqueo ante fallos (<code>D2</code>).</li>
-              <li>Dockerfiles con <code>appuser</code> (no-root), tags <code>v1.0.0</code> / <code>sha</code> en Docker Hub y <code>Secret</code> en Base64 (<code>D3</code>, <code>D7</code>).</li>
-            </ul>
-          </div>
-
-          <div class="card" style="border-top: 3px solid var(--accent-emerald);">
-            <h3>✔️ Minikube, E2E y Operación</h3>
-            <ul>
-              <li>5 manifiestos K8s desplegados con <code>PVC</code>, <code>StatefulSet</code> y probes (<code>D4</code>).</li>
-              <li>Flujo E2E con persistencia real en PostgreSQL, trazabilidad y <em>self-healing</em> (<code>D5</code>, <code>D6</code>, <code>D8</code>).</li>
-            </ul>
-          </div>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Barra Inferior -->
+  <!-- Pie de Página Minimalista -->
   <footer class="footer">
-    <div style="display:flex;gap:10px;">
-      <button class="tool-btn" onclick="prev()">◀ Anterior</button>
-      <button class="tool-btn" onclick="next()">Siguiente ▶</button>
+    <div>CINÉFILO · Plataforma OTT Contenerizada sobre Kubernetes</div>
+    <div class="footer__controls">
+      <button class="btn-minimal" onclick="prevSlide()">← Anterior</button>
+      <button class="btn-minimal" onclick="nextSlide()">Siguiente →</button>
     </div>
-    <div class="dots" id="dots"></div>
-    <div style="font-size:0.85rem;color:var(--text-secondary);">
-      Diapositiva <strong id="cur" style="color:#fff;">1</strong> / <span id="tot">14</span>
-    </div>
+    <div>Lámina <strong id="current-index" style="color:#fff;font-weight:500;">01</strong> / <span id="total-index">12</span></div>
   </footer>
 
   <script>
     const slides = document.querySelectorAll('.slide');
-    const dotsBox = document.getElementById('dots');
-    const curEl = document.getElementById('cur');
-    const totEl = document.getElementById('tot');
-    let idx = 0;
+    const stepBars = document.getElementById('step-bars');
+    const sectionIndicator = document.getElementById('section-indicator');
+    const currentIndexEl = document.getElementById('current-index');
+    const totalIndexEl = document.getElementById('total-index');
+    let current = 0;
 
-    totEl.textContent = slides.length;
+    totalIndexEl.textContent = String(slides.length).padStart(2, '0');
 
     slides.forEach((_, i) => {
-      const d = document.createElement('div');
-      d.className = 'dot' + (i === 0 ? ' active' : '');
-      d.textContent = i + 1;
-      d.onclick = () => show(i);
-      dotsBox.appendChild(d);
+      const bar = document.createElement('div');
+      bar.className = 'step-line' + (i === 0 ? ' is-active' : '');
+      bar.onclick = () => goTo(i);
+      stepBars.appendChild(bar);
     });
 
-    function show(n) {
-      idx = (n + slides.length) % slides.length;
-      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
-      document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-      curEl.textContent = idx + 1;
+    function goTo(index) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
+      document.querySelectorAll('.step-line').forEach((b, i) => b.classList.toggle('is-active', i === current));
+      currentIndexEl.textContent = String(current + 1).padStart(2, '0');
+      sectionIndicator.textContent = slides[current].getAttribute('data-section') || '';
     }
 
-    function next() { if (idx < slides.length - 1) show(idx + 1); }
-    function prev() { if (idx > 0) show(idx - 1); }
+    function nextSlide() { if (current < slides.length - 1) goTo(current + 1); }
+    function prevSlide() { if (current > 0) goTo(current - 1); }
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === 'PageDown') next();
-      if (e.key === 'ArrowLeft' || e.key === 'PageUp') prev();
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
       if (e.key === 'f' || e.key === 'F') toggleFullscreen();
     });
 
-    function copyCmd(btn) {
-      const text = btn.parentElement.innerText.replace('Copiar', '').replace('¡Copiado!', '').trim();
-      navigator.clipboard.writeText(text);
-      btn.textContent = '¡Copiado!';
+    function copyCode(btn) {
+      const panel = btn.parentElement;
+      const raw = panel.innerText.replace('Copiar', '').replace('Copiado', '').trim();
+      navigator.clipboard.writeText(raw);
+      btn.textContent = 'Copiado';
       setTimeout(() => btn.textContent = 'Copiar', 1400);
     }
 
     function toggleFullscreen() {
       if (!document.fullscreenElement) document.documentElement.requestFullscreen();
       else document.exitFullscreen();
-    }
-
-    let secs = 0, tId = null;
-    function toggleTimer() {
-      if (tId) { clearInterval(tId); tId = null; }
-      else {
-        tId = setInterval(() => {
-          secs++;
-          const m = String(Math.floor(secs / 60)).padStart(2, '0');
-          const s = String(secs % 60).padStart(2, '0');
-          document.getElementById('timer').textContent = `${m}:${s}`;
-        }, 1000);
-      }
-    }
-    function resetTimer() {
-      clearInterval(tId); tId = null; secs = 0;
-      document.getElementById('timer').textContent = '00:00';
     }
   </script>
 </body>
