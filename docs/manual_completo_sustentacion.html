@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manual Maestro de Sustentación · CINÉFILO (OTT DevOps)</title>
+  <title>Guía Completa de Estudio y Exposición · Proyecto OTT CINÉFILO</title>
   <style>
     :root {
-      --bg-main: #0b0e14;
-      --bg-panel: #131824;
-      --bg-panel-alt: #1a2132;
-      --bg-code: #07090e;
-      --text-main: #eef2f8;
-      --text-muted: #9aa4b8;
-      --m1-color: #ef4444; /* Miguel */
-      --m2-color: #f59e0b; /* Tomás */
-      --m3-color: #38bdf8; /* Juan Esteban */
-      --m4-color: #22c55e; /* Sebastián */
-      --accent-purple: #a855f7;
-      --border: rgba(255, 255, 255, 0.11);
+      --bg-page: #0f172a;
+      --bg-section: #1e293b;
+      --bg-card: #0f172a;
+      --bg-code: #020617;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --c1: #f43f5e; /* Integrante 1 */
+      --c2: #f59e0b; /* Integrante 2 */
+      --c3: #3b82f6; /* Integrante 3 */
+      --c4: #10b981; /* Integrante 4 */
+      --border: rgba(255, 255, 255, 0.1);
     }
 
     * {
@@ -27,26 +26,26 @@
     }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--bg-main);
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg-page);
       color: var(--text-main);
-      line-height: 1.6;
-      padding-bottom: 60px;
+      line-height: 1.65;
+      padding-bottom: 80px;
     }
 
-    /* Navegación fija superior */
-    .sticky-header {
+    /* Barra superior fija */
+    .navbar {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(11, 14, 20, 0.94);
-      backdrop-filter: blur(12px);
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
       padding: 14px 28px;
     }
 
-    .header-top {
-      max-width: 1320px;
+    .nav-inner {
+      max-width: 1240px;
       margin: 0 auto;
       display: flex;
       flex-wrap: wrap;
@@ -55,74 +54,64 @@
       gap: 14px;
     }
 
-    .title-group h1 {
-      font-size: 1.3rem;
+    .nav-title h1 {
+      font-size: 1.2rem;
       font-weight: 800;
-      color: #fff;
     }
 
-    .title-group p {
-      font-size: 0.84rem;
+    .nav-title p {
+      font-size: 0.82rem;
       color: var(--text-muted);
     }
 
-    .filter-bar {
+    .filter-group {
       display: flex;
-      flex-wrap: wrap;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .filter-btn {
-      background: var(--bg-panel-alt);
+    .f-btn {
+      background: var(--bg-section);
       color: var(--text-main);
       border: 1px solid var(--border);
       padding: 7px 14px;
       border-radius: 8px;
-      cursor: pointer;
+      font-size: 0.84rem;
       font-weight: 700;
-      font-size: 0.83rem;
-      transition: all 0.15s ease;
+      cursor: pointer;
+      transition: all 0.15s;
     }
 
-    .filter-btn:hover {
-      transform: translateY(-1px);
-    }
+    .f-btn.active { background: #fff; color: #0f172a; border-color: #fff; }
+    .f-btn.b1.active { background: var(--c1); color: #fff; border-color: var(--c1); }
+    .f-btn.b2.active { background: var(--c2); color: #000; border-color: var(--c2); }
+    .f-btn.b3.active { background: var(--c3); color: #fff; border-color: var(--c3); }
+    .f-btn.b4.active { background: var(--c4); color: #000; border-color: var(--c4); }
 
-    .filter-btn.active {
-      background: #fff;
-      color: #000;
-      border-color: #fff;
-    }
-
-    .filter-btn.m1.active { background: var(--m1-color); color: #fff; border-color: var(--m1-color); }
-    .filter-btn.m2.active { background: var(--m2-color); color: #000; border-color: var(--m2-color); }
-    .filter-btn.m3.active { background: var(--m3-color); color: #000; border-color: var(--m3-color); }
-    .filter-btn.m4.active { background: var(--m4-color); color: #000; border-color: var(--m4-color); }
-
-    .quick-links {
-      max-width: 1320px;
+    .index-links {
+      max-width: 1240px;
       margin: 10px auto 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 0.82rem;
       padding-top: 8px;
       border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.83rem;
     }
 
-    .quick-links a {
-      color: #7dd3fc;
+    .index-links a {
+      color: #60a5fa;
       text-decoration: none;
       font-weight: 600;
     }
 
-    .quick-links a:hover {
+    .index-links a:hover {
       text-decoration: underline;
     }
 
-    /* Contenedor principal */
-    .container {
-      max-width: 1320px;
+    /* Contenedor */
+    .wrapper {
+      max-width: 1240px;
       margin: 28px auto;
       padding: 0 24px;
       display: flex;
@@ -130,181 +119,186 @@
       gap: 32px;
     }
 
-    .section-box {
-      background: var(--bg-panel);
+    .section {
+      background: var(--bg-section);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 26px 30px;
+      border-radius: 16px;
+      padding: 28px 32px;
     }
 
-    .section-title {
-      font-size: 1.55rem;
+    .sec-title {
+      font-size: 1.5rem;
       font-weight: 800;
       margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
 
-    .section-sub {
+    .sec-desc {
       color: var(--text-muted);
-      font-size: 0.94rem;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
+      font-size: 0.95rem;
+      margin-bottom: 22px;
+      padding-bottom: 14px;
       border-bottom: 1px solid var(--border);
     }
 
     .grid-2 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
       gap: 20px;
     }
 
-    .grid-4 {
+    .grid-3 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
     }
 
-    .card {
-      background: var(--bg-panel-alt);
+    .box {
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 18px 20px;
+      padding: 20px 22px;
     }
 
-    .card h3 {
-      font-size: 1.12rem;
+    .box h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .box p {
+      font-size: 0.93rem;
+      color: #cbd5e1;
       margin-bottom: 10px;
     }
 
-    .card ul, .card ol {
+    .box ul, .box ol {
       padding-left: 20px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      font-size: 0.93rem;
+      gap: 7px;
+      font-size: 0.92rem;
+      color: #cbd5e1;
     }
 
-    /* Tarjetas de Integrantes */
-    .member-section {
-      border-radius: 14px;
-      padding: 26px 30px;
-      background: var(--bg-panel);
+    .path-badge {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.18);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-family: Consolas, monospace;
+      font-size: 0.82rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    /* Bloques por integrante */
+    .member-card {
+      background: var(--bg-section);
       border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
       margin-bottom: 24px;
     }
 
-    .member-m1 { border-left: 6px solid var(--m1-color); }
-    .member-m2 { border-left: 6px solid var(--m2-color); }
-    .member-m3 { border-left: 6px solid var(--m3-color); }
-    .member-m4 { border-left: 6px solid var(--m4-color); }
+    .m-1 { border-left: 6px solid var(--c1); }
+    .m-2 { border-left: 6px solid var(--c2); }
+    .m-3 { border-left: 6px solid var(--c3); }
+    .m-4 { border-left: 6px solid var(--c4); }
 
-    .member-header {
+    .member-top {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 18px;
-      padding-bottom: 14px;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
       border-bottom: 1px solid var(--border);
     }
 
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .step-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin: 20px 0 10px;
+      color: #fff;
     }
 
-    .tag {
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.08);
-    }
-
-    .speech-box {
-      background: rgba(245, 158, 11, 0.08);
+    .speech {
+      background: rgba(245, 158, 11, 0.1);
       border-left: 4px solid #f59e0b;
-      padding: 14px 18px;
-      border-radius: 8px;
+      padding: 16px 20px;
+      border-radius: 10px;
       margin: 12px 0;
       font-size: 0.95rem;
+      color: #fef3c7;
     }
 
-    .speech-box strong {
+    .speech strong {
       color: #fbbf24;
     }
 
-    .cmd-box {
+    .cmd {
       background: var(--bg-code);
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      border: 1px solid rgba(59, 130, 246, 0.35);
       border-radius: 10px;
-      padding: 14px 16px;
+      padding: 14px 18px;
       margin: 10px 0;
-      position: relative;
       font-family: 'Cascadia Code', Consolas, monospace;
       font-size: 0.85rem;
-      color: #7dd3fc;
+      color: #93c5fd;
+      position: relative;
       white-space: pre-wrap;
-      overflow-x: auto;
     }
 
-    .out-box {
-      background: #0a1017;
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      border-radius: 10px;
+    .explain-out {
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 4px solid #10b981;
       padding: 12px 16px;
-      margin: 8px 0 16px;
-      font-family: 'Cascadia Code', Consolas, monospace;
-      font-size: 0.82rem;
-      color: #86efac;
-      white-space: pre-wrap;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #d1fae5;
+      margin-bottom: 16px;
     }
 
     .copy-btn {
       position: absolute;
-      top: 8px;
-      right: 8px;
-      background: rgba(56, 189, 248, 0.2);
-      color: #38bdf8;
-      border: 1px solid rgba(56, 189, 248, 0.4);
+      top: 10px;
+      right: 10px;
+      background: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.4);
       padding: 4px 10px;
       border-radius: 6px;
       font-size: 0.75rem;
-      cursor: pointer;
       font-weight: 700;
+      cursor: pointer;
     }
 
     .copy-btn:hover {
-      background: #38bdf8;
-      color: #000;
+      background: #3b82f6;
+      color: #fff;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       margin-top: 10px;
     }
 
     th, td {
       border: 1px solid var(--border);
-      padding: 10px 12px;
+      padding: 11px 14px;
       text-align: left;
       vertical-align: top;
     }
 
     th {
-      background: var(--bg-panel-alt);
+      background: var(--bg-card);
       color: #fbbf24;
       font-weight: 700;
-    }
-
-    tr:nth-child(even) td {
-      background: rgba(255, 255, 255, 0.02);
     }
 
     code {
@@ -315,882 +309,493 @@
       font-size: 0.86em;
       color: #93c5fd;
     }
-
-    .qa-item {
-      background: var(--bg-panel-alt);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 18px;
-      margin-bottom: 12px;
-    }
-
-    .qa-q {
-      font-weight: 800;
-      color: #fbbf24;
-      margin-bottom: 6px;
-    }
-
-    .alert-danger {
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.45);
-      border-radius: 10px;
-      padding: 14px 18px;
-      color: #fca5a5;
-      margin-top: 12px;
-    }
   </style>
 </head>
 <body>
 
-  <!-- ENCABEZADO PEGAJOSO CON FILTRO POR INTEGRANTE -->
-  <header class="sticky-header">
-    <div class="header-top">
-      <div class="title-group">
-        <h1>📘 Manual Maestro de Sustentación · Proyecto OTT «CINÉFILO»</h1>
-        <p>Toda la información técnica, guiones palabra por palabra, comandos, salidas, rúbrica y preguntas del profesor</p>
+  <!-- BARRA DE NAVEGACIÓN Y FILTROS -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <div class="nav-title">
+        <h1>📘 Guía Completa para Aprender y Exponer el Proyecto OTT «CINÉFILO»</h1>
+        <p>Explicación clara de carpetas, archivos, conceptos, guiones y comandos dividida en Integrante 1, 2, 3 y 4</p>
       </div>
-      <div class="filter-bar">
-        <button class="filter-btn active" onclick="filterMember('all', this)">👥 Ver Todo el Equipo</button>
-        <button class="filter-btn m1" onclick="filterMember('m1', this)">1. Miguel Salazar</button>
-        <button class="filter-btn m2" onclick="filterMember('m2', this)">2. Tomás Sepúlveda</button>
-        <button class="filter-btn m3" onclick="filterMember('m3', this)">3. Juan E. Vallejo</button>
-        <button class="filter-btn m4" onclick="filterMember('m4', this)">4. Sebastián Villa</button>
+      <div class="filter-group">
+        <button class="f-btn active" onclick="filterBy('all', this)">👥 Ver Todos (1 a 4)</button>
+        <button class="f-btn b1" onclick="filterBy('1', this)">👤 Integrante 1</button>
+        <button class="f-btn b2" onclick="filterBy('2', this)">👤 Integrante 2</button>
+        <button class="f-btn b3" onclick="filterBy('3', this)">👤 Integrante 3</button>
+        <button class="f-btn b4" onclick="filterBy('4', this)">👤 Integrante 4</button>
       </div>
     </div>
-    <nav class="quick-links">
-      <span>Ir rápido a:</span>
-      <a href="#reglas-excel">1. Reglas del Excel</a>
-      <a href="#distribucion-equipo">2. Guion y Comandos por Integrante</a>
-      <a href="#radiografia-tecnica">3. Explicación de Carpetas y Archivos</a>
-      <a href="#checklist-oficial">4. Checklist 20/20 del Profesor</a>
-      <a href="#banco-preguntas">5. 16 Preguntas Difíciles y Respuestas</a>
-      <a href="#contingencia">6. Plan de Contingencia y Codespaces</a>
+    <nav class="index-links">
+      <span>Secciones de esta guía:</span>
+      <a href="#como-funciona">1. ¿En qué consiste el proyecto?</a>
+      <a href="#mapa-carpetas">2. Dónde están las carpetas y qué tiene cada una</a>
+      <a href="#partes-exposicion">3. Qué dice y hace cada Integrante (1, 2, 3 y 4)</a>
+      <a href="#diccionario">4. Diccionario fácil de conceptos DevOps</a>
+      <a href="#preguntas">5. Preguntas del profesor y respuestas</a>
     </nav>
   </header>
 
-  <main class="container">
+  <main class="wrapper">
 
     <!-- ================================================================= -->
-    <!-- SECCIÓN 1: REGLAS OFICIALES DEL EXCEL DE EVALUACIÓN               -->
+    <!-- SECCIÓN 1: EN QUÉ CONSISTE EL PROYECTO EN PALABRAS SENCILLAS      -->
     <!-- ================================================================= -->
-    <section id="reglas-excel" class="section-box">
-      <h2 class="section-title">📊 1. Cómo Evalúa el Profesor (Según el Excel «ENTREGA FINAL · PROYECTO DEVOPS»)</h2>
-      <p class="section-sub">Resumen ejecutivo de las reglas, pesos, tiempos y condiciones de integridad del libro de calificación.</p>
+    <section id="como-funciona" class="section">
+      <h2 class="sec-title">🎬 1. ¿En qué consiste el proyecto y cómo funciona por dentro?</h2>
+      <p class="sec-desc">Lo primero que los 4 integrantes deben tener claro antes de pasar al frente.</p>
 
-      <div class="grid-4">
-        <div class="card">
-          <h3>⏱️ Distribución de Tiempo y Nota</h3>
+      <div class="grid-3">
+        <div class="box">
+          <h3>¿Qué es CINÉFILO?</h3>
+          <p>Es una plataforma web de películas y series estilo <strong>MUBI</strong> (con foco especial en <strong>Cine Colombiano</strong> e independiente). Permite registrarse, iniciar sesión, ver un catálogo filtrado según la región del usuario, reproducir trailers/películas en video MP4 guardando el segundo exacto donde el usuario quedó, agregar películas a <em>Mi Lista</em> (favoritos), dar Like/Dislike y buscar por título o género.</p>
+        </div>
+
+        <div class="box">
+          <h3>¿Cuáles son sus 3 piezas (Contenedores / Pods)?</h3>
+          <ol>
+            <li><strong>Frontend (Nginx - Puerto 80):</strong> Es la puerta de entrada. Entrega rápido las imágenes, el CSS y los 20 videos MP4, y si el usuario pide una página o dato, se lo pide al Backend.</li>
+            <li><strong>Backend (Python Flask - Puerto 5000):</strong> Es el cerebro. Valida usuarios, procesa favoritos/progreso, expone la API y Swagger (<code>/apidocs/</code>) y se conecta a la base de datos.</li>
+            <li><strong>Base de Datos (PostgreSQL 16 - Puerto 5432):</strong> Guarda en 6 tablas los usuarios, perfiles, las 20 películas, favoritos, likes e historial de reproducción.</li>
+          </ol>
+        </div>
+
+        <div class="box">
+          <h3>¿Cómo nos evalúa el profesor según el Excel?</h3>
           <ul>
-            <li><strong>Parte I · Elevator Pitch (20%):</strong> 4 a 5 minutos (Criterios <code>P1</code>, <code>P2</code>, <code>P3</code>, <code>P4</code> — 5% cada uno).</li>
-            <li><strong>Parte II · Demo Técnica (80%):</strong> 15 a 20 minutos (Criterios <code>D1</code> a <code>D9</code>).</li>
-            <li><strong>Preguntas del Docente:</strong> 5 minutos al cierre.</li>
+            <li><strong>Parte I · Elevator Pitch (20% · 4 a 5 min):</strong> Explicar el problema, el valor de la plataforma y por qué usamos Docker, CI y Kubernetes (Diapositivas 2 a 5).</li>
+            <li><strong>Parte II · Demo Técnica en Vivo (80% · 15 min):</strong> Mostrar en vivo Git, GitHub Actions, Docker Hub, Minikube corriendo, la página web funcionando y qué pasa cuando un pod se cae.</li>
+            <li><strong>Regla de oro del Excel:</strong> Nunca mostrar contraseñas en texto plano en pantalla.</li>
           </ul>
         </div>
-        <div class="card">
-          <h3>📐 Escala de Calificación (Sobre 5,0)</h3>
-          <ul>
-            <li><strong>Nivel 4 · Excelente (Factor 1.0 = 100%):</strong> Evidencia en vivo completa, explicada con criterio y sin fallos.</li>
-            <li><strong>Nivel 3 · Competente (Factor 0.8 = 80%):</strong> Funcional pero con detalles menores de trazabilidad.</li>
-            <li><strong>Nivel 2 · Básico (Factor 0.5 = 50%):</strong> Evidencia fragmentaria o tags ambiguos.</li>
-            <li><strong>Nivel 1 · Insuficiente (Factor 0.0 = 0%):</strong> No despliega o no funciona.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>🛡️ Regla de Integridad (Crítico)</h3>
-          <ul>
-            <li><strong>Prohibido mostrar contraseñas/tokens:</strong> Nunca hacer <code>cat .env</code> ni mostrar tokens en texto plano. Para demostrar el Secret en K8s usar siempre <code>kubectl describe secret ott-secrets -n ott-platform</code>.</li>
-            <li><strong>Cero simulaciones ocultas:</strong> Todo lo que se muestra en el navegador pasa realmente por Minikube y persiste en PostgreSQL.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>🤝 Jenkins / GitOps y Alcance</h3>
-          <ul>
-            <li>El Excel indica explícitamente: <em>«No exigir ambas herramientas si no fueron parte del alcance aprobado. Demostrar lo realmente implementado; explicar límites con honestidad»</em>.</li>
-            <li>Nuestro alcance usa <strong>GitHub Actions</strong> para CI/Build y <strong>manifiestos declarativos en Git (<code>k8s/</code>)</strong> reconciliados en Minikube con <code>kubectl apply -f k8s/</code>.</li>
-          </ul>
-        </div>
-      </div>
-
-      <table style="margin-top:18px;">
-        <thead>
-          <tr>
-            <th>Integrante</th>
-            <th>Rol en el Proyecto</th>
-            <th>Criterios del Pitch (20%)</th>
-            <th>Criterios de la Demo Técnica (80%)</th>
-            <th>Peso Total Defendido</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong style="color:var(--m1-color);">1. Miguel Ángel Salazar</strong></td>
-            <td>Líder de Desarrollo / Backend & CI</td>
-            <td><code>P1</code> Problema y motivación (5%)</td>
-            <td><code>D1</code> Arquitectura y Git (8%) + <code>D2</code> CI automatizada y pruebas (12%)</td>
-            <td><strong>25%</strong></td>
-          </tr>
-          <tr>
-            <td><strong style="color:var(--m2-color);">2. Tomás Sepúlveda</strong></td>
-            <td>Backend / Seguridad, Trazabilidad & E2E</td>
-            <td><code>P2</code> Propuesta de valor y alcance (5%)</td>
-            <td><code>D6</code> Trazabilidad y GitOps (10%) + <code>D5</code> Flujo funcional E2E y errores (14%)</td>
-            <td><strong>29%</strong></td>
-          </tr>
-          <tr>
-            <td><strong style="color:var(--m3-color);">3. Juan Esteban Vallejo</strong></td>
-            <td>DevOps / Contenedores, Docker Hub & Secretos</td>
-            <td><code>P3</code> Justificación técnica y DevOps (5%)</td>
-            <td><code>D3</code> Docker e imágenes publicadas (8%) + <code>D7</code> Configuración, seguridad y secretos (5%)</td>
-            <td><strong>18%</strong></td>
-          </tr>
-          <tr>
-            <td><strong style="color:var(--m4-color);">4. Sebastián Villa</strong></td>
-            <td>Infraestructura Kubernetes / QA & Observabilidad</td>
-            <td><code>P4</code> Narrativa y estructura (5%)</td>
-            <td><code>D4</code> Despliegue en Minikube (14%) + <code>D8</code> Observabilidad y diagnóstico (5%) + <code>D9</code> Autonomía (4%)</td>
-            <td><strong>28%</strong></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- SECCIÓN 2: GUION DETALLADO Y COMANDOS POR INTEGRANTE              -->
-    <!-- ================================================================= -->
-    <section id="distribucion-equipo">
-      <h2 class="section-title" style="margin-bottom:16px;">🎙️ 2. Guion Palabra por Palabra y Comandos en Vivo por Integrante</h2>
-
-      <!-- ==================== INTEGRANTE 1: MIGUEL ==================== -->
-      <div class="member-section member-m1" data-member="m1">
-        <div class="member-header">
-          <div>
-            <h2 style="color:var(--m1-color);">👤 Integrante 1: Miguel Ángel Salazar</h2>
-            <p style="color:var(--text-muted);">Responsable de: <strong>P1 (Problema · 5%)</strong> + <strong>D1 (Arquitectura y Git · 8%)</strong> + <strong>D2 (CI Automatizada, Pruebas y Control de Fallos · 12%)</strong></p>
-          </div>
-          <div class="badge-row">
-            <span class="tag">Pitch: 1 min 15 s</span>
-            <span class="tag">Demo: 4 min 30 s</span>
-            <span class="tag">Peso Total: 25%</span>
-          </div>
-        </div>
-
-        <h3>Parte A · Elevator Pitch: Criterio P1 (Problema y Motivación · Diapositiva 2)</h3>
-        <div class="speech-box">
-          <strong>Qué decir textualmente:</strong><br/>
-          «Buenas tardes profesor. Nuestro proyecto es <strong>CINÉFILO</strong>, una plataforma OTT de video bajo demanda inspirada en MUBI. Este proyecto nace para resolver dos problemas concretos:<br/>
-          1. <strong>A nivel de producto y usuarios:</strong> Las plataformas comerciales de streaming concentran su catálogo en producciones comerciales masivas y relegan el cine independiente y el <strong>Cine Colombiano y Latinoamericano</strong>. Nuestros destinatarios son cinéfilos y estudiantes que buscan un catálogo curado por región (<code>LATAM</code>, <code>EUROPA</code>, <code>USA</code>) con reproducción continua que recuerda el minuto exacto donde quedaron, y administradores/evaluadores que requieren auditar la salud del sistema y sus contratos OpenAPI.<br/>
-          2. <strong>A nivel técnico y de Gestión de la Configuración:</strong> En la primera entrega teníamos un monolito acoplado a un servicio externo en la nube (Supabase) donde Flask servía directamente tanto el HTML como los videos MP4. Eso provocaba errores de configuración entre equipos, bloqueo de hilos al reproducir video y regresiones cada vez que alguien hacía un cambio sin pruebas automatizadas. Nuestra motivación en esta entrega final fue migrar a una arquitectura de 3 capas 100% autónoma y reproducible desde Git hasta Kubernetes.»
-        </div>
-
-        <h3 style="margin-top:20px;">Parte B · Demo Técnica: Criterio D1 (Arquitectura y Repositorios Git · Diapositiva 6)</h3>
-        <div class="speech-box">
-          <strong>Qué decir mientras ejecutas los comandos:</strong><br/>
-          «Para demostrar el criterio <strong>D1</strong>, aquí vemos nuestro monorepo en GitHub (<code>Miguel-Angel-Salazar/OTT-</code>). La arquitectura separa claramente 3 componentes:
-          <strong>1) Frontend (Nginx 1.25 Alpine)</strong> en la carpeta <code>frontend/</code>, que escucha en el puerto 80, sirve directamente los pósters y los 20 videos MP4 desde <code>/static/*</code> con caché de 30 días, y actúa como Reverse Proxy hacia el backend;
-          <strong>2) Backend (Python 3.11 + Flask 3.1.1)</strong> en la carpeta <code>backend/</code>, estructurado en Blueprints MVC (<code>auth</code>, <code>home</code>, <code>movie</code>, <code>favorite</code>, <code>profile</code>, <code>api</code>) con Swagger en <code>/apidocs/</code> y healthcheck en <code>/api/health</code>; y
-          <strong>3) Base de datos relacional propia (PostgreSQL 16 Alpine)</strong> inicializada con <code>database/init.sql</code>. Además, toda la infraestructura como código vive versionada en <code>.github/workflows/ci-cd.yml</code> y en la carpeta <code>k8s/</code>.»
-        </div>
-
-        <div class="cmd-box"><button class="copy-btn" onclick="copyText(this)">Copiar</button>git status
-git branch -a
-git log --oneline -n 8
-Get-ChildItem k8s/, .github/workflows/</div>
-
-        <div class="out-box">Salida esperada y qué explicar:
-• Muestra que estamos en la rama `main` sincronizada con `origin/main`.
-• En el historial (`git log`) se ven commits semánticos (`feat`, `fix`, `docs`) y el Merge del Pull Request #3 (`a8898ad`).
-• Se listan los 5 manifiestos numerados de Kubernetes (`01` a `05`) y el archivo `ci-cd.yml`.</div>
-
-        <h3 style="margin-top:20px;">Parte C · Demo Técnica: Criterio D2 (CI Automatizada, Pruebas y Control de Fallos · Diapositiva 7)</h3>
-        <div class="speech-box">
-          <strong>Qué decir mientras muestras GitHub Actions y la consola:</strong><br/>
-          «Para el criterio <strong>D2</strong>, abrimos la pestaña <strong>Actions</strong> en GitHub y nuestro archivo <code>.github/workflows/ci-cd.yml</code>. El pipeline se dispara automáticamente en cada <code>push</code> o <code>pull_request</code> a <code>main</code> y está dividido en 2 Jobs encadenados:<br/>
-          • <strong>Job 1 (<code>unit-and-integration-tests</code>):</strong> Levanta un contenedor de servicio real <code>postgres:16-alpine</code> dentro del runner de GitHub, espera a que pase <code>pg_isready</code>, inyecta nuestro <code>database/init.sql</code> con las 6 tablas y 20 películas, y ejecuta las pruebas unitarias (<code>test_unit.py</code>) y de integración (<code>test_flow.py</code>).<br/>
-          • <strong>Control de Fallos:</strong> El Job 2 (<code>docker-build-and-traceability</code>) tiene declarada la cláusula <code>needs: unit-and-integration-tests</code> junto con <code>if: success()</code>. Si una sola prueba unitaria o de base de datos falla en el Job 1, GitHub Actions <strong>bloquea inmediatamente el Job 2</strong> e impide que se construyan o publiquen imágenes defectuosas. En el historial de Actions tenemos tanto la ejecución fallida (Run <code>#43124379460</code>) como las ejecuciones exitosas en verde (Run <code>#44195742949</code>).<br/>
-          Ahora ejecuto las pruebas en vivo en la terminal para mostrar el test runner y qué valida cada una:»
-        </div>
-
-        <div class="cmd-box"><button class="copy-btn" onclick="copyText(this)">Copiar</button># Ejecutar las 10 pruebas unitarias (Modelo Movie, rutas legacy, bcrypt, filtro regional y HTTP)
-.\.venv\Scripts\python.exe -m unittest discover tests -p "test_unit.py" -v
-
-# Ejecutar las 4 pruebas de integración (Healthcheck SQL, semillas en BD, login bcrypt y sesión)
-.\.venv\Scripts\python.exe -m unittest tests/test_flow.py -v</div>
-
-        <div class="out-box">Salida esperada:
-• En `test_unit.py`: `Ran 10 tests in 1.1s ... OK`
-• En `test_flow.py`: `Ran 4 tests in 1.3s ... OK`
-(Además, explicar que en el Job 2 de CI también corre un script Python que valida que los 5 archivos YAML de `k8s/` tengan sintaxis válida y `apiVersion`/`kind` correctos).</div>
-      </div>
-
-      <!-- ==================== INTEGRANTE 2: TOMÁS ==================== -->
-      <div class="member-section member-m2" data-member="m2">
-        <div class="member-header">
-          <div>
-            <h2 style="color:var(--m2-color);">👤 Integrante 2: Tomás Sepúlveda</h2>
-            <p style="color:var(--text-muted);">Responsable de: <strong>P2 (Propuesta de Valor · 5%)</strong> + <strong>D6 (Trazabilidad y GitOps · 10%)</strong> + <strong>D5 (Flujo Funcional E2E en Minikube y Casos de Error · 14%)</strong></p>
-          </div>
-          <div class="badge-row">
-            <span class="tag">Pitch: 1 min 15 s</span>
-            <span class="tag">Demo: 5 min 00 s</span>
-            <span class="tag">Peso Total: 29%</span>
-          </div>
-        </div>
-
-        <h3>Parte A · Elevator Pitch: Criterio P2 (Propuesta de Valor y Alcance · Diapositiva 3)</h3>
-        <div class="speech-box">
-          <strong>Qué decir textualmente:</strong><br/>
-          «En cuanto a nuestra propuesta de valor y alcance (<strong>P2</strong>), <strong>CINÉFILO</strong> entrega una experiencia OTT completa y funcional desde el primer despliegue: cuenta con registro e inicio de sesión seguro cifrado con <code>bcrypt</code>, un catálogo precargado de 20 producciones reales —incluyendo una sección dedicada al <strong>Cine Colombiano</strong> con <em>Monos</em>, <em>El olvido que seremos</em>, <em>La vendedora de rosas</em>, <em>Pájaros de verano</em> y <em>El páramo</em>—, reproductor de video HTML5 que guarda automáticamente el segundo de visualización en PostgreSQL, gestión de favoritos (<em>Mi Lista</em>), calificaciones Like/Dislike, buscador dinámico y documentación interactiva OpenAPI en <code>/apidocs/</code>.<br/>
-          Nuestro diferenciador frente a un proyecto web tradicional es que eliminamos por completo las dependencias externas: la base de datos relacional se autoinicializa sola dentro del clúster. Y siendo transparentes con los límites del alcance: el video se entrega mediante streaming progresivo MP4 con caché en Nginx (no transcodificación adaptativa HLS), y el despliegue declarativo en Kubernetes se reconcilia sobre Minikube desde la carpeta <code>k8s/</code>.»
-        </div>
-
-        <h3 style="margin-top:20px;">Parte B · Demo Técnica: Criterio D6 (Trazabilidad de Entrega y GitOps · Diapositiva 12)</h3>
-        <div class="speech-box">
-          <strong>Qué decir mientras muestras el Summary de GitHub Actions y la consola:</strong><br/>
-          «Para demostrar el criterio <strong>D6 (Trazabilidad de entrega y estado declarativo)</strong>, conectamos cada eslabón desde el código hasta el pod:<br/>
-          1. Cuando hacemos un commit (por ejemplo, el SHA corto <code>a8b8492</code> / <code>a8898ad</code>), el Job 2 de GitHub Actions extrae <code>git rev-parse --short HEAD</code> y etiqueta la imagen con tres referencias: la versión semántica <code>v1.0.0</code>, el tag inmutable del commit <code>sha-a8b8492</code> y <code>latest</code>.<br/>
-          2. En el mismo pipeline incluimos una verificación automática con <code>grep</code> que comprueba que <code>k8s/04-backend.yaml</code> y <code>k8s/05-frontend.yaml</code> tengan declarada exactamente la versión <code>v1.0.0</code> construida por el pipeline. Si alguien cambia la versión en el código y olvida actualizar el manifiesto de Kubernetes, el pipeline falla.<br/>
-          3. Al final de la ejecución en GitHub Actions se genera automáticamente esta tabla de <strong>Trazabilidad en el Job Summary</strong> con el commit, la rama, las imágenes y los manifiestos.<br/>
-          4. Finalmente, diferenciamos claramente <strong>CI de CD/GitOps</strong>: la CI en GitHub Actions prueba y empaqueta el artefacto; mientras que la carpeta <code>k8s/</code> en Git actúa como la <strong>fuente única de verdad</strong> del estado deseado del clúster, que reconciliamos con <code>kubectl apply -f k8s/</code>. Veamos en consola la correspondencia exacta con los pods activos:»
-        </div>
-
-        <div class="cmd-box"><button class="copy-btn" onclick="copyText(this)">Copiar</button># 1. Ver el SHA del commit actual en el repositorio local
-git rev-parse --short HEAD
-
-# 2. Comprobar qué versión de imagen declaran los manifiestos en Git
-Select-String -Path k8s/*.yaml -Pattern "image:"
-
-# 3. Comprobar qué imagen e ImageID exacto están corriendo en los Pods de Minikube
-kubectl get pods -n ott-platform -o custom-columns="POD:.metadata.name,STATUS:.status.phase,IMAGE:.spec.containers[*].image,IMAGE_ID:.status.containerStatuses[*].imageID"</div>
-
-        <h3 style="margin-top:20px;">Parte C · Demo Técnica: Criterio D5 (Flujo Funcional E2E Real en Minikube y Casos de Error · Diapositiva 13)</h3>
-        <div class="speech-box">
-          <strong>Qué decir mientras haces la demostración en el navegador y en consola:</strong><br/>
-          «Ahora demostramos el criterio <strong>D5 (14% de la nota)</strong> ejecutando el flujo completo de extremo a extremo (<code>Navegador → Service NodePort ott-frontend (Nginx) → Service ClusterIP ott-backend (Flask) → StatefulSet ott-db (PostgreSQL)</code>) corriendo dentro de Minikube en <code>http://localhost:8090</code>:<br/>
-          1. <strong>Salud y OpenAPI:</strong> Abrimos <code>http://localhost:8090/api/health</code> que nos responde <code>{"database":"connected","status":"ok"}</code>, y abrimos <code>http://localhost:8090/apidocs/</code> donde está Swagger UI interactivo.<br/>
-          2. <strong>Demostración de Casos de Error Reales:</strong> Primero, en la pantalla de Login (<code>/auth/login</code>) ingresamos una contraseña incorrecta y vemos que el backend valida con <code>bcrypt</code> y devuelve una alerta controlada en la interfaz sin romper la sesión. Segundo, consultamos en la API una película inexistente (<code>GET /api/movies/999</code>) y comprobamos que responde un código HTTP <code>404 NOT FOUND</code> con JSON estructurado.<br/>
-          3. <strong>Operación Completa con Persistencia en Base de Datos:</strong> Iniciamos sesión con <code>demo@ott.com</code> / <code>demo123</code>, vemos el catálogo filtrado para la región <code>LATAM</code> y el carrusel de Cine Colombiano, entramos a la película <em>Monos</em> (<code>/movie/1</code>), la agregamos/alternamos en <strong>Mi Lista (Favoritos)</strong>, le damos <strong>Like</strong> y reproducimos el video para que el reproductor envíe el segundo actual a <code>POST /movie/1/progreso</code>.<br/>
-          4. <strong>Verificación directa en PostgreSQL dentro de Minikube:</strong> Ejecutamos <code>kubectl exec</code> hacia el pod <code>ott-db-0</code> y consultamos con <code>psql</code> las tablas <code>favorites</code>, <code>ratings</code> y <code>watch_history</code> para demostrar que los datos quedaron grabados realmente en el volumen persistente:»
-        </div>
-
-        <div class="cmd-box"><button class="copy-btn" onclick="copyText(this)">Copiar</button># 1. Caso de error controlado 404 en el endpoint REST a través del Service de Minikube
-curl.exe -i http://localhost:8090/api/movies/999
-
-# 2. Consultar en vivo dentro del Pod PostgreSQL (ott-db-0) los favoritos persistidos
-kubectl exec -n ott-platform ott-db-0 -- psql -U ott_user -d ott_db -c "SELECT u.email, m.titulo, f.pelicula_id FROM favorites f JOIN users u ON u.id = f.usuario_id JOIN movies m ON m.id = f.pelicula_id;"
-
-# 3. Consultar en vivo el progreso de visualización guardado en watch_history
-kubectl exec -n ott-platform ott-db-0 -- psql -U ott_user -d ott_db -c "SELECT u.email, m.titulo, w.minuto FROM watch_history w JOIN users u ON u.id = w.usuario_id JOIN movies m ON m.id = w.pelicula_id;"
-
-# 4. (Opcional) Correr las 6 pruebas automatizadas de navegador Playwright contra Minikube
-$env:TEST_BASE_URL = "http://localhost:8090"
-.\.venv\Scripts\python.exe -m unittest tests/test_e2e_playwright.py -v</div>
-      </div>
-
-      <!-- ==================== INTEGRANTE 3: JUAN ESTEBAN ==================== -->
-      <div class="member-section member-m3" data-member="m3">
-        <div class="member-header">
-          <div>
-            <h2 style="color:var(--m3-color);">👤 Integrante 3: Juan Esteban Vallejo</h2>
-            <p style="color:var(--text-muted);">Responsable de: <strong>P3 (Justificación DevOps · 5%)</strong> + <strong>D3 (Docker e Imágenes Publicadas · 8%)</strong> + <strong>D7 (Configuración, Seguridad y Secretos · 5%)</strong></p>
-          </div>
-          <div class="badge-row">
-            <span class="tag">Pitch: 1 min 15 s</span>
-            <span class="tag">Demo: 3 min 30 s</span>
-            <span class="tag">Peso Total: 18%</span>
-          </div>
-        </div>
-
-        <h3>Parte A · Elevator Pitch: Criterio P3 (Justificación Técnica y DevOps · Diapositiva 4)</h3>
-        <div class="speech-box">
-          <strong>Qué decir textualmente:</strong><br/>
-          «En el criterio <strong>P3</strong> justificamos por qué cada decisión arquitectónica y práctica DevOps aporta valor directo al producto:<br/>
-          • <strong>Primero, desacoplar Nginx como Reverse Proxy y servidor de estáticos:</strong> Una plataforma de películas maneja archivos de video MP4 pesados. Si Flask sirviera esos videos directamente, bloquearía los hilos de Python para otros usuarios. Al poner a Nginx en el frente (<code>ott-frontend</code>), Nginx entrega directamente <code>/static/videos/*</code> y <code>/static/images/*</code> con cabeceras <code>Cache-Control</code> de 30 días, y solo pasa al backend las peticiones dinámicas.<br/>
-          • <strong>Segundo, pruebas contra PostgreSQL real en CI:</strong> Muchos proyectos prueban con SQLite en memoria y fallan en producción. Nuestro pipeline levanta <code>postgres:16-alpine</code> en GitHub Actions y prueba el mismo <code>init.sql</code> que usa Kubernetes.<br/>
-          • <strong>Tercero, compensaciones asumidas (trade-offs):</strong> Incluir los 20 videos MP4 de muestra dentro de la imagen de Frontend incrementa su tamaño a ~380 MB, pero a cambio nos da portabilidad absoluta: cualquier nodo de Kubernetes levanta el catálogo multimedia completo sin requerir credenciales de un bucket S3 externo.»
-        </div>
-
-        <h3 style="margin-top:20px;">Parte B · Demo Técnica: Criterio D3 (Dockerfiles e Imágenes en Docker Hub · Diapositiva 8)</h3>
-        <div class="speech-box">
-          <strong>Qué decir mientras muestras los Dockerfiles y Docker Hub:</strong><br/>
-          «Para el criterio <strong>D3</strong>, revisamos nuestros dos Dockerfiles:<br/>
-          1. En <code>backend/Dockerfile</code> partimos de <code>python:3.11-slim</code>. Aplicamos cuatro buenas prácticas esenciales: primero, copiamos únicamente <code>requirements.txt</code> y ejecutamos <code>pip install --no-cache-dir</code> antes de copiar el código fuente, para que Docker reutilice la capa de librerías si solo cambia un controlador; segundo, creamos el usuario sin privilegios <code>appuser</code> y ejecutamos con <code>USER appuser</code> para que el contenedor nunca corra como <code>root</code>; tercero, incluimos etiquetas estándar OCI (<code>version="1.0.0"</code>); y cuarto, configuramos un <code>HEALTHCHECK</code> nativo hacia <code>http://localhost:5000/api/health</code>.<br/>
-          2. En <code>frontend/Dockerfile</code> partimos de <code>nginx:1.25-alpine</code>, copiamos los activos estáticos y usamos <code>nginx.conf.template</code> con inyección dinámica de la variable <code>${BACKEND_URL}</code>.<br/>
-          3. En <strong>Docker Hub</strong> tenemos publicadas las imágenes tanto con versión semántica (<code>v1.0.0</code>), como con el hash del commit (<code>sha-a8b8492</code>, <code>sha-a8898ad</code>) y <code>latest</code> en <code>miguelsalazar22/ott-backend</code>, <code>miguelsalazar22/ott-frontend</code> y <code>juanexzz/ott-*</code>.»
-        </div>
-
-        <div class="cmd-box"><button class="copy-btn" onclick="copyText(this)">Copiar</button># 1. Mostrar el Dockerfile del Backend con sus capas, usuario no-root y healthcheck
-Get-Content backend/Dockerfile
-
-# 2. Listar las imágenes construidas localmente con sus tags y tamaños
-docker images | Select-String "ott"
-
-# 3. Consultar en vivo la API de Docker Hub para mostrar los tags publicados (v1.0.0, sha-a8b8492, latest)
-(Invoke-RestMethod "https://hub.docker.com/v2/repositories/miguelsalazar22/ott-backend/tags").results | Select-Object name, last_updated
-(Invoke-RestMethod "https://hub.docker.com/v2/repositories/miguelsalazar22/ott-frontend/tags").results | Select-Object name, last_updated</div>
-
-        <h3 style="margin-top:20px;">Parte C · Demo Técnica: Criterio D7 (Configuración, Seguridad y Secretos · Diapositiva 9)</h3>
-        <div class="speech-box">
-          <strong>Qué decir mientras ejecutas los comandos de seguridad:</strong><br/>
-          «Para el criterio <strong>D7 (Configuración, seguridad y secretos)</strong>, garantizamos que ninguna credencial quede hardcodeada en el código fuente ni dentro de las imágenes Docker:<br/>
-          • El archivo <code>.env</code> local está bloqueado en <code>.gitignore</code> y en <code>.dockerignore</code>; en el repositorio solo se entrega la plantilla <code>.env.example</code>.<br/>
-          • En el código Python (<code>backend/config/db_config.py</code> y <code>backend/app.py</code>), la cadena <code>DATABASE_URL</code> y la firma de sesión <code>SECRET_KEY</code> se leen exclusivamente por variables de entorno.<br/>
-          • En Kubernetes separamos la configuración pública en el <code>ConfigMap ott-config</code> (como <code>POSTGRES_DB</code>, <code>PORT</code> y <code>BACKEND_URL</code>) y las credenciales sensibles en el <code>Secret ott-secrets</code> codificado en Base64. Además, a nivel de red, ni PostgreSQL ni el Backend están expuestos fuera del clúster: ambos usan servicios <code>ClusterIP</code> internos, y solo el proxy inverso Nginx se expone.<br/>
-          Sin revelar ningún valor sensible en pantalla, comprobamos el Secret en Kubernetes con <code>kubectl describe</code>:»
-        </div>
-
-        <div class="cmd-box"><button class="copy-btn" onclick="copyText(this)">Copiar</button># 1. Demostrar que .env está excluido por .gitignore
-git check-ignore -v .env
-
-# 2. Mostrar ConfigMaps y Secrets en el namespace ott-platform
-kubectl get configmap,secret -n ott-platform
-
-# 3. Inspeccionar las llaves del Secret sin revelar sus valores (cumpliendo regla de Integridad)
-kubectl describe secret ott-secrets -n ott-platform</div>
-      </div>
-
-      <!-- ==================== INTEGRANTE 4: SEBASTIÁN ==================== -->
-      <div class="member-section member-m4" data-member="m4">
-        <div class="member-header">
-          <div>
-            <h2 style="color:var(--m4-color);">👤 Integrante 4: Sebastián Villa</h2>
-            <p style="color:var(--text-muted);">Responsable de: <strong>P4 & D9 (Narrativa, Roles y Autonomía · 9%)</strong> + <strong>D4 (Despliegue en Minikube · 14%)</strong> + <strong>D8 (Observabilidad, Logs y Self-Healing · 5%)</strong></p>
-          </div>
-          <div class="badge-row">
-            <span class="tag">Pitch: 1 min 00 s</span>
-            <span class="tag">Demo: 5 min 00 s</span>
-            <span class="tag">Peso Total: 28%</span>
-          </div>
-        </div>
-
-        <h3>Parte A · Elevator Pitch: Criterios P4 y D9 (Cierre del Pitch y Flujo Integral · Diapositiva 5)</h3>
-        <div class="speech-box">
-          <strong>Qué decir textualmente:</strong><br/>
-          «Para cerrar nuestro Elevator Pitch (<strong>P4 y D9</strong>), en este diagrama resumimos cómo se integran los cuatro frentes de trabajo del equipo en un único flujo continuo: un cambio en Git dispara GitHub Actions; si supera las pruebas contra PostgreSQL y el validador de manifiestos, produce las imágenes etiquetadas por versión y SHA en Docker Hub; y finalmente esos artefactos se despliegan de forma declarativa en el namespace <code>ott-platform</code> de Minikube con servicios internos <code>ClusterIP</code>, almacenamiento persistente y sondas de salud.<br/>
-          Pasamos así a la demostración técnica en vivo.»
-        </div>
-
-        <h3 style="margin-top:20px;">Parte B · Demo Técnica: Criterio D4 (Despliegue en Minikube / Kubernetes · Diapositiva 10)</h3>
-        <div class="speech-box">
-          <strong>Qué decir mientras muestras los manifiestos y el estado del clúster:</strong><br/>
-          «Para el criterio <strong>D4 (14% de la nota)</strong>, primero verificamos con <code>minikube status</code> y <code>kubectl config current-context</code> que nuestro clúster local de Kubernetes está activo. En la carpeta <code>k8s/</code> diseñamos 5 manifiestos numerados en orden de dependencia:<br/>
-          • <code>01-namespace.yaml</code>: Crea el namespace dedicado <code>ott-platform</code>.<br/>
-          • <code>02-configmap-and-secret.yaml</code>: Define <code>ott-config</code>, el <code>Secret ott-secrets</code> y el <code>ConfigMap ott-db-init</code> que contiene el script <code>init.sql</code>. Montar <code>init.sql</code> desde un ConfigMap en <code>/docker-entrypoint-initdb.d/init.sql</code> permite que PostgreSQL cree las 6 tablas y siembre las 20 películas automáticamente dentro de cualquier nodo sin depender de rutas locales de Windows.<br/>
-          • <code>03-postgres.yaml</code>: Define el <code>PersistentVolume</code> y el <code>PersistentVolumeClaim postgres-pvc</code> de <code>1Gi</code> (en modo <code>ReadWriteOnce</code>), el <code>StatefulSet ott-db</code> con sondas <code>pg_isready</code> y el <code>Service ClusterIP</code> en el puerto 5432.<br/>
-          • <code>04-backend.yaml</code>: Despliega el <code>Deployment ott-backend</code> con límites de recursos (<code>requests: 100m/128Mi</code>, <code>limits: 500m/512Mi</code>) y sondas <code>readinessProbe</code> y <code>livenessProbe</code> apuntando a <code>GET /api/health:5000</code>.<br/>
-          • <code>05-frontend.yaml</code>: Despliega <code>ott-frontend</code> (Nginx) con probes hacia <code>/auth/login:80</code> y un <code>Service NodePort</code> (puerto <code>30080</code>).»
-        </div>
-
-        <div class="cmd-box"><button class="copy-btn" onclick="copyText(this)">Copiar</button># 1. Comprobar que Minikube está activo y el contexto apunta a minikube
-minikube status
-kubectl config current-context
-
-# 2. Aplicar todos los manifiestos declarativos (idempotente)
-kubectl apply -f k8s/
-
-# 3. Mostrar Pods, Services, Deployments, StatefulSet y PersistentVolumeClaim saludables
-kubectl get pods,svc,deploy,statefulset,pvc -n ott-platform -o wide</div>
-
-        <div class="out-box">Salida esperada y qué destacar:
-• `pod/ott-db-0`, `pod/ott-backend-...` y `pod/ott-frontend-...` están en `1/1 Running`.
-• `service/ott-db` (5432) y `service/ott-backend` (5000) son `ClusterIP`; `service/ott-frontend` es `NodePort` (`80:30080/TCP`).
-• `persistentvolumeclaim/postgres-pvc` está en estado `Bound` con `1Gi`.</div>
-
-        <h3 style="margin-top:20px;">Parte C · Demo Técnica: Criterio D8 (Observabilidad, Diagnóstico y Autorrecuperación · Diapositiva 11)</h3>
-        <div class="speech-box">
-          <strong>Qué decir mientras ejecutas los logs y provocas la caída del pod:</strong><br/>
-          «Para demostrar el criterio <strong>D8 (Observabilidad y respuesta a incidentes)</strong>, primero consultamos los logs en tiempo real del backend con <code>kubectl logs</code> y la configuración detallada del Deployment con <code>kubectl describe</code>, donde se evidencian las sondas <code>Liveness</code> y <code>Readiness</code> contra <code>/api/health</code> y cero eventos de fallo.<br/>
-          Ahora vamos a provocar un incidente real en vivo: eliminamos el pod del backend con <code>kubectl delete pod</code>. Como está gestionado por un <code>Deployment</code> con <code>replicas: 1</code>, Kubernetes detecta inmediatamente la caída, instancia un nuevo contenedor, espera a que <code>/api/health</code> confirme conexión con PostgreSQL y lo pone en <code>1/1 Running</code> en menos de 30 segundos sin intervención manual y sin perder ningún dato.»
-        </div>
-
-        <div class="cmd-box"><button class="copy-btn" onclick="copyText(this)">Copiar</button># 1. Consultar logs recientes del contenedor Flask en Kubernetes
-kubectl logs -n ott-platform deployment/ott-backend --tail=20
-
-# 2. Inspeccionar estado, probes, límites de CPU/RAM y eventos del Deployment
-kubectl describe deployment ott-backend -n ott-platform
-
-# 3. Provocar caída intencional del pod del backend y demostrar Self-Healing
-kubectl delete pod -n ott-platform -l app=ott-backend
-kubectl get pods -n ott-platform -o wide</div>
       </div>
     </section>
 
     <!-- ================================================================= -->
-    <!-- SECCIÓN 3: RADIOGRAFÍA TÉCNICA DE CARPETAS Y ARCHIVOS             -->
+    <!-- SECCIÓN 2: DÓNDE ESTÁN LAS CARPETAS Y QUÉ TIENE CADA UNA          -->
     <!-- ================================================================= -->
-    <section id="radiografia-tecnica" class="section-box">
-      <h2 class="section-title">🗂️ 3. Explicación Completa de Cada Carpeta y Archivo del Proyecto</h2>
-      <p class="section-sub">Para responder cualquier pregunta sobre cómo está construido internamente el software.</p>
+    <section id="mapa-carpetas" class="section">
+      <h2 class="sec-title">📂 2. ¿Dónde están las carpetas del proyecto, qué tienen adentro y para qué sirven?</h2>
+      <p class="sec-desc">Todo el proyecto está en la carpeta raíz <code>OTT-/</code>. Aquí tienes exactamente qué hay dentro de cada carpeta por si el profesor pide abrir cualquiera de ellas.</p>
 
       <div class="grid-2">
-        <div class="card">
-          <h3>1. Carpeta <code>backend/</code> (API y Servidor MVC Flask)</h3>
+
+        <!-- CARPETA 1: FRONTEND -->
+        <div class="box">
+          <span class="path-badge">📍 Ruta: OTT-/frontend/</span>
+          <h3>1. Carpeta <code>frontend/</code> (Servidor Web Nginx y Archivos Multimedia)</h3>
+          <p><strong>¿En qué consiste?</strong> Es la capa que recibe todas las visitas del navegador en el puerto 80. Usa <strong>Nginx 1.25 Alpine</strong> para dos cosas: entregar directamente los archivos pesados (videos MP4 y pósters) con memoria caché, y actuar como <em>Reverse Proxy</em> (puente) enviando las peticiones de inicio de sesión o catálogo hacia el Backend Flask.</p>
+          <p><strong>¿Qué archivos tiene adentro?</strong></p>
           <ul>
-            <li><code>app.py</code>: Punto de entrada de Flask. Configura <code>secret_key</code>, inicializa <strong>Flasgger (Swagger 2.0)</strong> en la ruta <code>/apidocs/</code> (especificación JSON en <code>/apispec.json</code>) y registra los 6 Blueprints MVC.</li>
-            <li><code>config/db_config.py</code>: Carga variables con <code>dotenv</code> y expone <code>get_connection()</code> usando <code>psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)</code>.</li>
-            <li><code>models/movie.py</code>: Clase de dominio <code>Movie</code> con el método de fábrica <code>Movie.from_dict()</code> que normaliza rutas de imágenes (convierte rutas antiguas <code>/static/pictures/</code> a <code>/static/images/</code> y asigna <code>hero_url</code> de respaldo).</li>
-            <li><code>controllers/</code>:
+            <li><code>Dockerfile</code>: Instrucciones para crear la imagen Docker del frontend sobre <code>nginx:1.25-alpine</code>.</li>
+            <li><code>nginx.conf.template</code>: Configuración de Nginx. Tiene dos reglas clave:
               <ul>
-                <li><code>api_controller.py</code>: Define <code>GET /api/health</code> (ejecuta <code>SELECT 1 AS test;</code> en PostgreSQL y devuelve 200 o 500), <code>GET /api/movies</code> y <code>GET /api/movies/&lt;id&gt;</code> (devuelve 404 si no existe).</li>
-                <li><code>auth_controller.py</code>: Rutas <code>/auth/login</code>, <code>/auth/register</code>, <code>/auth/logout</code> y recuperación de contraseña.</li>
-                <li><code>home_controller.py</code>: Renderiza <code>/home/</code> filtrando películas por la región del usuario (<code>LATAM</code>, <code>EUROPA</code>, <code>USA</code> o <code>GLOBAL</code>) y arma el carrusel de <em>Cine Colombiano</em>.</li>
-                <li><code>movie_controller.py</code>: Detalle <code>/movie/&lt;id&gt;</code>, buscador <code>/movie/search?q=...</code>, calificaciones <code>/like</code> y <code>/dislike</code>, y guardado asíncrono <code>POST /movie/&lt;id&gt;/progreso</code>.</li>
-                <li><code>favorite_controller.py</code>: <code>POST /favorite/toggle/&lt;id&gt;</code> para agregar o quitar de <em>Mi Lista</em>.</li>
-                <li><code>profile_controller.py</code>: Vista <code>/profile/</code> para cambiar entre plan <code>Basica</code> y <code>Premium</code> o actualizar contraseña.</li>
+                <li><code>location /static/</code>: Entrega fotos, estilos CSS, JS y videos directamente desde el disco sin molestar a Python.</li>
+                <li><code>location /</code>: Redirige todo lo demás hacia <code>${BACKEND_URL}</code> (que apunta a <code>http://ott-backend:5000</code>).</li>
               </ul>
             </li>
-            <li><code>services/</code>: Contiene toda la lógica SQL parametrizada (previniendo inyección SQL): <code>auth_service.py</code> (usa <code>bcrypt.hashpw</code> y <code>bcrypt.checkpw</code>), <code>movie_service.py</code>, <code>favorite_service.py</code>, <code>rating_service.py</code>, <code>watch_history_service.py</code> y <code>profile_service.py</code>.</li>
+            <li><code>static/</code>: Contiene 4 subcarpetas: <code>css/</code> (estilos), <code>js/</code> (lógica del reproductor de video), <code>images/posters/</code> (las 20 carátulas) y <code>videos/</code> (los 20 archivos de video <code>.mp4</code> como <code>monos.mp4</code>, <code>roma.mp4</code>, etc.).</li>
           </ul>
         </div>
 
-        <div class="card">
-          <h3>2. Carpetas <code>frontend/</code> y <code>database/</code></h3>
+        <!-- CARPETA 2: BACKEND -->
+        <div class="box">
+          <span class="path-badge">📍 Ruta: OTT-/backend/</span>
+          <h3>2. Carpeta <code>backend/</code> (Aplicación Python Flask MVC + API Swagger)</h3>
+          <p><strong>¿En qué consiste?</strong> Es el servidor de aplicaciones escrito en <strong>Python 3.11 con Flask 3.1.1</strong> siguiendo el patrón <strong>Modelo-Vista-Controlador (MVC)</strong>. Corre en el puerto 5000.</p>
+          <p><strong>¿Qué archivos y subcarpetas tiene adentro?</strong></p>
           <ul>
-            <li><code>frontend/Dockerfile</code>: Construye sobre <code>nginx:1.25-alpine</code>. Usa <code>NGINX_ENVSUBST_FILTER="BACKEND_URL"</code> para reemplazar automáticamente <code>${BACKEND_URL}</code> en el arranque del contenedor.</li>
-            <li><code>frontend/nginx.conf.template</code>:
+            <li><code>app.py</code>: Archivo principal que arranca Flask, configura Swagger UI en <code>/apidocs/</code> y conecta todos los módulos (Blueprints).</li>
+            <li><code>Dockerfile</code>: Construye la imagen del backend sobre <code>python:3.11-slim</code>, instala <code>requirements.txt</code>, crea un usuario seguro sin permisos de administrador (<code>USER appuser</code>) y define el <code>HEALTHCHECK</code> hacia <code>/api/health</code>.</li>
+            <li><code>config/db_config.py</code>: Lee la variable <code>DATABASE_URL</code> y abre la conexión hacia PostgreSQL usando la librería <code>psycopg2</code>.</li>
+            <li><code>models/movie.py</code>: Define la clase <code>Movie</code> y arregla automáticamente las rutas de las imágenes.</li>
+            <li><code>controllers/</code>: Reciben las peticiones web:
               <ul>
-                <li>Bloque <code>location /static/</code>: Sirve directamente desde disco <code>/usr/share/nginx/html/static/</code> con <code>expires 30d;</code> y <code>Cache-Control "public, no-transform"</code>.</li>
-                <li>Bloque <code>location /</code>: Hace <code>proxy_pass ${BACKEND_URL};</code> (en K8s apunta a <code>http://ott-backend:5000</code>) propagando cabeceras <code>Host</code>, <code>X-Real-IP</code> y <code>X-Forwarded-For</code>.</li>
+                <li><code>api_controller.py</code>: Tiene los endpoints JSON: <code>GET /api/health</code> (verifica si la BD responde), <code>GET /api/movies</code> y <code>GET /api/movies/&lt;id&gt;</code>.</li>
+                <li><code>auth_controller.py</code>: Login y registro de usuarios.</li>
+                <li><code>home_controller.py</code>: Muestra el catálogo principal filtrando por la región del usuario y separa la fila de <em>Cine Colombiano</em>.</li>
+                <li><code>movie_controller.py</code>: Muestra el reproductor, el buscador (<code>/movie/search</code>), los Likes/Dislikes y guarda el segundo del video (<code>POST /movie/&lt;id&gt;/progreso</code>).</li>
+                <li><code>favorite_controller.py</code> y <code>profile_controller.py</code>: Manejan <em>Mi Lista</em> y el cambio de plan (Básica/Premium).</li>
               </ul>
             </li>
-            <li><code>database/init.sql</code>: Crea las <strong>6 tablas relacionales</strong> con integridad referencial (<code>ON DELETE CASCADE</code>):
+            <li><code>services/</code>: Contienen las consultas SQL reales hacia PostgreSQL y el cifrado de contraseñas con <code>bcrypt</code> (<code>auth_service.py</code>).</li>
+            <li><code>templates/</code>: Las plantillas HTML (Jinja2) de login, catálogo, reproductor y perfil.</li>
+          </ul>
+        </div>
+
+        <!-- CARPETA 3: DATABASE -->
+        <div class="box">
+          <span class="path-badge">📍 Ruta: OTT-/database/</span>
+          <h3>3. Carpeta <code>database/</code> (Esquema SQL y Datos Semilla)</h3>
+          <p><strong>¿En qué consiste?</strong> Contiene el script que crea automáticamente la base de datos propia en <strong>PostgreSQL 16</strong> cuando el contenedor o el pod arranca por primera vez, eliminando cualquier dependencia de Supabase.</p>
+          <p><strong>¿Qué tiene adentro?</strong></p>
+          <ul>
+            <li><code>init.sql</code>: Crea las <strong>6 tablas relacionales</strong> con llaves foráneas:
               <ol>
-                <li><code>users</code> (<code>id</code>, <code>email UNIQUE</code>, <code>password_hash</code>, <code>created_at</code>)</li>
-                <li><code>profiles</code> (<code>id PK/FK -> users</code>, <code>nombre</code>, <code>region</code>, <code>suscripcion</code>)</li>
-                <li><code>movies</code> (<code>id</code>, <code>titulo</code>, <code>descripcion</code>, <code>categoria</code>, <code>region</code>, <code>video_url</code>, <code>imagen_url</code>, <code>hero_url</code>, <code>tipo</code>)</li>
-                <li><code>favorites</code> (<code>usuario_id</code>, <code>pelicula_id</code>, <code>UNIQUE(usuario_id, pelicula_id)</code>)</li>
-                <li><code>watch_history</code> (<code>usuario_id</code>, <code>pelicula_id</code>, <code>minuto</code>, <code>UNIQUE</code>)</li>
-                <li><code>ratings</code> (<code>usuario_id</code>, <code>pelicula_id</code>, <code>valor</code> 1 o -1, <code>UNIQUE</code>)</li>
+                <li><code>users</code>: Guarda el correo y el hash seguro de la contraseña en <code>bcrypt</code>.</li>
+                <li><code>profiles</code>: Nombre del usuario, región (<code>LATAM</code>, <code>EUROPA</code>, <code>USA</code>) y plan (<code>Basica</code> o <code>Premium</code>).</li>
+                <li><code>movies</code>: Las 20 películas y series con título, sinopsis, categoría, región y rutas de póster y video MP4.</li>
+                <li><code>favorites</code>: Qué películas tiene cada usuario en <em>Mi Lista</em>.</li>
+                <li><code>watch_history</code>: En qué segundo/minuto quedó viendo cada película cada usuario.</li>
+                <li><code>ratings</code>: Los Likes (<code>1</code>) y Dislikes (<code>-1</code>).</li>
               </ol>
-              Siembra 2 usuarios (<code>admin@ott.com</code> / <code>admin123</code> y <code>demo@ott.com</code> / <code>demo123</code>) y 20 películas completas.
+              Además, inserta automáticamente 2 cuentas listas para probar: <code>demo@ott.com</code> (clave <code>demo123</code>) y <code>admin@ott.com</code> (clave <code>admin123</code>).
             </li>
           </ul>
         </div>
 
-        <div class="card">
-          <h3>3. Carpeta <code>tests/</code> (Las 20 Pruebas Automatizadas)</h3>
+        <!-- CARPETA 4: TESTS -->
+        <div class="box">
+          <span class="path-badge">📍 Ruta: OTT-/tests/</span>
+          <h3>4. Carpeta <code>tests/</code> (Las 20 Pruebas Automatizadas)</h3>
+          <p><strong>¿En qué consiste?</strong> Contiene las 20 pruebas que garantizan que el código, la base de datos y la interfaz web funcionen sin errores.</p>
+          <p><strong>¿Qué hace cada uno de los 3 archivos?</strong></p>
           <ul>
-            <li><strong><code>test_unit.py</code> (10 pruebas unitarias y de endpoints):</strong>
-              <ol>
-                <li><code>test_from_dict_instantiation</code>: Mapeo del modelo <code>Movie</code> y normalización de <code>/static/images/</code>.</li>
-                <li><code>test_normalize_legacy_picture_paths</code>: Conversión de rutas antiguas <code>/static/pictures/</code>.</li>
-                <li><code>test_password_hashing_and_verification</code>: Cifrado y verificación con <code>bcrypt</code> (clave correcta e incorrecta).</li>
-                <li><code>test_filter_by_user_region</code>: Filtrado de catálogo para usuario <code>LATAM</code> + <code>GLOBAL</code> excluyendo otras regiones.</li>
-                <li><code>test_filter_colombian_cinema_case_insensitive</code>: Filtro insensible a mayúsculas para <em>Cine Colombiano</em>.</li>
-                <li><code>test_root_redirects_to_login</code>: <code>GET /</code> responde <code>302</code> hacia <code>/auth/login</code>.</li>
-                <li><code>test_login_page_renders_form</code>: <code>GET /auth/login</code> devuelve <code>200</code> con inputs de email y password.</li>
-                <li><code>test_register_page_renders_form</code>: <code>GET /auth/register</code> devuelve <code>200</code>.</li>
-                <li><code>test_swagger_docs_accessible</code>: <code>GET /apidocs/</code> carga la interfaz Swagger UI (<code>200</code>).</li>
-                <li><code>test_api_movies_returns_json</code>: <code>GET /api/movies</code> devuelve estructura JSON con <code>total</code> y <code>peliculas</code>.</li>
-              </ol>
-            </li>
-            <li><strong><code>test_flow.py</code> (4 pruebas de integración con PostgreSQL):</strong>
-              <ol start="11">
-                <li><code>test_01_backend_to_database_health</code>: Verifica <code>/api/health</code> con <code>database: connected</code>.</li>
-                <li><code>test_02_database_seeding_movies_accessible</code>: Comprueba que <code>listar_peliculas()</code> traiga las películas semilla de PostgreSQL.</li>
-                <li><code>test_03_auth_flow_with_seed_user</code>: Valida login contra PostgreSQL real con <code>demo@ott.com</code> / <code>demo123</code>.</li>
-                <li><code>test_04_session_and_catalog_navigation_flow</code>: Flujo HTTP completo: <code>POST /auth/login</code> → <code>GET /home/</code> → <code>GET /movie/1</code> → <code>GET /auth/logout</code>.</li>
-              </ol>
-            </li>
-            <li><strong><code>test_e2e_playwright.py</code> (6 pruebas E2E en navegador Chromium headless):</strong>
-              <ol start="15">
-                <li><code>test_01_login_interface</code>: Visibilidad de campos en el DOM de login.</li>
-                <li><code>test_02_login_invalid_credentials</code>: Bloqueo de acceso ante credenciales inválidas.</li>
-                <li><code>test_03_login_successful_and_home_catalog</code>: Login real en navegador y redirección a <code>/home/</code>.</li>
-                <li><code>test_04_movie_detail_view</code>: Renderizado del reproductor en <code>/movie/1</code>.</li>
-                <li><code>test_05_movie_search</code>: Búsqueda en vivo en <code>/movie/search?q=Monos</code>.</li>
-                <li><code>test_06_swagger_ui_loads</code>: Renderizado de Swagger UI en el navegador.</li>
-              </ol>
-            </li>
+            <li><code>test_unit.py</code> <strong>(10 pruebas unitarias):</strong> Prueba que la clase <code>Movie</code> funcione bien, que <code>bcrypt</code> encripte y valide contraseñas correctamente, que el filtro por región y el de <em>Cine Colombiano</em> no fallen, y que las rutas básicas (<code>/</code>, <code>/auth/login</code>, <code>/apidocs/</code>, <code>/api/movies</code>) respondan.</li>
+            <li><code>test_flow.py</code> <strong>(4 pruebas de integración con PostgreSQL):</strong> Se conecta a la base de datos real y comprueba que <code>/api/health</code> diga <code>connected</code>, que las 20 películas semilla existan en la tabla <code>movies</code>, que el login de <code>demo@ott.com</code> funcione y que pueda navegar al catálogo.</li>
+            <li><code>test_e2e_playwright.py</code> <strong>(6 pruebas de navegador E2E):</strong> Abre un navegador Chromium real automático con Playwright, llena el formulario de login con una clave mala (verifica que la rechace), luego inicia sesión con <code>demo@ott.com</code>, entra al reproductor de <em>Monos</em>, usa el buscador y abre Swagger.</li>
           </ul>
         </div>
 
-        <div class="card">
-          <h3>4. Carpeta <code>k8s/</code> (Los 5 Manifiestos de Kubernetes)</h3>
+        <!-- CARPETA 5: GITHUB WORKFLOWS -->
+        <div class="box">
+          <span class="path-badge">📍 Ruta: OTT-/.github/workflows/ci-cd.yml</span>
+          <h3>5. Carpeta <code>.github/workflows/</code> (Pipeline CI/CD en GitHub Actions)</h3>
+          <p><strong>¿En qué consiste?</strong> Es el robot automático de GitHub. Cada vez que alguien sube un cambio (<code>git push</code> o Pull Request a <code>main</code>), ejecuta dos trabajos en orden:</p>
           <ul>
-            <li><strong><code>01-namespace.yaml</code>:</strong> Crea el <code>Namespace ott-platform</code> para aislar los recursos del proyecto.</li>
-            <li><strong><code>02-configmap-and-secret.yaml</code>:</strong>
-              <ul>
-                <li><code>ConfigMap ott-config</code>: <code>POSTGRES_DB=ott_db</code>, <code>PORT=5000</code>, <code>FLASK_DEBUG=False</code>, <code>BACKEND_URL=http://ott-backend:5000</code>.</li>
-                <li><code>Secret ott-secrets</code>: Tipo <code>Opaque</code> con bloque <code>data:</code> en Base64 para <code>POSTGRES_USER</code>, <code>POSTGRES_PASSWORD</code>, <code>DATABASE_URL</code> y <code>SECRET_KEY</code>.</li>
-                <li><code>ConfigMap ott-db-init</code>: Contiene el script <code>init.sql</code> completo.</li>
-              </ul>
-            </li>
-            <li><strong><code>03-postgres.yaml</code>:</strong>
-              <ul>
-                <li><code>PersistentVolume postgres-pv</code> + <code>PersistentVolumeClaim postgres-pvc</code> (1Gi, <code>ReadWriteOnce</code>).</li>
-                <li><code>StatefulSet ott-db</code>: Imagen <code>postgres:16-alpine</code>, monta <code>postgres-pvc</code> en <code>/var/lib/postgresql/data</code> (con <code>PGDATA</code> en subdirectorio <code>pgdata</code>) y monta <code>init.sql</code> desde el ConfigMap. Incluye <code>readinessProbe</code> y <code>livenessProbe</code> con <code>pg_isready</code>.</li>
-                <li><code>Service ott-db</code>: Tipo <code>ClusterIP</code> en puerto <code>5432</code>.</li>
-              </ul>
-            </li>
-            <li><strong><code>04-backend.yaml</code>:</strong> <code>Deployment ott-backend</code> (<code>juanexzz/ott-backend:v1.0.0</code>) con <code>readinessProbe</code> y <code>livenessProbe</code> HTTP hacia <code>/api/health:5000</code>, límites de CPU/RAM y <code>Service ClusterIP</code> en puerto <code>5000</code>.</li>
-            <li><strong><code>05-frontend.yaml</code>:</strong> <code>Deployment ott-frontend</code> (<code>juanexzz/ott-frontend:v1.0.0</code>) con probes HTTP hacia <code>/auth/login:80</code> y <code>Service NodePort</code> (<code>80:30080</code>).</li>
+            <li><strong>Trabajo 1 (<code>unit-and-integration-tests</code>):</strong> Crea un contenedor temporal de PostgreSQL 16 en la nube de GitHub, le carga <code>database/init.sql</code> y corre las pruebas de <code>test_unit.py</code> y <code>test_flow.py</code>.</li>
+            <li><strong>Control de Fallos:</strong> Si una sola prueba falla en el Trabajo 1, el pipeline se detiene en rojo y <strong>prohíbe pasar al Trabajo 2</strong>.</li>
+            <li><strong>Trabajo 2 (<code>docker-build-and-traceability</code>):</strong> Si todas las pruebas pasaron, construye las imágenes Docker del Backend y Frontend etiquetándolas con la versión <code>v1.0.0</code> y el código del commit (<code>sha-xxxxxxx</code>), revisa que los 5 archivos de la carpeta <code>k8s/</code> estén bien escritos, sube las imágenes a Docker Hub y escribe una tabla resumen de trazabilidad.</li>
           </ul>
+        </div>
+
+        <!-- CARPETA 6: K8S -->
+        <div class="box">
+          <span class="path-badge">📍 Ruta: OTT-/k8s/</span>
+          <h3>6. Carpeta <code>k8s/</code> (Los 5 Manifiestos de Kubernetes para Minikube)</h3>
+          <p><strong>¿En qué consiste?</strong> Son los 5 archivos YAML numerados que le dicen a Kubernetes (Minikube) cómo levantar toda la plataforma en el clúster:</p>
+          <ul>
+            <li><code>01-namespace.yaml</code>: Crea una "burbuja" o espacio propio llamado <code>ott-platform</code> para que nuestros contenedores no se mezclen con otros proyectos.</li>
+            <li><code>02-configmap-and-secret.yaml</code>: Crea dos objetos de configuración: <code>ott-config</code> (datos públicos como el puerto 5000 y el nombre de la BD), <code>ott-secrets</code> (las contraseñas ocultas en Base64) y <code>ott-db-init</code> (que le entrega el archivo <code>init.sql</code> a PostgreSQL).</li>
+            <li><code>03-postgres.yaml</code>: Crea el disco duro virtual de 1 Gigabyte (<code>postgres-pv</code> y <code>postgres-pvc</code>) para que no se borren los datos, levanta la base de datos como <code>StatefulSet</code> (<code>ott-db</code>) y crea su servicio interno en el puerto 5432.</li>
+            <li><code>04-backend.yaml</code>: Levanta el pod de Flask (<code>ott-backend</code>), le conecta las contraseñas desde el Secret, le pone límites de memoria/CPU y configura los chequeos de salud (<code>readinessProbe</code> y <code>livenessProbe</code>) hacia <code>/api/health</code>.</li>
+            <li><code>05-frontend.yaml</code>: Levanta el pod de Nginx (<code>ott-frontend</code>) y lo expone hacia afuera mediante un <code>Service NodePort</code> (puerto <code>30080</code>).</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECCIÓN 3: GUÍA PASO A PASO PARA CADA INTEGRANTE (1, 2, 3 Y 4)    -->
+    <!-- ================================================================= -->
+    <section id="partes-exposicion">
+      <h2 class="sec-title" style="margin-bottom:14px;">🎙️ 3. Qué debe estudiar, decir y ejecutar cada Integrante (1, 2, 3 y 4)</h2>
+      <p style="color:var(--text-muted);margin-bottom:20px;">Usa los botones de arriba para filtrar solo el número de integrante que elijas.</p>
+
+      <!-- ======================== INTEGRANTE 1 ======================== -->
+      <div class="member-card m-1" data-m="1">
+        <div class="member-top">
+          <div>
+            <h2 style="color:var(--c1);">👤 INTEGRANTE 1 · Contexto, Arquitectura en Git y Pipeline CI</h2>
+            <p style="color:var(--text-muted);">Evalúa: <strong>Criterio P1 (5%)</strong> en el Pitch + <strong>Criterio D1 (8%)</strong> y <strong>Criterio D2 (12%)</strong> en la Demo = <strong>25% de la nota total</strong></p>
+          </div>
+          <span class="path-badge">Diapositivas: 2, 6 y 7</span>
+        </div>
+
+        <div class="step-title">1. ¿Qué debes dominar de tu parte?</div>
+        <ul style="padding-left:20px;color:#cbd5e1;font-size:0.93rem;">
+          <li>Saber explicar cuál era el problema del proyecto al inicio (dependía de Supabase en la nube y todo corría junto en Flask) y cómo ahora está dividido en 3 capas independientes (<code>frontend/</code>, <code>backend/</code>, <code>database/</code>).</li>
+          <li>Saber mostrar en GitHub la pestaña <strong>Actions</strong> y explicar el archivo <code>.github/workflows/ci-cd.yml</code>: que el Job 1 corre 10 pruebas unitarias + 4 de base de datos contra un PostgreSQL real, y que si falla una prueba, el Job 2 se bloquea automáticamente (control de fallos).</li>
+        </ul>
+
+        <div class="step-title">2. Qué decir en el Elevator Pitch (Diapositiva 2 · ~1 min)</div>
+        <div class="speech">
+          <strong>Guion para el Pitch (P1):</strong><br/>
+          «Buenas tardes profesor. Nuestro proyecto es <strong>CINÉFILO</strong>, una plataforma de streaming de películas inspirada en MUBI. Con este proyecto buscamos resolver dos problemas: primero, a nivel de usuario, dar visibilidad al <strong>Cine Colombiano e independiente</strong> mediante un catálogo curado por regiones donde el espectador puede reanudar sus películas en el segundo exacto donde las dejó; y segundo, a nivel de ingeniería y DevOps, eliminar la dependencia que teníamos en la primera entrega de servicios externos como Supabase y de un único servidor monolítico que se bloqueaba al servir videos pesados. Por eso rediseñamos la solución en tres capas autónomas y reproducibles desde Git hasta Kubernetes.»
+        </div>
+
+        <div class="step-title">3. Qué decir y ejecutar en la Demo Técnica (Diapositivas 6 y 7 · ~4 min)</div>
+        <div class="speech">
+          <strong>Guion mientras ejecutas los comandos de Git y Pruebas (D1 y D2):</strong><br/>
+          «Para empezar la demostración técnica con el criterio <strong>D1</strong>, vemos la estructura de nuestro repositorio en la rama <code>main</code>. El proyecto está separado en las carpetas <code>frontend/</code> (Nginx), <code>backend/</code> (Flask MVC con Swagger), <code>database/</code> (con <code>init.sql</code>), <code>tests/</code> (con 20 pruebas), <code>.github/workflows/</code> y <code>k8s/</code> con los 5 manifiestos de Kubernetes.<br/>
+          Pasando al criterio <strong>D2 (CI automatizada y pruebas)</strong>, en la pestaña <strong>Actions</strong> de GitHub vemos nuestro pipeline <code>ci-cd.yml</code>. Se dispara en cada push o Pull Request y tiene dos Jobs: el primer Job levanta un contenedor <code>postgres:16-alpine</code> real, carga nuestro <code>init.sql</code> y ejecuta las pruebas unitarias y de flujo. Además, implementamos <strong>control de fallos</strong> mediante <code>needs: unit-and-integration-tests</code> e <code>if: success()</code>: si un test falla, el segundo Job se cancela y no permite construir ni publicar imágenes rotas (como se evidencia comparando el Run fallido <code>#43124379460</code> con el Run exitoso <code>#44195742949</code>). Ahora corro las pruebas en vivo en la terminal:»
+        </div>
+
+        <div class="cmd"><button class="copy-btn" onclick="copyCode(this)">Copiar</button># Comandos D1: Mostrar estado de Git, ramas, últimos commits y carpetas DevOps
+git status
+git branch -a
+git log --oneline -n 8
+Get-ChildItem k8s/, .github/workflows/
+
+# Comandos D2: Ejecutar las 10 pruebas unitarias y las 4 pruebas de integración con PostgreSQL
+.\.venv\Scripts\python.exe -m unittest discover tests -p "test_unit.py" -v
+.\.venv\Scripts\python.exe -m unittest tests/test_flow.py -v</div>
+
+        <div class="explain-out">
+          <strong>¿Qué sale en pantalla y qué le dices al profesor?</strong><br/>
+          Verás que corren las 10 pruebas de <code>test_unit.py</code> (probando el modelo <code>Movie</code>, el cifrado de contraseñas con <code>bcrypt</code>, el filtro de Cine Colombiano y las rutas HTTP) y luego las 4 pruebas de <code>test_flow.py</code> (probando <code>/api/health</code>, las 20 películas semilla y el login real con <code>demo@ott.com</code>), terminando ambas en <strong>OK</strong>.
+        </div>
+      </div>
+
+      <!-- ======================== INTEGRANTE 2 ======================== -->
+      <div class="member-card m-2" data-m="2">
+        <div class="member-top">
+          <div>
+            <h2 style="color:var(--c2);">👤 INTEGRANTE 2 · Propuesta de Valor, Dockerfiles, Docker Hub y Seguridad</h2>
+            <p style="color:var(--text-muted);">Evalúa: <strong>Criterio P2 (5%)</strong> en el Pitch + <strong>Criterio D3 (8%)</strong> y <strong>Criterio D7 (5%)</strong> en la Demo = <strong>18% de la nota total</strong></p>
+          </div>
+          <span class="path-badge">Diapositivas: 3, 8 y 9</span>
+        </div>
+
+        <div class="step-title">1. ¿Qué debes dominar de tu parte?</div>
+        <ul style="padding-left:20px;color:#cbd5e1;font-size:0.93rem;">
+          <li>Saber explicar qué hace la aplicación para el usuario y cuáles son los límites honestos del proyecto (videos MP4 servidos por Nginx y despliegue en Minikube con <code>kubectl apply</code>).</li>
+          <li>Conocer los dos Dockerfiles (<code>backend/Dockerfile</code> y <code>frontend/Dockerfile</code>) y por qué están bien hechos: copian <code>requirements.txt</code> primero para usar caché de capas, crean el usuario <code>appuser</code> para no correr como <code>root</code>, y tienen <code>HEALTHCHECK</code>.</li>
+          <li>Saber mostrar los tags publicados en Docker Hub (<code>v1.0.0</code>, <code>sha-a8b8492</code> y <code>latest</code>) y cómo protegemos los secretos en Kubernetes sin mostrar contraseñas en pantalla.</li>
+        </ul>
+
+        <div class="step-title">2. Qué decir en el Elevator Pitch (Diapositiva 3 · ~1 min)</div>
+        <div class="speech">
+          <strong>Guion para el Pitch (P2):</strong><br/>
+          «En cuanto a nuestra propuesta de valor y alcance (<strong>P2</strong>), <strong>CINÉFILO</strong> entrega una plataforma funcional de extremo a extremo con autenticación cifrada en <code>bcrypt</code>, un catálogo precargado de 20 títulos —incluyendo 5 películas colombianas como <em>Monos</em> y <em>El olvido que seremos</em>—, reproductor con guardado automático del segundo de visualización en PostgreSQL, lista de favoritos, calificaciones, buscador y documentación interactiva en Swagger (<code>/apidocs/</code>). Nuestro diferenciador es que el sistema es 100% autónomo: la base de datos se inicializa sola dentro del clúster. Y reconociendo los límites del alcance con honestidad: entregamos streaming MP4 progresivo con caché en Nginx (no HLS adaptativo) y reconciliamos el estado declarativo sobre Minikube desde la carpeta <code>k8s/</code>.»
+        </div>
+
+        <div class="step-title">3. Qué decir y ejecutar en la Demo Técnica (Diapositivas 8 y 9 · ~3.5 min)</div>
+        <div class="speech">
+          <strong>Guion mientras ejecutas los comandos de Docker y Seguridad (D3 y D7):</strong><br/>
+          «Para el criterio <strong>D3 (Docker e imágenes publicadas)</strong>, veamos nuestro <code>backend/Dockerfile</code>. Aplicamos cuatro buenas prácticas clave: 1) usamos una imagen base ligera <code>python:3.11-slim</code>; 2) copiamos e instalamos primero <code>requirements.txt</code> antes de copiar el código para aprovechar la caché de capas de Docker; 3) por seguridad creamos un usuario sin privilegios llamado <code>appuser</code> (<code>USER appuser</code>) para que el contenedor no se ejecute como <code>root</code>; y 4) configuramos metadatos OCI versión <code>1.0.0</code> y un <code>HEALTHCHECK</code> nativo hacia <code>/api/health</code>. Además, en Docker Hub publicamos nuestras imágenes con etiquetas trazables: <code>v1.0.0</code>, el hash del commit <code>sha-a8b8492</code> y <code>latest</code>.<br/>
+          Y para el criterio <strong>D7 (Configuración, seguridad y secretos)</strong>, verificamos que el archivo <code>.env</code> está ignorado por Git, que en Kubernetes separamos las variables públicas en el <code>ConfigMap ott-config</code> y las credenciales en el <code>Secret ott-secrets</code> en Base64, y que tanto la base de datos como el backend usan servicios internos <code>ClusterIP</code> no expuestos al exterior. Con <code>kubectl describe secret</code> comprobamos que las llaves existen sin revelar sus valores en pantalla:»
+        </div>
+
+        <div class="cmd"><button class="copy-btn" onclick="copyCode(this)">Copiar</button># Comandos D3: Mostrar Dockerfile del backend, imágenes locales y tags publicados en Docker Hub
+Get-Content backend/Dockerfile
+docker images | Select-String "ott"
+(Invoke-RestMethod "https://hub.docker.com/v2/repositories/miguelsalazar22/ott-backend/tags").results | Select-Object name, last_updated
+
+# Comandos D7: Demostrar que .env está excluido de Git y mostrar el Secret en K8s sin exponer valores
+git check-ignore -v .env
+kubectl get configmap,secret -n ott-platform
+kubectl describe secret ott-secrets -n ott-platform</div>
+
+        <div class="explain-out">
+          <strong>¿Qué sale en pantalla y qué le dices al profesor?</strong><br/>
+          1. Se ve el contenido de <code>backend/Dockerfile</code> con <code>USER appuser</code> y <code>HEALTHCHECK</code>.<br/>
+          2. La consulta a Docker Hub muestra los tags publicados: <code>v1.0.0</code>, <code>sha-a8b8492</code>, <code>sha-a8898ad</code> y <code>latest</code>.<br/>
+          3. <code>kubectl describe secret ott-secrets</code> muestra las 4 variables (<code>DATABASE_URL</code>, <code>POSTGRES_PASSWORD</code>, <code>POSTGRES_USER</code>, <code>SECRET_KEY</code>) indicando solo su tamaño en bytes, sin mostrar ninguna contraseña en claro.
+        </div>
+      </div>
+
+      <!-- ======================== INTEGRANTE 3 ======================== -->
+      <div class="member-card m-3" data-m="3">
+        <div class="member-top">
+          <div>
+            <h2 style="color:var(--c3);">👤 INTEGRANTE 3 · Justificación DevOps, Despliegue en Minikube y Observabilidad</h2>
+            <p style="color:var(--text-muted);">Evalúa: <strong>Criterio P3 (5%)</strong> en el Pitch + <strong>Criterio D4 (14%)</strong> y <strong>Criterio D8 (5%)</strong> en la Demo = <strong>24% de la nota total</strong></p>
+          </div>
+          <span class="path-badge">Diapositivas: 4, 10 y 11</span>
+        </div>
+
+        <div class="step-title">1. ¿Qué debes dominar de tu parte?</div>
+        <ul style="padding-left:20px;color:#cbd5e1;font-size:0.93rem;">
+          <li>Saber explicar por qué usamos Nginx delante de Flask, por qué PostgreSQL va en un <code>StatefulSet</code> con disco persistente (<code>PVC</code>) y por qué Backend/Frontend van en <code>Deployments</code>.</li>
+          <li>Saber explicar qué hace cada uno de los 5 archivos de la carpeta <code>k8s/</code> (<code>01-namespace</code> al <code>05-frontend</code>).</li>
+          <li>Saber mostrar los logs del backend (<code>kubectl logs</code>), el estado de las sondas de salud (<code>kubectl describe</code>) y hacer la demostración en vivo de **borrar el pod del backend** (<code>kubectl delete pod</code>) para que el profesor vea cómo Kubernetes crea uno nuevo automáticamente (*Self-Healing*).</li>
+        </ul>
+
+        <div class="step-title">2. Qué decir en el Elevator Pitch (Diapositiva 4 · ~1 min)</div>
+        <div class="speech">
+          <strong>Guion para el Pitch (P3):</strong><br/>
+          «En el criterio <strong>P3</strong> justificamos por qué nuestras decisiones técnicas y prácticas DevOps resuelven necesidades reales del producto:<br/>
+          1) Pusimos a <strong>Nginx como Reverse Proxy y servidor de estáticos</strong> en su propio contenedor para descargar a Flask de enviar archivos de video MP4 pesados; así Nginx sirve los videos desde caché y Python solo atiende lógica de negocio.<br/>
+          2) En integración continua levantamos un PostgreSQL real en cada commit para detectar errores de SQL antes de crear imágenes.<br/>
+          3) En Kubernetes desplegamos PostgreSQL como un <code>StatefulSet</code> conectado a un volumen persistente (<code>PVC</code> de 1 GiB), garantizando que aunque un pod se reinicie, ningún usuario pierda su cuenta ni el minuto donde dejó una película. Como compensación (trade-off), empaquetar los videos MP4 de prueba en la imagen del frontend aumenta su peso a ~380 MB, pero a cambio nos da portabilidad inmediata en cualquier clúster sin depender de almacenamiento externo.»
+        </div>
+
+        <div class="step-title">3. Qué decir y ejecutar en la Demo Técnica (Diapositivas 10 y 11 · ~4.5 min)</div>
+        <div class="speech">
+          <strong>Guion mientras muestras Minikube y provocas la caída del pod (D4 y D8):</strong><br/>
+          «Para demostrar el criterio <strong>D4 (Despliegue en Minikube)</strong>, comprobamos con <code>minikube status</code> que el clúster está activo. En la carpeta <code>k8s/</code> tenemos 5 manifiestos ordenados: <code>01-namespace.yaml</code> crea el namespace <code>ott-platform</code>; <code>02-configmap-and-secret.yaml</code> inyecta la configuración, los secretos y el script <code>init.sql</code>; <code>03-postgres.yaml</code> crea el volumen persistente <code>postgres-pvc</code> de 1 GiB, el <code>StatefulSet ott-db</code> con sondas <code>pg_isready</code> y su servicio interno en el puerto 5432; <code>04-backend.yaml</code> despliega Flask con límites de CPU/Memoria y sondas <code>readinessProbe</code> y <code>livenessProbe</code> apuntando a <code>/api/health</code>; y <code>05-frontend.yaml</code> despliega Nginx con un servicio <code>NodePort</code>.<br/>
+          Ahora, para el criterio <strong>D8 (Observabilidad y diagnóstico)</strong>, revisamos los logs en vivo de Flask con <code>kubectl logs</code> y el estado de las sondas con <code>kubectl describe</code>. Y para demostrar la respuesta ante incidentes, <strong>vamos a eliminar en vivo el pod del backend</strong> con <code>kubectl delete pod</code>: veremos cómo Kubernetes detecta la falla inmediatamente, levanta un pod nuevo y lo marca como <code>1/1 Running</code> apenas pasa el chequeo de salud en <code>/api/health</code>:»
+        </div>
+
+        <div class="cmd"><button class="copy-btn" onclick="copyCode(this)">Copiar</button># Comandos D4: Verificar clúster Minikube, aplicar manifiestos y ver recursos saludables
+minikube status
+kubectl config current-context
+kubectl apply -f k8s/
+kubectl get pods,svc,deploy,statefulset,pvc -n ott-platform -o wide
+
+# Comandos D8: Ver logs, inspeccionar probes y provocar caída de pod con recuperación automática
+kubectl logs -n ott-platform deployment/ott-backend --tail=20
+kubectl describe deployment ott-backend -n ott-platform
+kubectl delete pod -n ott-platform -l app=ott-backend
+kubectl get pods -n ott-platform -o wide</div>
+
+        <div class="explain-out">
+          <strong>¿Qué sale en pantalla y qué le dices al profesor?</strong><br/>
+          • En <code>kubectl get pods,svc,deploy,statefulset,pvc</code> muestras que los 3 pods están <code>1/1 Running</code> y que <code>postgres-pvc</code> dice <code>Bound</code>.<br/>
+          • Cuando ejecutes <code>kubectl delete pod -n ott-platform -l app=ott-backend</code>, mostrará <code>pod "ott-backend-..." deleted</code> e inmediatamente debajo en <code>kubectl get pods</code> se verá el nuevo pod creado automáticamente con pocos segundos de edad (<code>AGE</code>), demostrando la autorrecuperación de Kubernetes.
+        </div>
+      </div>
+
+      <!-- ======================== INTEGRANTE 4 ======================== -->
+      <div class="member-card m-4" data-m="4">
+        <div class="member-top">
+          <div>
+            <h2 style="color:var(--c4);">👤 INTEGRANTE 4 · Trazabilidad Completa y Flujo Funcional E2E Real en Minikube</h2>
+            <p style="color:var(--text-muted);">Evalúa: <strong>Criterios P4 / D9 (9%)</strong> + <strong>Criterio D6 (10%)</strong> + <strong>Criterio D5 (14%)</strong> en la Demo = <strong>33% de la nota total</strong></p>
+          </div>
+          <span class="path-badge">Diapositivas: 5, 12, 13 y 14</span>
+        </div>
+
+        <div class="step-title">1. ¿Qué debes dominar de tu parte?</div>
+        <ul style="padding-left:20px;color:#cbd5e1;font-size:0.93rem;">
+          <li>Saber conectar toda la cadena de trazabilidad (<strong>D6</strong>): cómo un commit de Git se convierte en una imagen con tag <code>v1.0.0</code> y <code>sha-xxxxxxx</code> en GitHub Actions, cómo eso está escrito en los manifiestos de <code>k8s/</code> y cómo se comprueba qué imagen exacta está corriendo dentro del Pod en Minikube.</li>
+          <li>Saber hacer la demostración de extremo a extremo (<strong>D5</strong>) en el navegador en <code>http://localhost:8090</code>: mostrar un error controlado (login fallido y error <code>404</code> en <code>/api/movies/999</code>), luego iniciar sesión con <code>demo@ott.com</code> / <code>demo123</code>, guardar un favorito o adelantar una película y ejecutar el comando de PostgreSQL (<code>psql</code>) dentro del pod <code>ott-db-0</code> para demostrar que el dato quedó guardado realmente en la base de datos de Minikube.</li>
+        </ul>
+
+        <div class="step-title">2. Qué decir en el Cierre del Pitch (Diapositiva 5 · ~1 min)</div>
+        <div class="speech">
+          <strong>Guion para cerrar el Pitch (P4 / D1):</strong><br/>
+          «Para sintetizar nuestro Elevator Pitch en la diapositiva 5, aquí vemos cómo se conectan todas las piezas que acabamos de explicar: el código versionado en GitHub dispara automáticamente nuestro pipeline de CI con PostgreSQL; al superar las 20 pruebas y el validador de YAML, publica las imágenes etiquetadas por versión y commit en Docker Hub; y finalmente esos artefactos corren dentro del namespace <code>ott-platform</code> en Minikube a través de las tres capas: Nginx en el frente, Flask en el medio y PostgreSQL con volumen persistente en el fondo. Pasamos ahora a la demostración técnica en vivo.»
+        </div>
+
+        <div class="step-title">3. Qué decir y ejecutar en la Demo Técnica (Diapositivas 12 y 13 · ~5 min)</div>
+        <div class="speech">
+          <strong>Guion mientras demuestras la Trazabilidad (D6) y el Flujo E2E en vivo (D5):</strong><br/>
+          «Para demostrar el criterio <strong>D6 (Trazabilidad y GitOps)</strong>, conectamos el commit de Git hasta el pod activo: en el <em>Summary</em> de nuestra ejecución en GitHub Actions se genera automáticamente la tabla que vincula el SHA del commit con las imágenes <code>v1.0.0</code> y <code>sha-a8b8492</code>, y valida que <code>k8s/04-backend.yaml</code> y <code>05-frontend.yaml</code> apunten a esa misma versión <code>v1.0.0</code>. Así diferenciamos claramente la CI (que prueba y construye la imagen) del estado declarativo en Git (la carpeta <code>k8s/</code> como fuente de verdad reconciliada con <code>kubectl apply</code>). En consola comprobamos la imagen y el <code>imageID</code> exacto que ejecutan los pods.<br/>
+          Finalmente, para el criterio <strong>D5 (Flujo funcional E2E en Minikube)</strong>, abrimos la plataforma expuesta desde el servicio de Minikube en <code>http://localhost:8090</code>:<br/>
+          1) Primero probamos dos <strong>casos de error reales</strong>: en la pantalla de login ingresamos una clave inválida y vemos que muestra el mensaje de error sin caerse; y consultamos en la API <code>GET /api/movies/999</code> que devuelve un error controlado <code>404 Not Found</code> en JSON.<br/>
+          2) Ahora hacemos el flujo completo <strong>UI → API → Base de Datos</strong>: iniciamos sesión con <code>demo@ott.com</code> / <code>demo123</code>, vemos el catálogo y la sección de Cine Colombiano, abrimos Swagger en <code>/apidocs/</code>, entramos a la película <em>Monos</em> (<code>/movie/1</code>), la agregamos a <strong>Mi Lista</strong> y reproducimos unos segundos del video.<br/>
+          3) Y para comprobar que no hay ninguna simulación y que el dato se guardó realmente en el PostgreSQL de Minikube, ejecutamos una consulta SQL directa dentro del pod <code>ott-db-0</code>:»
+        </div>
+
+        <div class="cmd"><button class="copy-btn" onclick="copyCode(this)">Copiar</button># Comandos D6: Trazabilidad Commit -> Manifiesto -> Pod en Minikube
+git rev-parse --short HEAD
+Select-String -Path k8s/*.yaml -Pattern "image:"
+kubectl get pods -n ott-platform -o custom-columns="POD:.metadata.name,STATUS:.status.phase,IMAGE:.spec.containers[*].image,IMAGE_ID:.status.containerStatuses[*].imageID"
+
+# Comandos D5: Caso de error 404 y verificación de datos reales dentro del Pod PostgreSQL (ott-db-0)
+curl.exe -i http://localhost:8090/api/movies/999
+kubectl exec -n ott-platform ott-db-0 -- psql -U ott_user -d ott_db -c "SELECT u.email, m.titulo, f.pelicula_id FROM favorites f JOIN users u ON u.id = f.usuario_id JOIN movies m ON m.id = f.pelicula_id;"
+kubectl exec -n ott-platform ott-db-0 -- psql -U ott_user -d ott_db -c "SELECT u.email, m.titulo, w.minuto FROM watch_history w JOIN users u ON u.id = w.usuario_id JOIN movies m ON m.id = w.pelicula_id;"</div>
+
+        <div class="explain-out">
+          <strong>¿Qué sale en pantalla y qué le dices al profesor?</strong><br/>
+          • Primero muestra el commit, la línea <code>image: ...:v1.0.0</code> en los YAML y el digest SHA256 que está corriendo en cada pod de Minikube.<br/>
+          • Luego, `curl.exe -i http://localhost:8090/api/movies/999` muestra `HTTP/1.1 404 NOT FOUND` con `{"error":"Pelicula no encontrada"}`.<br/>
+          • Por último, las dos consultas `kubectl exec ... psql` muestran en una tabla las películas favoritas de `demo@ott.com` y el minuto/segundo guardado en `watch_history` directamente desde el pod `ott-db-0` de Minikube.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECCIÓN 4: DICCIONARIO FÁCIL DE CONCEPTOS DEVOPS                  -->
+    <!-- ================================================================= -->
+    <section id="diccionario" class="section">
+      <h2 class="sec-title">🧠 4. Diccionario Fácil de Conceptos (Para no dudar en ninguna pregunta)</h2>
+      <p class="sec-desc">Explicaciones cortas y directas de cada término técnico que usamos en el proyecto.</p>
+
+      <div class="grid-3">
+        <div class="box">
+          <h3>🔹 Pod vs Contenedor</h3>
+          <p>El <strong>contenedor</strong> es la aplicación empaquetada (por ejemplo Flask o Nginx). El <strong>Pod</strong> es la unidad mínima de Kubernetes que envuelve a ese contenedor, dándole una dirección IP propia dentro del clúster.</p>
+        </div>
+
+        <div class="box">
+          <h3>🔹 Deployment vs StatefulSet</h3>
+          <p>Usamos <strong>Deployment</strong> para el Frontend y el Backend porque no guardan archivos propios en disco (si se borran y nacen con otro nombre no pasa nada). Usamos <strong>StatefulSet</strong> para PostgreSQL (<code>ott-db-0</code>) porque una base de datos necesita mantener siempre el mismo nombre y su mismo disco duro conectado.</p>
+        </div>
+
+        <div class="box">
+          <h3>🔹 Service ClusterIP vs NodePort</h3>
+          <p>Un Service <strong>ClusterIP</strong> es privado: solo permite comunicación adentro de Minikube (así protegemos la BD en el puerto 5432 y el Backend en el 5000). Un Service <strong>NodePort</strong> abre un puerto hacia afuera (30080) para que podamos entrar al Frontend Nginx desde el navegador.</p>
+        </div>
+
+        <div class="box">
+          <h3>🔹 PV y PVC (Persistencia)</h3>
+          <p>El <strong>PV (PersistentVolume)</strong> es el espacio de disco reservado en el nodo, y el <strong>PVC (PersistentVolumeClaim)</strong> es el "contrato" con el que el pod de PostgreSQL reclama 1 Gigabyte de ese disco para que las tablas no se borren nunca aunque el pod se reinicie.</p>
+        </div>
+
+        <div class="box">
+          <h3>🔹 ConfigMap vs Secret</h3>
+          <p>Ambos sirven para pasar variables de entorno a los pods sin escribirlas fijas en los Dockerfiles. En el <strong>ConfigMap</strong> van datos públicos (como el puerto 5000 o el nombre de la BD), y en el <strong>Secret</strong> van datos confidenciales codificados en Base64 (como contraseñas y <code>SECRET_KEY</code>).</p>
+        </div>
+
+        <div class="box">
+          <h3>🔹 ReadinessProbe vs LivenessProbe</h3>
+          <p>Son dos chequeos automáticos que hace Kubernetes llamando a <code>/api/health</code>. La <strong>ReadinessProbe</strong> avisa cuando el contenedor ya terminó de arrancar y puede recibir usuarios; la <strong>LivenessProbe</strong> vigila que no se haya quedado bloqueado, y si falla, reinicia el pod solo (<em>Self-Healing</em>).</p>
         </div>
       </div>
     </section>
 
     <!-- ================================================================= -->
-    <!-- SECCIÓN 4: CHECKLIST OFICIAL DE EVIDENCIAS (20 FILAS DEL EXCEL)   -->
+    <!-- SECCIÓN 5: PREGUNTAS DEL PROFESOR Y RESPUESTAS CLARAS             -->
     <!-- ================================================================= -->
-    <section id="checklist-oficial" class="section-box">
-      <h2 class="section-title">✅ 4. Hoja «Checklist de Evidencias para la Defensa» (20 / 20 Filas del Excel)</h2>
-      <p class="section-sub">Tabla idéntica a la tercera hoja del archivo Excel del docente, lista con el estado y el comando exacto de comprobación en vivo.</p>
+    <section id="preguntas" class="section">
+      <h2 class="sec-title">❓ 5. Preguntas Clave que Puede Hacer el Profesor y Cómo Responderlas</h2>
+      <p class="sec-desc">Respuestas cortas y seguras basadas en lo que realmente tiene el proyecto.</p>
 
       <table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Fase</th>
-            <th>Evidencia Solicitada en el Excel</th>
-            <th>Estado</th>
-            <th>Comando Exacto / Enlace de Comprobación en Vivo</th>
-            <th>Criterios</th>
-            <th>Responsable</th>
+            <th>Pregunta del Profesor</th>
+            <th>Respuesta Clara y Exacta</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>1</td>
-            <td>Antes de iniciar</td>
-            <td>Repositorio(s) Git accesibles</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td><code>https://github.com/Miguel-Angel-Salazar/OTT-</code> · <code>git log --oneline -n 8</code></td>
-            <td>D1</td>
-            <td>Miguel</td>
+            <td><strong>1. ¿Por qué pusieron Nginx en el frontend si Flask también puede mostrar páginas HTML?</strong></td>
+            <td>Porque nuestra plataforma entrega 20 archivos de video MP4. Si Flask sirve los videos directamente, bloquea sus hilos de ejecución. Nginx sirve todo <code>/static/*</code> (videos, pósters, CSS) directamente desde disco con caché de 30 días y solo le pasa a Flask las peticiones dinámicas.</td>
           </tr>
           <tr>
-            <td>2</td>
-            <td>Antes de iniciar</td>
-            <td>Arquitectura visible</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td>Diagrama en <code>README.md</code> y Diapositiva 5 (<code>ott-frontend</code> ↔ <code>ott-backend</code> ↔ <code>ott-db</code>)</td>
-            <td>D1</td>
-            <td>Miguel</td>
+            <td><strong>2. ¿Cómo aseguran en GitHub Actions que si una prueba falla no se publique una imagen dañada?</strong></td>
+            <td>En <code>.github/workflows/ci-cd.yml</code> dividimos el pipeline en 2 Jobs. El Job 2 (que construye y publica las imágenes Docker) tiene la condición <code>needs: unit-and-integration-tests</code> e <code>if: success()</code>. Si cualquiera de las pruebas falla en el Job 1, el Job 2 queda bloqueado automáticamente.</td>
           </tr>
           <tr>
-            <td>3</td>
-            <td>CI</td>
-            <td>Workflow GitHub Actions</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td>Abrir Run exitoso <code>#44195742949</code> en <code>github.com/Miguel-Angel-Salazar/OTT-/actions</code></td>
-            <td>D2</td>
-            <td>Miguel</td>
+            <td><strong>3. ¿Cómo se cargan las tablas y las 20 películas cuando PostgreSQL arranca en Minikube?</strong></td>
+            <td>Guardamos nuestro script <code>database/init.sql</code> dentro del ConfigMap <code>ott-db-init</code> y lo montamos en la ruta oficial <code>/docker-entrypoint-initdb.d/init.sql</code> del contenedor de PostgreSQL. Al iniciar con el volumen limpio, Postgres ejecuta ese SQL automáticamente.</td>
           </tr>
           <tr>
-            <td>4</td>
-            <td>CI</td>
-            <td>Pruebas unitarias</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td><code>.\.venv\Scripts\python.exe -m pytest -v</code> (20/20 pasando: 10 unitarias + 4 flujo + 6 E2E)</td>
-            <td>D2</td>
-            <td>Miguel</td>
+            <td><strong>4. ¿Qué hace exactamente el endpoint <code>/api/health</code> y quién lo usa?</strong></td>
+            <td>Está en <code>backend/controllers/api_controller.py</code>. Abre una conexión real a PostgreSQL y ejecuta <code>SELECT 1 AS test;</code>. Si responde bien devuelve HTTP 200; si la base de datos falla devuelve HTTP 500. Lo usan tanto el <code>HEALTHCHECK</code> de Docker como las sondas <code>livenessProbe</code> y <code>readinessProbe</code> de Kubernetes.</td>
           </tr>
           <tr>
-            <td>5</td>
-            <td>CI</td>
-            <td>Control de fallos</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td>En <code>ci-cd.yml</code>: <code>needs: unit-and-integration-tests</code> + <code>if: success()</code> y Run fallido <code>#43124379460</code></td>
-            <td>D2</td>
-            <td>Miguel</td>
+            <td><strong>5. ¿Implementaron Jenkins o una herramienta como Argo CD para GitOps?</strong></td>
+            <td>Siguiendo las pautas de la rúbrica, explicamos nuestro alcance con honestidad: nuestra integración continua corre 100% en <strong>GitHub Actions</strong> y mantenemos el estado declarativo versionado en Git dentro de la carpeta <code>k8s/</code> (con validación automática de coherencia de versión en CI), aplicando la reconciliación hacia Minikube mediante <code>kubectl apply -f k8s/</code>.</td>
           </tr>
           <tr>
-            <td>6</td>
-            <td>Imagen</td>
-            <td>Dockerfiles de web y API</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td><code>Get-Content backend/Dockerfile</code> y <code>frontend/Dockerfile</code> (capas, <code>USER appuser</code>, <code>HEALTHCHECK</code>)</td>
-            <td>D3</td>
-            <td>Juan Esteban</td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>Imagen</td>
-            <td>DockerHub</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td><code>hub.docker.com/r/miguelsalazar22/ott-backend/tags</code> (<code>v1.0.0</code>, <code>sha-a8b8492</code>, <code>latest</code>) y <code>juanexzz/ott-*</code></td>
-            <td>D3</td>
-            <td>Juan Esteban</td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td>Despliegue</td>
-            <td>Minikube activo</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td><code>minikube status</code> ; <code>kubectl config current-context</code></td>
-            <td>D4</td>
-            <td>Sebastián</td>
-          </tr>
-          <tr>
-            <td>9</td>
-            <td>Despliegue</td>
-            <td>Manifiestos versionados</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td>Carpeta <code>k8s/</code> (<code>01-namespace</code>, <code>02-configmap-and-secret</code>, <code>03-postgres</code>, <code>04-backend</code>, <code>05-frontend</code>)</td>
-            <td>D4, D6</td>
-            <td>Sebastián</td>
-          </tr>
-          <tr>
-            <td>10</td>
-            <td>Despliegue</td>
-            <td>Recursos saludables</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td><code>kubectl get pods,svc,deploy,statefulset,pvc -n ott-platform -o wide</code> (<code>1/1 Running</code>, <code>Bound</code>)</td>
-            <td>D4, D8</td>
-            <td>Sebastián</td>
-          </tr>
-          <tr>
-            <td>11</td>
-            <td>E2E</td>
-            <td>Web accesible desde Minikube</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td><code>kubectl port-forward svc/ott-frontend -n ott-platform 8090:80</code> → <code>http://localhost:8090</code></td>
-            <td>D5</td>
-            <td>Tomás</td>
-          </tr>
-          <tr>
-            <td>12</td>
-            <td>E2E</td>
-            <td>Operación UI → API → BD</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td>Login con <code>demo@ott.com</code>, guardar favorito/progreso y consultar con <code>kubectl exec ott-db-0 -- psql ...</code></td>
-            <td>D5</td>
-            <td>Tomás</td>
-          </tr>
-          <tr>
-            <td>13</td>
-            <td>E2E</td>
-            <td>Caso de error real</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td><code>curl.exe -i http://localhost:8090/api/movies/999</code> (404 JSON) y login con clave inválida en UI</td>
-            <td>D5, D8</td>
-            <td>Tomás</td>
-          </tr>
-          <tr>
-            <td>14</td>
-            <td>Cadena de entrega</td>
-            <td>Commit → workflow → tag</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td>Tabla <em>Trazabilidad de la entrega</em> en el Summary de GitHub Actions (commit <code>a8b8492</code> → <code>v1.0.0</code> / <code>sha-a8b8492</code>)</td>
-            <td>D2, D3, D6</td>
-            <td>Tomás</td>
-          </tr>
-          <tr>
-            <td>15</td>
-            <td>Cadena de entrega</td>
-            <td>Tag → manifiesto → pod</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td><code>kubectl get pods -n ott-platform -o custom-columns="POD:.metadata.name,IMAGE:.spec.containers[*].image,ID:.status.containerStatuses[*].imageID"</code></td>
-            <td>D4, D6</td>
-            <td>Tomás</td>
-          </tr>
-          <tr>
-            <td>16</td>
-            <td>GitOps (si aplica)</td>
-            <td>Estado deseado y reconciliación</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td>Estado declarativo en <code>k8s/</code> versionado en Git y validado en CI; reconciliado con <code>kubectl apply -f k8s/</code></td>
-            <td>D6</td>
-            <td>Tomás</td>
-          </tr>
-          <tr>
-            <td>17</td>
-            <td>Operación</td>
-            <td>Logs y diagnóstico</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td><code>kubectl logs -n ott-platform deploy/ott-backend</code> + prueba de caída <code>kubectl delete pod -n ott-platform -l app=ott-backend</code></td>
-            <td>D8</td>
-            <td>Sebastián</td>
-          </tr>
-          <tr>
-            <td>18</td>
-            <td>Seguridad</td>
-            <td>Secretos no expuestos</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td><code>git check-ignore -v .env</code> + <code>kubectl describe secret ott-secrets -n ott-platform</code> + <code>USER appuser</code></td>
-            <td>D7</td>
-            <td>Juan Esteban</td>
-          </tr>
-          <tr>
-            <td>19</td>
-            <td>Cierre</td>
-            <td>Reproducibilidad</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td>Pasos documentados desde cero en <code>README.md</code> para Minikube, Docker Compose y Desarrollo Local</td>
-            <td>D1, D9</td>
-            <td>Todos</td>
-          </tr>
-          <tr>
-            <td>20</td>
-            <td>Pitch</td>
-            <td>Problema, usuarios y valor</td>
-            <td><strong style="color:#22c55e;">Sí</strong></td>
-            <td>Diapositivas 2 a 5 de <code>presentacion_sustentacion.html</code></td>
-            <td>P1–P4</td>
-            <td>Todos</td>
+            <td><strong>6. ¿Dónde están las cuentas de prueba para entrar a la plataforma en vivo?</strong></td>
+            <td>Están sembradas en <code>init.sql</code> con contraseñas cifradas en <code>bcrypt</code>: el usuario estándar es <code>demo@ott.com</code> con clave <code>demo123</code> (Plan Básica, región LATAM) y el administrador es <code>admin@ott.com</code> con clave <code>admin123</code> (Plan Premium).</td>
           </tr>
         </tbody>
       </table>
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- SECCIÓN 5: BANCO DE PREGUNTAS DIFÍCILES DEL PROFESOR              -->
-    <!-- ================================================================= -->
-    <section id="banco-preguntas" class="section-box">
-      <h2 class="section-title">❓ 5. Banco de 16 Preguntas Técnicas del Profesor con Respuestas Exactas</h2>
-      <p class="section-sub">Preguntas típicas de defensa clasificadas por integrante para responder con precisión (Criterio D9 · Nivel 4).</p>
-
-      <div class="grid-2">
-        <div>
-          <h3 style="color:var(--m1-color);margin-bottom:10px;">Preguntas para Miguel (Arquitectura, Git y CI/CD - D1, D2)</h3>
-          <div class="qa-item">
-            <div class="qa-q">1. ¿Cómo garantizan en GitHub Actions que las pruebas de integración no usen una base de datos simulada (mock)?</div>
-            <div>En el Job 1 de <code>.github/workflows/ci-cd.yml</code> declaramos un bloque <code>services: postgres:16-alpine</code> con healthcheck <code>pg_isready</code>. Antes de correr los tests, un paso ejecuta <code>psql -h localhost -U ott_user -d ott_db -f database/init.sql</code>, por lo que <code>test_flow.py</code> se ejecuta contra un motor PostgreSQL 16 real con el mismo esquema y semillas de producción.</div>
-          </div>
-          <div class="qa-item">
-            <div class="qa-q">2. ¿Qué pasa exactamente si un desarrollador sube un commit que rompe el login o borra una ruta?</div>
-            <div>El paso <code>test_flow.py</code> o <code>test_unit.py</code> devuelve código de salida distinto de cero (falla el Job 1). Como el Job 2 tiene <code>needs: unit-and-integration-tests</code> y <code>if: success()</code>, GitHub Actions cancela automáticamente el Job 2 y bloquea la construcción y publicación de las imágenes Docker.</div>
-          </div>
-          <div class="qa-item">
-            <div class="qa-q">3. ¿Por qué las 6 pruebas de Playwright no corren dentro del mismo Job 1 de GitHub Actions?</div>
-            <div>En CI corremos las 10 pruebas unitarias y las 4 de integración HTTP/SQL porque validan toda la lógica y contratos en pocos segundos. Las 6 pruebas E2E de Playwright descargan un navegador Chromium headless completo y las ejecutamos directamente contra el Service expuesto de Minikube (<code>TEST_BASE_URL=http://localhost:8090</code>) para validar el clúster real de extremo a extremo.</div>
-          </div>
-          <div class="qa-item">
-            <div class="qa-q">4. ¿Qué valida el script de Python que agregaron en el Job 2 del pipeline?</div>
-            <div>Recorre todos los archivos <code>k8s/*.yaml</code> con <code>yaml.safe_load_all</code>, verifica que cada documento tenga <code>apiVersion</code> y <code>kind</code> válidos, y luego comprueba con <code>grep</code> que el tag de imagen dentro de <code>04-backend.yaml</code> y <code>05-frontend.yaml</code> coincida con la variable <code>APP_VERSION</code> del pipeline.</div>
-          </div>
-        </div>
-
-        <div>
-          <h3 style="color:var(--m2-color);margin-bottom:10px;">Preguntas para Tomás (Trazabilidad, GitOps y Flujo E2E - D5, D6)</h3>
-          <div class="qa-item">
-            <div class="qa-q">5. ¿Cuál es la diferencia entre CI, CD y GitOps en su proyecto?</div>
-            <div><strong>CI (Integración Continua)</strong> es el proceso en GitHub Actions que ejecuta pruebas y construye las imágenes versionadas ante cada commit. <strong>CD / Estado Declarativo</strong> es mantener en la carpeta <code>k8s/</code> de Git la definición exacta del estado deseado del clúster. Aclaramos con honestidad que la reconciliación hacia Minikube la ejecutamos con <code>kubectl apply -f k8s/</code>; para tener GitOps puro automatizado en un clúster cloud bastaría instalar un controlador como Argo CD observando la carpeta <code>k8s/</code>.</div>
-          </div>
-          <div class="qa-item">
-            <div class="qa-q">6. ¿Cómo sé que el Pod que está corriendo en Minikube corresponde realmente a la versión construida y no a una vieja?</div>
-            <div>Ejecutamos <code>kubectl get pods -n ott-platform -o custom-columns="POD:.metadata.name,IMAGE:.spec.containers[*].image,ID:.status.containerStatuses[*].imageID"</code>. Ahí verificamos tanto el tag declarativo (<code>v1.0.0</code>) como el digest inmutable SHA256 de la imagen cargada.</div>
-          </div>
-          <div class="qa-item">
-            <div class="qa-q">7. Cuando el usuario ve una película en el navegador, ¿cómo se guarda el minuto de reproducción en la base de datos?</div>
-            <div>El reproductor JS en el navegador envía periódicamente una petición asíncrona <code>fetch</code> a <code>POST /movie/{id}/progreso</code> con el JSON <code>{"minuto": X}</code>. Nginx la redirige a Flask, el controlador verifica la sesión activa y <code>watch_history_service.py</code> ejecuta un <code>INSERT ... ON CONFLICT (usuario_id, pelicula_id) DO UPDATE SET minuto = EXCLUDED.minuto</code> en PostgreSQL.</div>
-          </div>
-          <div class="qa-item">
-            <div class="qa-q">8. ¿Qué sucede si la base de datos cae mientras un usuario consulta el catálogo?</div>
-            <div>En <code>movie_service.py</code> las consultas tienen manejo de excepciones controlado para no exponer trazas internas al usuario, mientras que el endpoint <code>GET /api/health</code> pasa a devolver código <code>500</code> con <code>{"database": "disconnected"}</code>, alertando inmediatamente a las sondas de Kubernetes.</div>
-          </div>
-        </div>
-
-        <div>
-          <h3 style="color:var(--m3-color);margin-bottom:10px;">Preguntas para Juan Esteban (Docker, Docker Hub y Seguridad - D3, D7)</h3>
-          <div class="qa-item">
-            <div class="qa-q">9. ¿Por qué en <code>backend/Dockerfile</code> copian primero <code>requirements.txt</code> y no hacen <code>COPY . .</code> desde el principio?</div>
-            <div>Por el mecanismo de caché de capas de Docker. Cada instrucción crea una capa inmutable; si copiamos todo el código primero, cualquier cambio en un archivo HTML o Python invalidaría la caché y obligaría a reinstalar Flask, psycopg2 y bcrypt en cada build. Al copiar <code>requirements.txt</code> primero, la capa de dependencias se reutiliza en segundos.</div>
-          </div>
-          <div class="qa-item">
-            <div class="qa-q">10. ¿Por qué crearon el usuario <code>appuser</code> en el Dockerfile del backend?</div>
-            <div>Por principio de mínimo privilegio (seguridad D3 y D7). Por defecto los contenedores corren como <code>root</code> (UID 0); si hubiera una vulnerabilidad en la aplicación, un atacante tendría permisos de superusuario dentro del contenedor. Con <code>USER appuser</code> el proceso Python corre sin privilegios administrativos.</div>
-          </div>
-          <div class="qa-item">
-            <div class="qa-q">11. ¿Cómo evita Nginx tener la URL del backend quemada (hardcodeada) dentro de la imagen?</div>
-            <div>La imagen oficial de Nginx en Alpine soporta plantillas en <code>/etc/nginx/templates/default.conf.template</code>. Configuramos <code>ENV NGINX_ENVSUBST_FILTER="BACKEND_URL"</code> para que al arrancar el contenedor reemplace <code>${BACKEND_URL}</code> por el valor inyectado desde el <code>ConfigMap</code> de Kubernetes (<code>http://ott-backend:5000</code>).</div>
-          </div>
-          <div class="qa-item">
-            <div class="qa-q">12. ¿Cómo manejan las contraseñas de los usuarios y las credenciales de conexión a PostgreSQL?</div>
-            <div>En la base de datos nunca guardamos contraseñas en texto plano; almacenamos únicamente el hash generado por <code>bcrypt</code> con salt aleatorio (por ejemplo <code>$2b$12$...</code>). Y las credenciales de conexión a PostgreSQL se inyectan al contenedor mediante el objeto <code>Secret ott-secrets</code> de Kubernetes usando <code>secretKeyRef</code>.</div>
-          </div>
-        </div>
-
-        <div>
-          <h3 style="color:var(--m4-color);margin-bottom:10px;">Preguntas para Sebastián (Kubernetes, Minikube y Observabilidad - D4, D8)</h3>
-          <div class="qa-item">
-            <div class="qa-q">13. ¿Por qué usaron un <code>StatefulSet</code> para PostgreSQL (<code>ott-db</code>) y <code>Deployment</code> para Backend y Frontend?</div>
-            <div>Porque Frontend y Backend son servicios sin estado (<em>stateless</em>): sus pods son intercambiables con nombres aleatorios. En cambio, PostgreSQL es un servicio con estado (<em>stateful</em>) que requiere identidad de red predecible (<code>ott-db-0</code>) y asociación estable con su volumen de almacenamiento persistente (<code>postgres-pvc</code>).</div>
-          </div>
-          <div class="qa-item">
-            <div class="qa-q">14. ¿Cuál es la diferencia entre <code>readinessProbe</code> y <code>livenessProbe</code> en <code>04-backend.yaml</code>?</div>
-            <div>La <strong>readinessProbe</strong> le indica al Service de Kubernetes cuándo el pod está listo para recibir tráfico (si falla, lo saca temporalmente de los endpoints del Service sin matarlo). La <strong>livenessProbe</strong> verifica si el proceso sigue sano; si falla reiteradamente, Kubernetes reinicia el contenedor automáticamente (<em>self-healing</em>).</div>
-          </div>
-          <div class="qa-item">
-            <div class="qa-q">15. ¿Qué pasa con los usuarios nuevos o los favoritos guardados si se reinicia el pod <code>ott-db-0</code>?</div>
-            <div>Se conservan intactos porque el directorio de datos de PostgreSQL (<code>/var/lib/postgresql/data</code>) está montado sobre el <code>PersistentVolumeClaim postgres-pvc</code> respaldado por el <code>PersistentVolume postgres-pv</code> en el nodo de Minikube, cuyo ciclo de vida es independiente del pod.</div>
-          </div>
-          <div class="qa-item">
-            <div class="qa-q">16. ¿Por qué definieron <code>resources.requests</code> y <code>resources.limits</code> en los pods?</div>
-            <div>Los <code>requests</code> le garantizan al scheduler de Kubernetes cuánta CPU y memoria mínima necesita reservar para programar el pod, mientras que los <code>limits</code> evitan que una fuga de memoria o pico de CPU en un contenedor agote los recursos del nodo de Minikube y afecte a los demás servicios.</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- SECCIÓN 6: PLAN DE CONTINGENCIA Y EJECUCIÓN EN CODESPACES         -->
-    <!-- ================================================================= -->
-    <section id="contingencia" class="section-box">
-      <h2 class="section-title">🛟 6. Plan de Contingencia Antes y Durante la Sustentación</h2>
-      <p class="section-sub">Comandos rápidos por si ocurre cualquier imprevisto en vivo.</p>
-
-      <div class="grid-2">
-        <div class="card">
-          <h3>🔧 Checklist 10 Minutos Antes de Pasar al Frente</h3>
-          <div class="cmd-box"><button class="copy-btn" onclick="copyText(this)">Copiar</button># 1. Entrar a la carpeta del proyecto
-Set-Location "C:\Users\User\ott_confi\OTT-"
-
-# 2. Verificar que Minikube esté corriendo (si está Stopped, iniciarlo)
-minikube status
-# Si está detenido: minikube start --driver=docker
-
-# 3. Verificar que los 3 pods estén 1/1 Running
-kubectl get pods,svc,pvc -n ott-platform
-
-# 4. Dejar abierto el túnel en una pestaña aparte de PowerShell
-kubectl port-forward svc/ott-frontend -n ott-platform 8090:80</div>
-        </div>
-
-        <div class="card">
-          <h3>☁️ Plan B: Correr Todo en GitHub Codespaces (En Cualquier PC)</h3>
-          <p style="font-size:0.9rem;color:#d6dceb;margin-bottom:8px;">
-            Si deben presentar en otro computador de la universidad que no tenga nada instalado, abran <code>github.com/Miguel-Angel-Salazar/OTT-</code> → botón verde <code>&lt;&gt; Code</code> → <strong>Codespaces</strong> → <strong>Create codespace on main</strong> y peguen este bloque en la terminal:
-          </p>
-          <div class="cmd-box"><button class="copy-btn" onclick="copyText(this)">Copiar</button>minikube start --driver=docker
-docker build -t juanexzz/ott-backend:v1.0.0 ./backend
-docker build -t juanexzz/ott-frontend:v1.0.0 ./frontend
-minikube image load juanexzz/ott-backend:v1.0.0
-minikube image load juanexzz/ott-frontend:v1.0.0
-kubectl apply -f k8s/
-kubectl wait --for=condition=ready pod --all -n ott-platform --timeout=90s
-kubectl port-forward svc/ott-frontend -n ott-platform 8090:80</div>
-        </div>
-      </div>
-
-      <div class="alert-danger">
-        ⚠️ <strong>Recordatorio final de oro:</strong> Si en medio de la demo se cierra el comando <code>kubectl port-forward</code> (por ejemplo al presionar <code>Ctrl+C</code>), simplemente vuélvanlo a ejecutar en otra pestaña de PowerShell: <code>kubectl port-forward svc/ott-frontend -n ott-platform 8090:80</code> y recarguen <code>http://localhost:8090</code>.
-      </div>
     </section>
 
   </main>
 
   <script>
-    function filterMember(memberId, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    function filterBy(member, btn) {
+      document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      const sections = document.querySelectorAll('.member-section');
-      sections.forEach(sec => {
-        if (memberId === 'all' || sec.getAttribute('data-member') === memberId) {
-          sec.style.display = 'block';
+      document.querySelectorAll('.member-card').forEach(card => {
+        if (member === 'all' || card.getAttribute('data-m') === member) {
+          card.style.display = 'block';
         } else {
-          sec.style.display = 'none';
+          card.style.display = 'none';
         }
       });
     }
 
-    function copyText(btn) {
-      const box = btn.parentElement;
-      const text = box.innerText.replace('Copiar', '').replace('¡Copiado!', '').trim();
+    function copyCode(btn) {
+      const text = btn.parentElement.innerText.replace('Copiar', '').replace('¡Copiado!', '').trim();
       navigator.clipboard.writeText(text);
       btn.textContent = '¡Copiado!';
-      setTimeout(() => btn.textContent = 'Copiar', 1500);
+      setTimeout(() => btn.textContent = 'Copiar', 1400);
     }
   </script>
 </body>
