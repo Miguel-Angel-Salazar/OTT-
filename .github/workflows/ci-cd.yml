@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  BACKEND_IMAGE: juanexzz/ott-backend
-  FRONTEND_IMAGE: juanexzz/ott-frontend
+  BACKEND_IMAGE: miguelsalazar22/ott-backend
+  FRONTEND_IMAGE: miguelsalazar22/ott-frontend
   APP_VERSION: "1.0.0"
 
 jobs:

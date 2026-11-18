@@ -689,7 +689,7 @@ git branch -a
 git log --oneline -n 8
 
 <span class="comment"># Archivos de infraestructura versionados</span>
-Get-ChildItem k8s/, .github/workflows/</div>
+ls -la k8s/ .github/workflows/</div>
         </div>
       </div>
     </section>
@@ -714,13 +714,10 @@ Get-ChildItem k8s/, .github/workflows/</div>
           <span class="panel__index">Pirámide de Pruebas (20 Casos)</span>
           <h3 class="panel__title">Ejecución de la Suite Automatizada</h3>
           <div class="code-panel"><button class="copy-trigger" onclick="copyCode(this)">Copiar</button><span class="comment"># 1. Pruebas Unitarias (10 casos: modelo Movie, bcrypt, filtros, HTTP)</span>
-.\.venv\Scripts\python.exe -m unittest discover tests -p "test_unit.py" -v
+python -m unittest discover tests -p "test_unit.py" -v
 
 <span class="comment"># 2. Pruebas de Integración Backend <-> PostgreSQL (4 casos)</span>
-.\.venv\Scripts\python.exe -m unittest tests/test_flow.py -v
-
-<span class="comment"># 3. Suite Completa (Unitarias + Integración + 6 E2E Playwright)</span>
-.\.venv\Scripts\python.exe -m pytest -v</div>
+python -m unittest tests/test_flow.py -v</div>
         </div>
       </div>
     </section>
@@ -746,13 +743,13 @@ Get-ChildItem k8s/, .github/workflows/</div>
           <span class="panel__index">Verificación de Artefactos</span>
           <h3 class="panel__title">Inspección de Dockerfiles y Registro</h3>
           <div class="code-panel"><button class="copy-trigger" onclick="copyCode(this)">Copiar</button><span class="comment"># Inspeccionar capas, usuario appuser y HEALTHCHECK del Backend</span>
-Get-Content backend/Dockerfile
+cat backend/Dockerfile
 
-<span class="comment"># Listar imágenes construidas localmente</span>
-docker images | Select-String "ott"
+<span class="comment"># Listar imágenes y tags en el entorno</span>
+docker images
 
-<span class="comment"># Consultar tags publicados en Docker Hub</span>
-(Invoke-RestMethod "https://hub.docker.com/v2/repositories/miguelsalazar22/ott-backend/tags").results | Select-Object name, last_updated</div>
+<span class="comment"># Consultar tags publicados en Docker Hub (v1.0.0, sha, latest)</span>
+curl -s https://hub.docker.com/v2/repositories/miguelsalazar22/ott-backend/tags | python -m json.tool | head -n 30</div>
         </div>
       </div>
     </section>
@@ -864,7 +861,7 @@ kubectl get pods -n ott-platform -o wide</div>
           <h3 class="panel__title">Auditoría de Trazabilidad</h3>
           <div class="code-panel"><button class="copy-trigger" onclick="copyCode(this)">Copiar</button><span class="comment"># 1. Identificar commit actual y versión en manifiestos</span>
 git rev-parse --short HEAD
-Select-String -Path k8s/*.yaml -Pattern "image:"
+grep "image:" k8s/*.yaml
 
 <span class="comment"># 2. Comprobar imagen e ImageID (SHA256) activo en los Pods</span>
 kubectl get pods -n ott-platform -o custom-columns="POD:.metadata.name,STATUS:.status.phase,IMAGE:.spec.containers[*].image,IMAGE_ID:.status.containerStatuses[*].imageID"</div>
@@ -874,7 +871,7 @@ kubectl get pods -n ott-platform -o custom-columns="POD:.metadata.name,STATUS:.s
           <span class="panel__index">UI ➔ Nginx ➔ Flask ➔ PostgreSQL</span>
           <h3 class="panel__title">Verificación E2E y Persistencia en Base de Datos</h3>
           <div class="code-panel"><button class="copy-trigger" onclick="copyCode(this)">Copiar</button><span class="comment"># 1. Validar manejo de error 404 en endpoint REST</span>
-curl.exe -i http://localhost:8090/api/movies/999
+curl -i http://localhost:8090/api/movies/999
 
 <span class="comment"># 2. Consultar registros persistidos en el Pod PostgreSQL (ott-db-0)</span>
 kubectl exec -n ott-platform ott-db-0 -- psql -U ott_user -d ott_db -c "SELECT u.email, m.titulo, f.pelicula_id FROM favorites f JOIN users u ON u.id = f.usuario_id JOIN movies m ON m.id = f.pelicula_id;"

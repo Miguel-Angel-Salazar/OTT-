@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: juanexzz/ott-backend:v1.0.0
+          image: miguelsalazar22/ott-backend:v1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000

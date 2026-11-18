@@ -676,11 +676,10 @@
 git status
 git branch -a
 git log --oneline -n 8
-Get-ChildItem k8s/, .github/workflows/
+ls -la k8s/ .github/workflows/
 
-# 2. Ejecutar las 10 pruebas unitarias y las 4 pruebas de integración con PostgreSQL
-.\.venv\Scripts\python.exe -m unittest discover tests -p "test_unit.py" -v
-.\.venv\Scripts\python.exe -m unittest tests/test_flow.py -v</div>
+# 2. Ejecutar las 10 pruebas unitarias
+python -m unittest discover tests -p "test_unit.py" -v</div>
 
         <div class="interpretation">
           <strong>Interpretación en vivo:</strong> Señalar en la consola que las 10 pruebas de <code>test_unit.py</code> validan el modelo <code>Movie</code>, el hashing con <code>bcrypt</code>, el filtrado regional y los endpoints HTTP, mientras que las 4 pruebas de <code>test_flow.py</code> comprueban la conexión activa en <code>/api/health</code>, la carga de las 20 películas semilla y el flujo de login real. Mostrar también en el navegador la pestaña <strong>Actions</strong> de GitHub con el Run exitoso <code>#44195742949</code> y el Run fallido histórico <code>#43124379460</code>.
@@ -707,11 +706,11 @@ Get-ChildItem k8s/, .github/workflows/
         </div>
 
         <div class="cmd-panel"><button class="copy-btn" onclick="copyText(this)">Copiar</button># 1. Inspeccionar el Dockerfile del Backend y las imágenes construidas
-Get-Content backend/Dockerfile
-docker images | Select-String "ott"
+cat backend/Dockerfile
+docker images
 
 # 2. Verificar en vivo los tags publicados en Docker Hub (v1.0.0, sha-a8b8492, latest)
-(Invoke-RestMethod "https://hub.docker.com/v2/repositories/miguelsalazar22/ott-backend/tags").results | Select-Object name, last_updated
+curl -s https://hub.docker.com/v2/repositories/miguelsalazar22/ott-backend/tags | python -m json.tool | head -n 30
 
 # 3. Comprobar exclusión de .env e inspeccionar Secret en Kubernetes sin revelar valores
 git check-ignore -v .env
@@ -781,11 +780,11 @@ kubectl get pods -n ott-platform -o wide</div>
 
         <div class="cmd-panel"><button class="copy-btn" onclick="copyText(this)">Copiar</button># 1. Trazabilidad Commit -> Manifiesto -> Imagen/Digest en el Pod activo
 git rev-parse --short HEAD
-Select-String -Path k8s/*.yaml -Pattern "image:"
+grep "image:" k8s/*.yaml
 kubectl get pods -n ott-platform -o custom-columns="POD:.metadata.name,STATUS:.status.phase,IMAGE:.spec.containers[*].image,IMAGE_ID:.status.containerStatuses[*].imageID"
 
 # 2. Demostrar caso de error 404 en la API expuesta desde Minikube
-curl.exe -i http://localhost:8090/api/movies/999
+curl -i http://localhost:8090/api/movies/999
 
 # 3. Verificar persistencia real ejecutando consultas SQL dentro del Pod ott-db-0
 kubectl exec -n ott-platform ott-db-0 -- psql -U ott_user -d ott_db -c "SELECT u.email, m.titulo, f.pelicula_id FROM favorites f JOIN users u ON u.id = f.usuario_id JOIN movies m ON m.id = f.pelicula_id;"
@@ -854,14 +853,10 @@ kubectl port-forward svc/ott-frontend -n ott-platform 8090:80</div>
 
         <div class="card">
           <span class="card__tag">Alternativa Cloud · GitHub Codespaces</span>
-          <h3>Ejecución Completa desde un Codespace</h3>
+          <h3>Inicialización del Clúster en un Codespace Nuevo</h3>
           <div class="cmd-panel"><button class="copy-btn" onclick="copyText(this)">Copiar</button>minikube start --driver=docker
-docker build -t juanexzz/ott-backend:v1.0.0 ./backend
-docker build -t juanexzz/ott-frontend:v1.0.0 ./frontend
-minikube image load juanexzz/ott-backend:v1.0.0
-minikube image load juanexzz/ott-frontend:v1.0.0
 kubectl apply -f k8s/
-kubectl wait --for=condition=ready pod --all -n ott-platform --timeout=90s
+kubectl wait --for=condition=ready pod --all -n ott-platform --timeout=120s
 kubectl port-forward svc/ott-frontend -n ott-platform 8090:80</div>
         </div>
       </div>

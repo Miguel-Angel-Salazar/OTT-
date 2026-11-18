@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: juanexzz/ott-frontend:v1.0.0
+          image: miguelsalazar22/ott-frontend:v1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
