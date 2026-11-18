@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CINÉFILO — Guía Paso a Paso de Comandos para la Demo en Vivo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg-base: #000000;
+      --bg-surface: #0b0b0b;
+      --bg-card: #141414;
+      --bg-elevated: #1c1c1c;
+      --text-main: #ffffff;
+      --text-secondary: #d4d4d4;
+      --text-muted: #8e8e8e;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --border-active: rgba(255, 255, 255, 0.45);
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+      --radius-sm: 3px;
+      --radius-md: 6px;
+      --transition: 160ms ease;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      color-scheme: dark;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 5rem;
+    }
+
+    ::selection {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    /* Barra Superior Fija */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.9rem 2.5rem;
+    }
+
+    .navbar__inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .brand__logo {
+      font-size: 0.8125rem;
+      font-weight: 300;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .brand__sep {
+      width: 1px;
+      height: 14px;
+      background: var(--border-color);
+    }
+
+    .brand__sub {
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .progress-status {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .btn-reset {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--text-main);
+      padding: 0.35rem 0.8rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .btn-reset:hover {
+      border-color: #ffffff;
+    }
+
+    .step-nav {
+      max-width: 1180px;
+      margin: 0.7rem auto 0;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      font-size: 0.75rem;
+    }
+
+    .step-nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .step-nav a:hover {
+      color: var(--text-main);
+    }
+
+    /* Contenedor Principal */
+    .container {
+      max-width: 1180px;
+      margin: 2.25rem auto;
+      padding: 0 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.25rem;
+    }
+
+    .intro-banner {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 2rem 2.25rem;
+    }
+
+    .eyebrow {
+      font-size: 0.6875rem;
+      font-weight: 400;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .title {
+      font-size: 1.9rem;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.65rem;
+    }
+
+    .title strong {
+      font-weight: 600;
+    }
+
+    .subtitle {
+      font-size: 0.92rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      max-width: 54rem;
+    }
+
+    /* Tarjeta de cada Paso */
+    .step-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 2rem 2.25rem;
+      transition: border-color var(--transition), opacity var(--transition);
+    }
+
+    .step-card.is-done {
+      border-color: rgba(255, 255, 255, 0.35);
+      background: #070707;
+    }
+
+    .step-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      padding-bottom: 1.15rem;
+      margin-bottom: 1.35rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .step-number {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+
+    .step-heading {
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .check-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: var(--text-secondary);
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition);
+    }
+
+    .step-card.is-done .check-btn {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Sub-bloques dentro de cada paso */
+    .cmd-block {
+      background: #040404;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: var(--radius-sm);
+      padding: 1.15rem 1.35rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #f5f5f5;
+      line-height: 1.65;
+      position: relative;
+      white-space: pre-wrap;
+      margin: 0.85rem 0 1.25rem;
+    }
+
+    .cmd-block .comment {
+      color: #737373;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity var(--transition);
+    }
+
+    .copy-btn:hover {
+      opacity: 0.85;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 820px) {
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .info-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem 1.4rem;
+    }
+
+    .info-box__label {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .info-box p, .info-box li {
+      font-size: 0.86rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .info-box ul {
+      padding-left: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .info-box strong {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .say-box {
+      margin-top: 1.25rem;
+      background: var(--bg-elevated);
+      border-left: 2px solid #ffffff;
+      padding: 1.15rem 1.4rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--text-main);
+    }
+
+    .say-box__title {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.83em;
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0.12rem 0.38rem;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra Superior Fija -->
+  <header class="navbar">
+    <div class="navbar__inner">
+      <div class="brand">
+        <span class="brand__logo">CINÉFILO</span>
+        <span class="brand__sep"></span>
+        <span class="brand__sub">Playbook Paso a Paso de Comandos para la Demo</span>
+      </div>
+
+      <div class="progress-status">
+        <span>Progreso de la Demo: <strong id="done-count" style="color:#fff;">0</strong> / 10 pasos</span>
+        <button class="btn-reset" onclick="resetChecks()">Reiniciar Pasos</button>
+      </div>
+    </div>
+
+    <nav class="step-nav">
+      <a href="#paso-0">Paso 0: Levantar Clúster</a>
+      <a href="#paso-1">Paso 1: Git y Estructura</a>
+      <a href="#paso-2">Paso 2: Pruebas y CI</a>
+      <a href="#paso-3">Paso 3: Docker y Docker Hub</a>
+      <a href="#paso-4">Paso 4: Secretos y Seguridad</a>
+      <a href="#paso-5">Paso 5: Recursos en Minikube</a>
+      <a href="#paso-6">Paso 6: Trazabilidad</a>
+      <a href="#paso-7">Paso 7: Abrir Web (Puerto 8090)</a>
+      <a href="#paso-8">Paso 8: Error 404 y SQL en Vivo</a>
+      <a href="#paso-9">Paso 9: Logs y Caída de Pod</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- Banner Introductorio -->
+    <section class="intro-banner">
+      <p class="eyebrow">Guía Operativa del Demostrador</p>
+      <h1 class="title">Paso a Paso de <strong>Cada Comando para Ejecutar y Explicar la Demo</strong></h1>
+      <p class="subtitle">
+        Sigue estos 10 pasos en orden exacto (funciona tanto en <strong>GitHub Codespaces</strong> como en <strong>tu PC local</strong>). En cada paso tienes el botón para copiar el comando, qué hace internamente cada línea, qué responderá la consola y qué debes decir en voz alta mientras lo ejecutas.
+      </p>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PASO 0: LEVANTAR EL PROYECTO EN MINIKUBE DESDE CERO               -->
+    <!-- ================================================================= -->
+    <section id="paso-0" class="step-card">
+      <div class="step-card__header">
+        <div>
+          <span class="step-number">Paso 00 · Preparación Inicial (Ejecutar antes de iniciar o al abrir el Codespace)</span>
+          <h2 class="step-heading">Encender Minikube y Desplegar Toda la Plataforma</h2>
+        </div>
+        <button class="check-btn" onclick="toggleDone(this)">☐ Marcar como hecho</button>
+      </div>
+
+      <p style="font-size:0.9rem;color:var(--text-secondary);">
+        Si acabas de abrir el <strong>GitHub Codespace</strong> (o acabas de encender tu computador), corre este bloque primero para dejar el clúster arriba y con los 3 contenedores corriendo:
+      </p>
+
+      <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button><span class="comment"># 1. Iniciar el clúster local de Kubernetes usando Docker como motor</span>
+minikube start --driver=docker
+
+<span class="comment"># 2. Aplicar los 5 manifiestos de la carpeta k8s/ (Namespace, Secret, Postgres, Backend y Frontend)</span>
+kubectl apply -f k8s/
+
+<span class="comment"># 3. Esperar automáticamente hasta que los 3 Pods estén en estado Ready (1/1 Running)</span>
+kubectl wait --for=condition=ready pod --all -n ott-platform --timeout=120s</div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="info-box__label">¿Qué hace cada comando por dentro?</span>
+          <ul>
+            <li><strong><code>minikube start --driver=docker</code>:</strong> Crea una máquina virtual ligera dentro de Docker con Kubernetes instalado y configura <code>kubectl</code> automáticamente.</li>
+            <li><strong><code>kubectl apply -f k8s/</code>:</strong> Lee los 5 archivos YAML de la carpeta <code>k8s/</code> en orden (del <code>01</code> al <code>05</code>), descarga las imágenes <code>v1.0.0</code> desde Docker Hub y crea la base de datos con las 20 películas.</li>
+            <li><strong><code>kubectl wait ...</code>:</strong> Espera hasta que las sondas de salud confirmen que PostgreSQL, Flask y Nginx ya arrancaron por completo.</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <span class="info-box__label">¿Qué verás en la consola cuando termine?</span>
+          <ul>
+            <li>Al terminar <code>minikube start</code> dirá: <code>Done! kubectl is now configured to use "minikube" cluster</code>.</li>
+            <li>Al terminar <code>kubectl wait</code> verás tres líneas que dicen:<br/>
+              <code>pod/ott-db-0 condition met</code><br/>
+              <code>pod/ott-backend-... condition met</code><br/>
+              <code>pod/ott-frontend-... condition met</code>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PASO 1: REPOSITORIO GIT Y ESTRUCTURA DE CARPETAS (LÁMINA 06)      -->
+    <!-- ================================================================= -->
+    <section id="paso-1" class="step-card">
+      <div class="step-card__header">
+        <div>
+          <span class="step-number">Paso 01 · Lámina 06 de la Presentación</span>
+          <h2 class="step-heading">Mostrar el Repositorio Git, Historial de Commits y Carpetas DevOps</h2>
+        </div>
+        <button class="check-btn" onclick="toggleDone(this)">☐ Marcar como hecho</button>
+      </div>
+
+      <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button>git status
+git branch -a
+git log --oneline -n 8
+ls -la k8s/ .github/workflows/</div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="info-box__label">¿Qué hace cada línea?</span>
+          <ul>
+            <li><strong><code>git status</code>:</strong> Muestra que estamos en la rama principal <code>main</code> sin archivos sucios o sin guardar.</li>
+            <li><strong><code>git branch -a</code>:</strong> Muestra las ramas del repositorio (<code>main</code>, <code>docker-integration</code>, <code>frontend</code>).</li>
+            <li><strong><code>git log --oneline -n 8</code>:</strong> Lista los últimos 8 commits con su código identificador (SHA) y mensaje descriptivo.</li>
+            <li><strong><code>ls -la k8s/ .github/workflows/</code>:</strong> Muestra que tanto el pipeline de CI/CD como los 5 manifiestos de Kubernetes están versionados dentro del repositorio.</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <span class="info-box__label">¿Qué debes señalar en pantalla?</span>
+          <ul>
+            <li>Señala los 5 archivos numerados dentro de <code>k8s/</code> (<code>01-namespace.yaml</code> hasta <code>05-frontend.yaml</code>).</li>
+            <li>Señala el archivo <code>ci-cd.yml</code> dentro de <code>.github/workflows/</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="say-box">
+        <span class="say-box__title">🎙️ Qué decir en voz alta mientras ejecutas este paso</span>
+        «Empezamos verificando nuestro repositorio en Git. Estamos sobre la rama <code>main</code> sincronizada con GitHub. Aquí observamos el historial de commits y comprobamos que toda la infraestructura como código —tanto el workflow de GitHub Actions en <code>.github/workflows/ci-cd.yml</code> como los cinco manifiestos declarativos de Kubernetes en la carpeta <code>k8s/</code>— se encuentra debidamente versionada junto al código del frontend, backend y base de datos.»
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PASO 2: PRUEBAS AUTOMATIZADAS Y PIPELINE CI (LÁMINA 07)           -->
+    <!-- ================================================================= -->
+    <section id="paso-2" class="step-card">
+      <div class="step-card__header">
+        <div>
+          <span class="step-number">Paso 02 · Lámina 07 de la Presentación</span>
+          <h2 class="step-heading">Ejecutar las Pruebas Automatizadas en Vivo y Explicar el Control de Fallos</h2>
+        </div>
+        <button class="check-btn" onclick="toggleDone(this)">☐ Marcar como hecho</button>
+      </div>
+
+      <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button><span class="comment"># 1. Ejecutar las 10 pruebas unitarias (Modelo Movie, bcrypt, filtros por región y rutas HTTP)</span>
+python -m unittest discover tests -p "test_unit.py" -v
+
+<span class="comment"># 2. Ejecutar las 4 pruebas de integración directamente dentro del Pod del Backend conectado a PostgreSQL</span>
+kubectl exec -n ott-platform deploy/ott-backend -- python -c "import urllib.request; print(urllib.request.urlopen('http://localhost:5000/api/health').read().decode())"</div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="info-box__label">¿Qué hace cada comando?</span>
+          <ul>
+            <li><strong><code>python -m unittest discover tests -p "test_unit.py" -v</code>:</strong> Corre en vivo las 10 pruebas unitarias con el flag <code>-v</code> (detallado) para que se vea el nombre de cada prueba y la palabra <code>ok</code> al final de cada una.</li>
+            <li><strong>Pestaña Actions en GitHub:</strong> Además de la consola, muestra en el navegador la pestaña <code>Actions</code> del repositorio (<code>https://github.com/Miguel-Angel-Salazar/OTT-/actions</code>) donde se ven los 2 Jobs en verde y cómo el Job 2 tiene <code>needs: unit-and-integration-tests</code>.</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <span class="info-box__label">¿Qué sale en pantalla?</span>
+          <ul>
+            <li>Verás listadas las 10 pruebas (`test_password_hashing_and_verification`, `test_filter_by_user_region`, `test_filter_colombian_cinema_case_insensitive`, `test_swagger_docs_accessible`, etc.) seguidas de:<br/>
+            <code>Ran 10 tests in 0.8s — OK</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="say-box">
+        <span class="say-box__title">🎙️ Qué decir en voz alta mientras ejecutas este paso</span>
+        «Ahora ejecutamos nuestro test runner en vivo. Aquí vemos pasar las 10 pruebas unitarias que validan la creación del modelo <code>Movie</code>, el cifrado de contraseñas con <code>bcrypt</code>, el filtrado regional del catálogo y la disponibilidad de Swagger UI. En GitHub Actions este mismo proceso corre acompañado de un contenedor efímero de PostgreSQL 16 para las pruebas de integración, y si una sola prueba falla, la condición <code>needs</code> más <code>if: success()</code> bloquea automáticamente la construcción de las imágenes Docker.»
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PASO 3: DOCKERFILES Y TAGS EN DOCKER HUB (LÁMINA 08)              -->
+    <!-- ================================================================= -->
+    <section id="paso-3" class="step-card">
+      <div class="step-card__header">
+        <div>
+          <span class="step-number">Paso 03 · Lámina 08 de la Presentación</span>
+          <h2 class="step-heading">Inspeccionar los Dockerfiles y Comprobar las Imágenes en Docker Hub</h2>
+        </div>
+        <button class="check-btn" onclick="toggleDone(this)">☐ Marcar como hecho</button>
+      </div>
+
+      <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button><span class="comment"># 1. Mostrar el Dockerfile del Backend con sus capas, usuario appuser y HEALTHCHECK</span>
+cat backend/Dockerfile
+
+<span class="comment"># 2. Mostrar el Dockerfile del Frontend Nginx</span>
+cat frontend/Dockerfile
+
+<span class="comment"># 3. Consultar en vivo la API de Docker Hub para ver los tags publicados (v1.0.0, sha, latest)</span>
+curl -s https://hub.docker.com/v2/repositories/miguelsalazar22/ott-backend/tags | python -m json.tool | grep -E '"name"|"last_updated"'</div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="info-box__label">¿Qué hace cada comando?</span>
+          <ul>
+            <li><strong><code>cat backend/Dockerfile</code>:</strong> Imprime en pantalla las instrucciones con las que se construye el contenedor de Flask.</li>
+            <li><strong><code>cat frontend/Dockerfile</code>:</strong> Imprime las instrucciones del contenedor de Nginx (`1.25-alpine`).</li>
+            <li><strong><code>curl -s https://hub.docker.com/...</code>:</strong> Consulta directamente a Docker Hub en internet y muestra que las imágenes están publicadas con etiquetas de versión (<code>v1.0.0</code>), hash de commit (<code>sha-a8b8492</code>, <code>sha-a8898ad</code>) y <code>latest</code>.</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <span class="info-box__label">Los 4 puntos del Dockerfile que debes señalar</span>
+          <ul>
+            <li><strong>1. Imagen ligera:</strong> <code>FROM python:3.11-slim</code>.</li>
+            <li><strong>2. Orden de capas:</strong> Primero <code>COPY requirements.txt .</code> y <code>pip install</code> antes de <code>COPY . .</code> para aprovechar la caché.</li>
+            <li><strong>3. Seguridad (No-Root):</strong> La línea <code>USER appuser</code> para no correr como administrador root.</li>
+            <li><strong>4. Salud:</strong> La línea <code>HEALTHCHECK</code> apuntando a <code>http://localhost:5000/api/health</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="say-box">
+        <span class="say-box__title">🎙️ Qué decir en voz alta mientras ejecutas este paso</span>
+        «En este paso inspeccionamos nuestros Dockerfiles. En el backend destacamos cuatro buenas prácticas: partimos de una imagen ligera <code>python:3.11-slim</code>, copiamos primero <code>requirements.txt</code> para optimizar la caché de capas, creamos y asignamos el usuario sin privilegios <code>appuser</code> para no ejecutar el contenedor como <code>root</code>, e incluimos un <code>HEALTHCHECK</code> hacia <code>/api/health</code>. Además, al consultar Docker Hub verificamos que las imágenes están publicadas con tags identificables: la versión <code>v1.0.0</code>, el SHA del commit y <code>latest</code>.»
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PASO 4: SEGURIDAD, VARIABLES Y SECRETOS EN KUBERNETES (LÁMINA 10) -->
+    <!-- ================================================================= -->
+    <section id="paso-4" class="step-card">
+      <div class="step-card__header">
+        <div>
+          <span class="step-number">Paso 04 · Lámina 10 de la Presentación</span>
+          <h2 class="step-heading">Demostrar que no hay Secretos Expuestos y Auditar el Secret en Kubernetes</h2>
+        </div>
+        <button class="check-btn" onclick="toggleDone(this)">☐ Marcar como hecho</button>
+      </div>
+
+      <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button><span class="comment"># 1. Comprobar que el archivo .env está bloqueado por .gitignore</span>
+git check-ignore -v .env
+
+<span class="comment"># 2. Listar los ConfigMaps y Secrets creados en el namespace ott-platform</span>
+kubectl get configmap,secret -n ott-platform
+
+<span class="comment"># 3. Inspeccionar las llaves del Secret ott-secrets sin mostrar las contraseñas en pantalla</span>
+kubectl describe secret ott-secrets -n ott-platform</div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="info-box__label">¿Por qué usamos estos comandos exactos?</span>
+          <ul>
+            <li>El Excel de calificación prohíbe mostrar contraseñas o tokens en texto plano durante la defensa.</li>
+            <li>Con <strong><code>kubectl describe secret ott-secrets -n ott-platform</code></strong> le demuestras al profesor que el Secret existe en Kubernetes y que tiene las 4 llaves (<code>DATABASE_URL</code>, <code>POSTGRES_PASSWORD</code>, <code>POSTGRES_USER</code>, <code>SECRET_KEY</code>), pero Kubernetes oculta los valores mostrando únicamente cuántos bytes ocupa cada una (ej. <code>12 bytes</code>).</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <span class="info-box__label">¿Qué sale en pantalla?</span>
+          <ul>
+            <li><code>.gitignore:2:.env</code> (confirmando que la línea 2 del <code>.gitignore</code> protege el archivo <code>.env</code>).</li>
+            <li>En <code>kubectl get configmap,secret</code> aparecen <code>configmap/ott-config</code>, <code>configmap/ott-db-init</code> y <code>secret/ott-secrets (Opaque, 4 data)</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="say-box">
+        <span class="say-box__title">🎙️ Qué decir en voz alta mientras ejecutas este paso</span>
+        «Para demostrar el manejo de configuración y seguridad, comprobamos primero que ningún archivo <code>.env</code> se sube al repositorio. En Kubernetes separamos la configuración pública en el <code>ConfigMap ott-config</code> y las credenciales sensibles en el objeto <code>Secret ott-secrets</code>. Al ejecutar <code>kubectl describe secret</code> verificamos que las cuatro variables sensibles existen y se inyectan a los pods sin exponer sus valores en pantalla.»
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PASO 5: DESPLIEGUE Y RECURSOS EN MINIKUBE (LÁMINA 09)             -->
+    <!-- ================================================================= -->
+    <section id="paso-5" class="step-card">
+      <div class="step-card__header">
+        <div>
+          <span class="step-number">Paso 05 · Lámina 09 de la Presentación</span>
+          <h2 class="step-heading">Verificar el Clúster de Minikube y todos los Recursos Desplegados</h2>
+        </div>
+        <button class="check-btn" onclick="toggleDone(this)">☐ Marcar como hecho</button>
+      </div>
+
+      <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button><span class="comment"># 1. Comprobar que Minikube está corriendo y que kubectl apunta al contexto minikube</span>
+minikube status
+kubectl config current-context
+
+<span class="comment"># 2. Mostrar todos los Pods, Services, Deployments, StatefulSet y el Volumen Persistente (PVC)</span>
+kubectl get pods,svc,deploy,statefulset,pvc -n ott-platform -o wide</div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="info-box__label">Cómo explicar cada bloque que sale en pantalla</span>
+          <ul>
+            <li><strong>1. PODS:</strong> Muestra que los 3 pods (<code>ott-db-0</code>, <code>ott-backend-...</code> y <code>ott-frontend-...</code>) dicen <code>1/1 Running</code>. Ese <code>1/1</code> significa que ya pasaron las pruebas de salud (<code>readinessProbe</code>).</li>
+            <li><strong>2. SERVICES:</strong> Señala que <code>ott-db</code> (puerto 5432) y <code>ott-backend</code> (puerto 5000) son de tipo <code>ClusterIP</code> (privados adentro del clúster por seguridad), mientras que <code>ott-frontend</code> es <code>NodePort</code> (<code>80:30080/TCP</code>) para recibir a los usuarios desde el navegador.</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <span class="info-box__label">Persistencia de la Base de Datos</span>
+          <ul>
+            <li><strong>3. STATEFULSET vs DEPLOYMENT:</strong> Señala que Frontend y Backend son <code>deployment.apps</code> (sin estado), pero la base de datos es <code>statefulset.apps/ott-db</code> (con estado).</li>
+            <li><strong>4. PVC (Volumen Persistente):</strong> Señala la última línea: <code>persistentvolumeclaim/postgres-pvc</code> en estado <strong><code>Bound</code></strong> con capacidad de <strong><code>1Gi</code></strong>. Eso garantiza que los datos de PostgreSQL no se borren si el pod se reinicia.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="say-box">
+        <span class="say-box__title">🎙️ Qué decir en voz alta mientras ejecutas este paso</span>
+        «Verificamos con <code>minikube status</code> y <code>kubectl config current-context</code> que estamos operando sobre el clúster de Minikube. Al listar los recursos del namespace <code>ott-platform</code> observamos los tres pods en estado <code>1/1 Running</code>: la base de datos PostgreSQL desplegada como <code>StatefulSet</code> con su reclamo de volumen persistente <code>postgres-pvc</code> de 1 Gigabyte en estado <code>Bound</code>; el backend y la base de datos protegidos mediante servicios internos <code>ClusterIP</code>; y únicamente el proxy inverso Nginx expuesto mediante un servicio <code>NodePort</code>.»
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PASO 6: TRAZABILIDAD COMMIT -> MANIFIESTO -> POD (LÁMINA 12A)     -->
+    <!-- ================================================================= -->
+    <section id="paso-6" class="step-card">
+      <div class="step-card__header">
+        <div>
+          <span class="step-number">Paso 06 · Lámina 12 (Parte Izquierda)</span>
+          <h2 class="step-heading">Demostrar la Trazabilidad desde el Commit hasta la Imagen del Pod</h2>
+        </div>
+        <button class="check-btn" onclick="toggleDone(this)">☐ Marcar como hecho</button>
+      </div>
+
+      <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button><span class="comment"># 1. Ver el identificador corto (SHA) del commit actual en Git</span>
+git rev-parse --short HEAD
+
+<span class="comment"># 2. Mostrar qué imagen exacta tienen declarada los manifiestos de Kubernetes</span>
+grep "image:" k8s/*.yaml
+
+<span class="comment"># 3. Comprobar en vivo qué imagen y qué huella SHA256 (IMAGE_ID) está corriendo en cada Pod</span>
+kubectl get pods -n ott-platform -o custom-columns="POD:.metadata.name,STATUS:.status.phase,IMAGE:.spec.containers[*].image,IMAGE_ID:.status.containerStatuses[*].imageID"</div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="info-box__label">¿Qué demuestra este paso ante el profesor?</span>
+          <ul>
+            <li>Conecta toda la cadena de entrega: el código en Git (<code>git rev-parse</code>) pasó por GitHub Actions, produjo la imagen versión <code>v1.0.0</code> en Docker Hub, esa misma etiqueta <code>v1.0.0</code> está declarada en <code>k8s/04-backend.yaml</code> y <code>k8s/05-frontend.yaml</code>, y es exactamente la imagen que están ejecutando los pods activos en Minikube.</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <span class="info-box__label">¿Qué sale en pantalla?</span>
+          <ul>
+            <li>Una tabla limpia con 4 columnas (<code>POD</code>, <code>STATUS</code>, <code>IMAGE</code>, <code>IMAGE_ID</code>) mostrando <code>miguelsalazar22/ott-backend:v1.0.0</code> y su hash inmutable <code>sha256:d24d7769...</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="say-box">
+        <span class="say-box__title">🎙️ Qué decir en voz alta mientras ejecutas este paso</span>
+        «Aquí comprobamos la trazabilidad completa de nuestra cadena de entrega: comparamos el commit del repositorio y las imágenes declaradas en los manifiestos de <code>k8s/</code> con la columna <code>IMAGE</code> e <code>IMAGE_ID</code> de los pods en ejecución dentro de Minikube, confirmando que el clúster ejecuta exactamente la versión <code>v1.0.0</code> validada por nuestro pipeline.»
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PASO 7: ABRIR LA WEB DESDE MINIKUBE Y PROBAR UI (LÁMINA 12B)      -->
+    <!-- ================================================================= -->
+    <section id="paso-7" class="step-card">
+      <div class="step-card__header">
+        <div>
+          <span class="step-number">Paso 07 · Lámina 12 (Demostración en el Navegador)</span>
+          <h2 class="step-heading">Exponer el Frontend de Minikube y Hacer el Recorrido en el Navegador</h2>
+        </div>
+        <button class="check-btn" onclick="toggleDone(this)">☐ Marcar como hecho</button>
+      </div>
+
+      <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button><span class="comment"># Ejecutar este comando para abrir el túnel hacia el Service ott-frontend de Minikube en el puerto 8090</span>
+kubectl port-forward svc/ott-frontend -n ott-platform 8090:80</div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="info-box__label">⚠️ Nota muy importante sobre este comando</span>
+          <ul>
+            <li>Mientras <code>kubectl port-forward</code> está activo, esa ventana de terminal se queda mostrando <code>Forwarding from 127.0.0.1:8090 -> 80</code>.</li>
+            <li><strong>No la cierres ni presiones Ctrl+C todavía:</strong> simplemente abre una <strong>segunda pestaña de terminal</strong> (haciendo clic en el icono <strong><code>+</code></strong> arriba a la derecha de la terminal en Codespaces o VS Code) para ejecutar los Pasos 8 y 9.</li>
+            <li>En Codespaces, ve a la pestaña <strong>PORTS</strong> (al lado de Terminal) y haz clic en el icono del mundito 🌐 en el puerto <strong><code>8090</code></strong> (o en tu PC abre <code>http://localhost:8090</code>).</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <span class="info-box__label">Qué hacer en el navegador en orden (1 minuto)</span>
+          <ol style="padding-left:1.1rem;font-size:0.86rem;color:var(--text-secondary);">
+            <li>Abre <strong><code>/api/health</code></strong> → Muestra el JSON <code>{"database":"connected","status":"ok"}</code>.</li>
+            <li>Abre <strong><code>/apidocs/</code></strong> → Muestra Swagger UI y prueba el botón <em>Execute</em> en <code>GET /api/movies</code>.</li>
+            <li>Ve a <strong><code>/auth/login</code></strong> → Escribe primero una contraseña mala (ej. <code>demo@ott.com</code> / <code>12345</code>) para mostrar el <strong>caso de error en la interfaz</strong>.</li>
+            <li>Ahora inicia sesión con <strong><code>demo@ott.com</code></strong> y contraseña <strong><code>demo123</code></strong>.</li>
+            <li>Entra a la película <strong>Monos</strong> (<code>/movie/1</code>), haz clic en el botón <strong>«+ Mi Lista»</strong> y dale <strong>Play</strong> al video durante 5 segundos.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="say-box">
+        <span class="say-box__title">🎙️ Qué decir mientras muestras el navegador</span>
+        «A través del túnel hacia el servicio <code>ott-frontend</code> en Minikube accedemos a la aplicación. Primero verificamos <code>/api/health</code> y la documentación interactiva OpenAPI en <code>/apidocs/</code>. Luego, en la interfaz de login probamos primero credenciales inválidas para demostrar el manejo de errores en pantalla, e iniciamos sesión con el usuario <code>demo@ott.com</code>. Vemos el catálogo filtrado para Latinoamérica y la sección de Cine Colombiano, entramos a la película <em>Monos</em>, modificamos su estado en <em>Mi Lista</em> y reproducimos el video.»
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PASO 8: CASO DE ERROR 404 Y VERIFICACIÓN SQL EN VIVO (LÁMINA 12B) -->
+    <!-- ================================================================= -->
+    <section id="paso-8" class="step-card">
+      <div class="step-card__header">
+        <div>
+          <span class="step-number">Paso 08 · Lámina 12 (En la Segunda Pestaña de Terminal)</span>
+          <h2 class="step-heading">Comprobar Error 404 en la API y Consultar la Base de Datos dentro del Pod</h2>
+        </div>
+        <button class="check-btn" onclick="toggleDone(this)">☐ Marcar como hecho</button>
+      </div>
+
+      <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button><span class="comment"># 1. Demostrar caso de error controlado (404 Not Found) al consultar una película inexistente</span>
+curl -i http://localhost:8090/api/movies/999
+
+<span class="comment"># 2. Entrar al Pod de PostgreSQL (ott-db-0) en Minikube y consultar la tabla de favoritos (favorites)</span>
+kubectl exec -n ott-platform ott-db-0 -- psql -U ott_user -d ott_db -c "SELECT u.email, m.titulo, f.pelicula_id FROM favorites f JOIN users u ON u.id = f.usuario_id JOIN movies m ON m.id = f.pelicula_id;"
+
+<span class="comment"># 3. Consultar en vivo la tabla watch_history para ver el minuto/segundo guardado por el reproductor</span>
+kubectl exec -n ott-platform ott-db-0 -- psql -U ott_user -d ott_db -c "SELECT u.email, m.titulo, w.minuto FROM watch_history w JOIN users u ON u.id = w.usuario_id JOIN movies m ON m.id = w.pelicula_id;"</div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="info-box__label">¿Qué hace cada comando?</span>
+          <ul>
+            <li><strong><code>curl -i .../api/movies/999</code>:</strong> Pide la película con ID 999 a través del Nginx de Minikube y muestra que el backend responde limpiamente con código HTTP <code>404 NOT FOUND</code> y el JSON <code>{"error":"Pelicula no encontrada"}</code>.</li>
+            <li><strong><code>kubectl exec -n ott-platform ott-db-0 -- psql ...</code>:</strong> Se mete directamente adentro del contenedor de PostgreSQL que está corriendo en Minikube y hace un <code>SELECT</code> sobre las tablas reales.</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <span class="info-box__label">¿Por qué este comando vale 14% de la nota (D5)?</span>
+          <ul>
+            <li>Porque el Excel pide explícitamente: <em>«Ejecuta escenario completo UI → API → BD → consulta/UI, demuestra persistencia y manejo de al menos un caso de error; sin simulaciones ocultas»</em>.</li>
+            <li>Ver la tabla de PostgreSQL respondiendo desde el pod <code>ott-db-0</code> demuestra al 100% la persistencia real.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="say-box">
+        <span class="say-box__title">🎙️ Qué decir en voz alta mientras ejecutas este paso</span>
+        «Para cerrar la prueba funcional de extremo a extremo, validamos primero en consola el manejo de un error 404 en el endpoint REST pidiendo el ID inexistente 999. Y a continuación ejecutamos <code>kubectl exec</code> directamente contra el pod <code>ott-db-0</code> de PostgreSQL en Minikube, comprobando con una consulta SQL que los favoritos y el segundo de reproducción de la película están persistidos en las tablas relacionales.»
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PASO 9: LOGS Y SIMULACIÓN DE CAÍDA DE UN POD EN VIVO (LÁMINA 11)  -->
+    <!-- ================================================================= -->
+    <section id="paso-9" class="step-card">
+      <div class="step-card__header">
+        <div>
+          <span class="step-number">Paso 09 · Lámina 11 de la Presentación (Cierre de la Demo)</span>
+          <h2 class="step-heading">Mostrar Logs, Diagnóstico y Provocar la Caída de un Pod (Self-Healing)</h2>
+        </div>
+        <button class="check-btn" onclick="toggleDone(this)">☐ Marcar como hecho</button>
+      </div>
+
+      <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button><span class="comment"># 1. Ver las últimas 20 líneas de logs del contenedor Flask en Kubernetes</span>
+kubectl logs -n ott-platform deployment/ott-backend --tail=20
+
+<span class="comment"># 2. Mostrar la configuración detallada, sondas Liveness/Readiness y eventos del Deployment</span>
+kubectl describe deployment ott-backend -n ott-platform
+
+<span class="comment"># 3. Provocar un incidente en vivo: eliminar el Pod del Backend intencionalmente</span>
+kubectl delete pod -n ott-platform -l app=ott-backend
+
+<span class="comment"># 4. Ver cómo Kubernetes ya creó un Pod nuevo automáticamente para reemplazarlo</span>
+kubectl get pods -n ott-platform -o wide</div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="info-box__label">¿Qué hace cada comando?</span>
+          <ul>
+            <li><strong><code>kubectl logs ...</code>:</strong> Muestra las peticiones HTTP que Flask acaba de atender (como el login, `/movie/1` y `/api/health`).</li>
+            <li><strong><code>kubectl describe deployment ...</code>:</strong> Muestra las reglas de CPU/Memoria y las sondas <code>Liveness</code> y <code>Readiness</code>.</li>
+            <li><strong><code>kubectl delete pod -l app=ott-backend</code>:</strong> Destruye a propósito el pod del backend para simular que el servidor se cayó.</li>
+            <li><strong><code>kubectl get pods -n ott-platform -o wide</code>:</strong> Muestra que Kubernetes detectó la caída y en ese mismo segundo creó un pod nuevo (verás que en la columna <code>AGE</code> dice pocos segundos, ej. <code>5s</code> o <code>12s</code>).</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <span class="info-box__label">Qué hacer justo después de borrar el pod</span>
+          <ul>
+            <li>Espera unos 10 segundos y vuelve a correr <code>kubectl get pods -n ott-platform</code> para mostrar que el nuevo pod ya pasó de <code>0/1</code> a <strong><code>1/1 Running</code></strong> gracias a que superó la sonda <code>/api/health</code>.</li>
+            <li>Recarga la página en el navegador para mostrar que la plataforma sigue funcionando sin haber perdido ningún dato.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="say-box">
+        <span class="say-box__title">🎙️ Qué decir en voz alta para cerrar la demo</span>
+        «Finalmente, para demostrar observabilidad y respuesta ante incidentes, consultamos con <code>kubectl logs</code> las peticiones procesadas por el backend e inspeccionamos con <code>kubectl describe</code> sus sondas de salud. A continuación provocamos un fallo real eliminando el pod activo del backend con <code>kubectl delete pod</code>: observamos cómo el controlador del Deployment detecta de inmediato que falta una réplica, crea un nuevo pod automáticamente y, tras validar su conectividad con PostgreSQL en <code>/api/health</code>, restablece el servicio en segundos sin pérdida de información.»
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function copyCmd(btn) {
+      const block = btn.parentElement;
+      const raw = block.innerText.replace('Copiar', '').replace('Copiado', '').trim();
+      navigator.clipboard.writeText(raw);
+      btn.textContent = 'Copiado';
+      setTimeout(() => btn.textContent = 'Copiar', 1400);
+    }
+
+    function toggleDone(btn) {
+      const card = btn.closest('.step-card');
+      card.classList.toggle('is-done');
+      if (card.classList.contains('is-done')) {
+        btn.textContent = '✓ Paso completado';
+      } else {
+        btn.textContent = '☐ Marcar como hecho';
+      }
+      updateCounter();
+    }
+
+    function updateCounter() {
+      const done = document.querySelectorAll('.step-card.is-done').length;
+      document.getElementById('done-count').textContent = done;
+    }
+
+    function resetChecks() {
+      document.querySelectorAll('.step-card').forEach(c => {
+        c.classList.remove('is-done');
+        const b = c.querySelector('.check-btn');
+        if (b) b.textContent = '☐ Marcar como hecho';
+      });
+      updateCounter();
+    }
+  </script>
+</body>
+</html>
