@@ -430,7 +430,10 @@
         Si acabas de abrir el <strong>GitHub Codespace</strong> (o acabas de encender tu computador), corre este bloque primero para dejar el clúster arriba y con los 3 contenedores corriendo:
       </p>
 
-      <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button><span class="comment"># 1. Iniciar el clúster local de Kubernetes usando Docker como motor</span>
+      <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">Copiar</button><span class="comment"># 0. (Solo en GitHub Codespaces la primera vez) Instalar Minikube y dependencias en 10 segundos</span>
+curl -sLO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm -f minikube-linux-amd64 && pip install -q -r backend/requirements.txt pytest
+
+<span class="comment"># 1. Iniciar el clúster local de Kubernetes usando Docker como motor</span>
 minikube start --driver=docker
 
 <span class="comment"># 2. Aplicar los 5 manifiestos de la carpeta k8s/ (Namespace, Secret, Postgres, Backend y Frontend)</span>

@@ -1,16 +1,6 @@
 {
   "name": "CINEFILO OTT - DevOps & Kubernetes",
   "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "moby": true
-    },
-    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
-      "version": "latest",
-      "helm": "none",
-      "minikube": "latest"
-    }
-  },
   "forwardPorts": [8090, 5000],
   "portsAttributes": {
     "8090": {
@@ -22,5 +12,5 @@
       "onAutoForward": "silent"
     }
   },
-  "postCreateCommand": "pip install -r backend/requirements.txt pytest"
+  "postCreateCommand": "bash setup-codespace.sh"
 }
